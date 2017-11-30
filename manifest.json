@@ -1,0 +1,57 @@
+{
+  //  插件名称、版本、配置文件版本、插件描述
+  "name": "DNNSpider",
+  "version": "1.0.1",
+  "manifest_version": 2,  //表示manifest自身的格式版本，Chrome18后强制使用版本2的manifest
+  "description": "Dnnspider-Chrome扩展插件-帮助浏览者更快地定位网页主体信息并提取",
+  //  浏览器右上角图标设置，browser_action、page_action、app必须三选一
+  "browser_action": {
+    "default_icon": "assets/icon/robot_32x32.png",               //设定扩展显示的图标
+    "default_title": "Chrome-Liangck",        //设定鼠标悬浮时显示的扩展名称
+    "default_popup": "popup.html"            //设定当点击按钮的时候跳出来的菜单界面
+  },
+  // 当某些特定页面打开才显示的图标
+  /*"page_action":
+  {
+      "default_icon": "img/icon.png",
+      "default_title": "我是pageAction",
+      "default_popup": "popup.html"
+  },*/
+  //需要注入到页面中的代码
+  "content_scripts":
+  [
+    {
+      //"matches": ["http://*/*", "https://*/*"],
+      // "<all_urls>" 表示匹配所有地址
+      "matches": ["<all_urls>"],
+      // 多个JS按顺序注入
+      "js": ["bower_components/jquery/dist/jquery.min.js"],
+      // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
+//      "css": ["css/custom.css"],
+      // 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
+      "run_at": "document_start"
+    }
+    // 这里仅仅是为了演示content-script可以配置多个规则
+    //    {
+    //      "matches": ["*://*/*.png", "*://*/*.jpg", "*://*/*.gif", "*://*/*.bmp"],
+    //      "js": ["js/show-image-content-size.js"]
+    //    }
+  ],
+  // 权限申请
+  "permissions":
+  [
+    "contextMenus", // 右键菜单
+    "tabs", // 标签
+    "notifications", // 通知
+    "webRequest", // web请求
+    "webRequestBlocking",
+    "storage", // 插件本地存储
+    "http://*/*", // 可以通过executeScript或者insertCSS访问的网站
+    "https://*/*" // 可以通过executeScript或者insertCSS访问的网站
+  ],
+  "icons": {
+    "16": "assets/icon/robot_16x16.png",
+    "48": "assets/icon/robot_48x48.png",
+    "128": "assets/icon/robot_128x128.png"
+  }
+}
