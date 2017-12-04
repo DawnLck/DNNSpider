@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background: white;
+  overflow: hidden;
+  font-family: "Microsoft JhengHei UI", serif;
+  text-align: center;
+}
+.container{
+  padding: 0 20px;
+  text-align: center;
+}
+/* My Component */
+.lck-changeColor{
+  background-color: aliceblue;
+}
+#red {
+  border: 1px solid red;
+  color: red;
+}
+#blue {
+  border: 1px solid blue;
+  color: blue;
+}
+#green {
+  border: 1px solid green;
+  color: green;
+}
+#yellow {
+  border: 1px solid yellow;
+  color: yellow;
+}

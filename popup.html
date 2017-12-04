@@ -2,12 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="css/popup.scss">
 </head>
 <body>
-<p>Hello,Chrome!</p>
-<p>我的名字叫ChromeChina!</p>
-<p><a href="http://www.chromechina.com" target="_blank">Chrome中文论坛欢迎你</a>
+<div class="container">
+    <div>
+        <p>Hello,my friend!</p>
+        <p>我是Liangck，一名前端爱好者！</p>
+        <p><a href="http://www.liangck.com" target="_blank">欢迎访问我的个人网站</a>
+    </div>
+
+    <div>
+        <div class="lck-changeColor" onclick="click(this)" id="red">red</div>
+        <div class="lck-changeColor" onclick="click(this)" id="blue">blue</div>
+        <div class="lck-changeColor" onclick="click(this)" id="green">green</div>
+        <div class="lck-changeColor" onclick="click(this)" id="yellow">yellow</div>
+    </div>
+</div>
+<script src="js/popup.js"></script>
 <!--<p><img src="smile.gif" /></p>-->
 </body>
 </html>

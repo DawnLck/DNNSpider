@@ -18,8 +18,7 @@
       "default_popup": "popup.html"
   },*/
   //需要注入到页面中的代码
-  "content_scripts":
-  [
+  "content_scripts": [
     {
       //"matches": ["http://*/*", "https://*/*"],
       // "<all_urls>" 表示匹配所有地址
@@ -38,8 +37,7 @@
     //    }
   ],
   // 权限申请
-  "permissions":
-  [
+  "permissions": [
     "contextMenus", // 右键菜单
     "tabs", // 标签
     "notifications", // 通知
@@ -53,5 +51,6 @@
     "16": "assets/icon/robot_16x16.png",
     "48": "assets/icon/robot_48x48.png",
     "128": "assets/icon/robot_128x128.png"
-  }
+  },
+  "options_page": "options.html"
 }
