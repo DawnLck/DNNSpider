@@ -3,9 +3,22 @@
 
 console.log('My Crx');
 
+function my_clock(el){
+    var today=new Date();
+    var h=today.getHours();
+    var m=today.getMinutes();
+    var s=today.getSeconds();
+    m=m>=10?m:('0'+m);
+    s=s>=10?s:('0'+s);
+    el.innerHTML = h+":"+m+":"+s;
+    setTimeout(function(){my_clock(el)}, 1000);
+}
+my_clock($('#clock_div'));
+
 function init() {
     // 从background获取js接口
-    var module = chrome.extension.getBackgroundPage();
+    var modules = chrome.extension.getBackgroundPage();
+    // console.log(modules.switchColor('red'));
     var colorEle = document.getElementById('blue');
     colorEle.onclick = function () {
         console.log('Hello World');
@@ -15,16 +28,17 @@ function init() {
         var item = list[i];
         $('#' + item).click(function (item) {
             console.log(item);
-            var val = $(this).attr('id');
-            module.switchColor(val);
+            var idVal = $(this).attr('id');
+            console.log(idVal);
+            modules.switchColor(idVal);
         })
     }
     // $('#red').click(function () {
     //     console.log('Red');
     //     // window.close();
-    //     module.switchColor('red');
-    //     // $('body').css('background-color', 'red');
+    //     // module.switchColor('red');
+    //     $('body').css('background-color', 'red');
     // });
 }
 
-document.addEventListener('DOMContentLoaded', init)
+document.addEventListener('DOMContentLoaded', init);
