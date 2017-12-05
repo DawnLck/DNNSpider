@@ -17,6 +17,11 @@
       "default_title": "我是pageAction",
       "default_popup": "popup.html"
   },*/
+  //后台部分
+  "background": {
+    //后台运行的程序，可以理解为全局后台服务，这里也可以用html页面的方式配置
+    "scripts":["./js/background.js"]
+  },
   //需要注入到页面中的代码
   "content_scripts": [
     {
