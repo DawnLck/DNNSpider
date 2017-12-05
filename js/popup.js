@@ -1,17 +1,30 @@
-// function click(color) {
-//     chrome.tabs.executeScript(null,
-//         {code: "document.body.style.backgroundColor='" + color.id + "'"});
-//     window.close();
-// }
+/* Popup.js 点击扩展图标的事件
+* */
 
-var colorEle = document.getElementById('blue');
-colorEle.onclick = function () {
-    console.log('Hello World');
-};
-$('#red').click(function () {
-    console.log('Red');
-    chrome.tabs.executeScript(null, {code: "document.body.style.backgroundColor=red"});
-    // window.close();
-    $('body').css('background-color', 'red');
-});
 console.log('My Crx');
+
+function init() {
+    // 从background获取js接口
+    var module = chrome.extension.getBackgroundPage();
+    var colorEle = document.getElementById('blue');
+    colorEle.onclick = function () {
+        console.log('Hello World');
+    };
+    var list = ['red', 'blue', 'green'];
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        $('#' + item).click(function (item) {
+            console.log(item);
+            var val = $(this).attr('id');
+            module.switchColor(val);
+        })
+    }
+    // $('#red').click(function () {
+    //     console.log('Red');
+    //     // window.close();
+    //     module.switchColor('red');
+    //     // $('body').css('background-color', 'red');
+    // });
+}
+
+document.addEventListener('DOMContentLoaded', init)
