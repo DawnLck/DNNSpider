@@ -40,6 +40,12 @@
       ],
       // 未被注入脚本的页面
       "exclude-matches": [],
+     /*
+        include_globs和exclude_globs则是全局URL匹配
+        最终脚本是否会被注入由matches、exclude_matches、include_globs和exclude_globs的值共同决定。
+        简单的说，如果URL匹配mathces值的同时也匹配include_globs的值，会被注入
+        如果URL匹配exclude_matches的值或者匹配exclude_globs的值，则不会被注入。
+     */
       // 多个JS按顺序注入
       "js": [
         "./bower_components/jquery/dist/jquery.min.js",

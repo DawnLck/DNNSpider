@@ -1,4 +1,5 @@
-
+/* Content.js 匹配页面注入代码
+* */
 if (jQuery) {
     // jQuery loaded
     console.log('jQuery loaded');
