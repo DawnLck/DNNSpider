@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  width: 200px;
+  width: 233px;
   background: white;
   overflow: hidden;
   font-family: "Microsoft JhengHei UI", serif;
@@ -63,4 +63,9 @@ body {
 #green {
   border: 1px solid green;
   color: green;
+}
+
+/* Clock */
+#clock{
+  min-height: 20px;
 }

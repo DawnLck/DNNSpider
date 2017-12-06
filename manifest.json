@@ -32,12 +32,14 @@
   //需要注入到页面中的代码
   "content_scripts": [
     {
+      // 匹配网址进行代码注入
+      // "<all_urls>" 表示匹配所有地址  "matches": ["<all_urls>"],
       "matches": [
         "http://*/*",
         "https://*/*"
       ],
-      // "<all_urls>" 表示匹配所有地址
-      //      "matches": ["<all_urls>"],
+      // 未被注入脚本的页面
+      "exclude-matches": [],
       // 多个JS按顺序注入
       "js": [
         "./bower_components/jquery/dist/jquery.min.js",
@@ -46,7 +48,9 @@
       // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
       //      "css": ["css/custom.css"],
       // 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
-      "run_at": "document_start"
+      "run_at": "document_start",
+      // 定义脚本是否会注入嵌入式框架中
+      "all_frames": true
     }
     // 这里仅仅是为了演示content-script可以配置多个规则
     //    {
