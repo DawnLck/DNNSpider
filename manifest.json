@@ -28,6 +28,7 @@
       "./bower_components/jquery/dist/jquery.min.js",
       "./js/background.js"
     ]
+    // "page": background.html 指定的运行在后台的页面
   },
   //需要注入到页面中的代码
   "content_scripts": [
