@@ -26,9 +26,12 @@
     //后台运行的程序，可以理解为全局后台服务，这里也可以用html页面的方式配置
     "scripts": [
       "./bower_components/jquery/dist/jquery.min.js",
-      "./js/background.js"
-    ]
+      "./js/background.js",
+      "./js/modules/status.js"
+    ],
     // "page": background.html 指定的运行在后台的页面
+    // persistent 定义了常驻后台的方式,true表示扩展将会一直在后台运行，false表示将会按需运行，也就是Event Page
+    "persistent": true
   },
   //需要注入到页面中的代码
   "content_scripts": [
