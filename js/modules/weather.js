@@ -1,3 +1,7 @@
+/* Weather.js
+* */
+var url = 'https://www.sojson.com/open/api/weather/json.shtml?city=' + city;
+// http://tj.nineton.cn/Heart/index/all?city=CHZJ000000
 function httpRequest(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
@@ -11,6 +15,7 @@ function httpRequest(url, callback) {
 
 function showWeather(result) {
     result = JSON.parse(result);
+    localStorage.localDate = result.date;
     var list = result.data.forecast;
     var table = '<table><tr><th>日期</th><th>天气</th><th>最低温度</th><th>最高温度</th></tr>';
     for (var i = 0; i < list.length; i++) {
@@ -29,7 +34,12 @@ function showWeather(result) {
 }
 
 var city = localStorage.city;
+var localDate = localStorage.localDate;
 city = city ? city : '杭州';
-// var url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q='+city+',china&lang=zh_cn';
-var url = 'https://www.sojson.com/open/api/weather/json.shtml?city=' + city;
-httpRequest(url, showWeather);
+var d = new Date();
+var nowDate = d.getFullYear() + d.getMonth() + d.getDay();
+console.log(nowDate + lcoalDate);
+if(lcoalDate || nowDate !== localDate){
+    httpRequest(url, showWeather);
+}
+
