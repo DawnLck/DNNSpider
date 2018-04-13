@@ -46,6 +46,6 @@ function contentInit() {
     }, 1000);
 }
 
-contentInit();
+// contentInit();
 // window.alert('Hello , content js');
 // alert('Hello! My Friend');
