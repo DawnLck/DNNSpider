@@ -6,11 +6,11 @@ console.log('My Crx');
 /* 切换背景颜色函数 */
 function switchColorInit(){
     let list = ['red', 'blue', 'green'];
-    for (var i = 0; i < list.length; i++) {
-        var item = list[i];
+    for (let i = 0; i < list.length; i++) {
+        let item = list[i];
         $('#' + item).click(function (item) {
             console.log(item);
-            var idVal = $(this).attr('id');
+            let idVal = $(this).attr('id');
             console.log(idVal);
             modules.switchColor(idVal);
         })

@@ -3,8 +3,10 @@
   "name": "DNNSpider",
   "version": "1.0.6",
   "manifest_version": 2,
+
   //表示manifest自身的格式版本，Chrome18后强制使用版本2的manifest
   "description": "Dnnspider-Chrome扩展插件-帮助浏览者更快地定位网页主体信息并提取",
+
   //  浏览器右上角图标设置，browser_action、page_action、app必须三选一
   "browser_action": {
     "default_icon": "assets/icon/robot_32x32.png",

@@ -46,6 +46,18 @@ function contentInit() {
     }, 1000);
 }
 
-// contentInit();
-// window.alert('Hello , content js');
-// alert('Hello! My Friend');
+var text = "hello";
+chrome.runtime.onMessage.addListener(
+    function(message, sender, sendResponse) {
+        switch(message.type) {
+            case "getText":
+                sendResponse(text);
+                break;
+        }
+    }
+);
+
+function init() {
+    // contentInit();
+}
+init();
