@@ -1,7 +1,7 @@
 {
   //  插件名称、版本、配置文件版本、插件描述
   "name": "DNNSpider",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "manifest_version": 2,
 
   //表示manifest自身的格式版本，Chrome18后强制使用版本2的manifest
@@ -52,6 +52,7 @@
         简单的说，如果URL匹配mathces值的同时也匹配include_globs的值，会被注入
         如果URL匹配exclude_matches的值或者匹配exclude_globs的值，则不会被注入。
      */
+      "css": ["./css/content.css"],
       // 多个JS按顺序注入
       "js": [
         "./node_modules/jquery/dist/jquery.min.js",

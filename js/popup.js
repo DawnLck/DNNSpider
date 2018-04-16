@@ -17,14 +17,36 @@ function switchColorInit(){
     }
 }
 
+function sendMessage(){
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {type:"getText"}, function(response){
+            console.log(response);
+            $("#text").text(response);
+        });
+    });
+}
+
+function frameContent(){
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {type:"frameContent"}, function(response){
+            console.log(response);
+        });
+    });
+}
+
 function init() {
     // 从background获取js接口
     let modules = chrome.extension.getBackgroundPage();
+    $('#spider-btn').click(function () {
+        frameContent();
+    });
     // console.log(modules.switchColor('red'));
-    let colorEle = document.getElementById('blue');
-    colorEle.onclick = function () {
-        console.log('Hello World');
-    };
+    // let colorEle = document.getElementById('blue');
+    // colorEle.onclick = function () {
+    //     console.log('Hello World');
+    // };
+
+    // sendMessage();
 }
 
 document.addEventListener('DOMContentLoaded', init);
