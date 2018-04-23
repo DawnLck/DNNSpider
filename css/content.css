@@ -1,8 +1,7 @@
 /* content.css */
-.marked {
+.spider .marked {
   border: 1px solid #3c763d; }
-
-.unmarked {
+.spider .unmarked {
   border: 1px dashed #a94442; }
 
 /*# sourceMappingURL=content.css.map */
