@@ -4,7 +4,7 @@
 console.log('My Crx');
 
 /* 切换背景颜色函数 */
-function switchColorInit(){
+function switchColorInit() {
     let list = ['red', 'blue', 'green'];
     for (let i = 0; i < list.length; i++) {
         let item = list[i];
@@ -17,18 +17,19 @@ function switchColorInit(){
     }
 }
 
-function sendMessage(){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {type:"getText"}, function(response){
+function sendMessage() {
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {type: "getText"}, function (response) {
             console.log(response);
             $("#text").text(response);
         });
     });
 }
 
-function frameContent(){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {type:"frameContent"}, function(response){
+function transportMessage(msg) {
+    console.log('Transport Message ... ');
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {type: msg}, function (response) {
             console.log(response);
         });
     });
@@ -37,8 +38,12 @@ function frameContent(){
 function init() {
     // 从background获取js接口
     let modules = chrome.extension.getBackgroundPage();
-    $('#spider-btn').click(function () {
-        frameContent();
+    $('#spider-mark').click(function () {
+        console.log('Spider mark');
+        transportMessage('markContent');
+    });
+    $('#spider-markUndo').click(function () {
+        transportMessage('markUndo');
     });
     // console.log(modules.switchColor('red'));
     // let colorEle = document.getElementById('blue');

@@ -42,6 +42,12 @@ function markAllContentDom() {
     })
 }
 
+/* 取消所有节点的标记 */
+function markUndo(){
+    console.log('取消所有节点的标记...');
+    $('.spider').removeClass('spider');
+}
+
 /* 标记所有锚节点 */
 function markAllLinkDom() {
 }
@@ -53,23 +59,30 @@ $(document).ready(function () {
 
 
 function contentInit() {
-    setTimeout(function () {
-        markAllContentDom();
-        markAllLinkDom();
-    }, 1000);
+    // setTimeout(function () {
+    //     markAllContentDom();
+    //     markAllLinkDom();
+    // }, 1000);
 }
 
 let text = "hello";
 chrome.runtime.onMessage.addListener(
     function (message, sender, sendResponse) {
+        console.log('RunTime .... ');
         switch (message.type) {
             case "getText":
                 sendResponse(text);
                 break;
-            case "frameContent":
+            case "markContent":
                 markAllContentDom();
+                sendResponse('Mark Done!');
+                break;
+            case "markUndo":
+                markUndo();
+                sendResponse('UndoMark Done!');
                 break;
             default:
+                sendResponse('Nothing!');
                 break;
         }
     }
