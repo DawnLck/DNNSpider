@@ -93,12 +93,12 @@ body {
 .btn:active {
   transform: translate(0px, 5px);
   -webkit-transform: translate(0px, 5px);
-  box-shadow: 0px 1px 0px 0px;
+  box-shadow: 0 1px 0 0;
 }
 
 .btn-blue {
   background-color: #55acee;
-  box-shadow: 0px 5px 0px 0px #3C93D5;
+  box-shadow: 0 5px 0 0 #3C93D5;
 }
 
 .btn-blue:hover {
@@ -107,7 +107,7 @@ body {
 
 .btn-red {
   background-color: #e74c3c;
-  box-shadow: 0px 5px 0px 0px #CE3323;
+  box-shadow: 0 5px 0 0 #CE3323;
 }
 
 .btn-red:hover {
