@@ -35,7 +35,7 @@ function markAllContentDom() {
     console.log('寻找容器元素 ...');
 
     $('div.marked').each(function () {
-        if ($(this).find('marked').length > 0) {
+        if ($(this).find('.marked').length > 0) {
             console.log('找到容器元素!');
             $(this).removeClass('spider marked');
         }
