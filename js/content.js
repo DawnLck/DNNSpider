@@ -1,16 +1,5 @@
 /* Content.js 匹配页面注入代码
 * */
-if (jQuery) {
-    // jQuery loaded
-    console.log('jQuery loaded');
-} else {
-    // jQuery not loaded
-    console.log('jQuery not loaded');
-}
-// setTimeout(function () {
-//     console.log($('body').css('background-color'));
-//     $('body').css('background-color','grey');
-// }, 1000);
 
 /* 标记所有文本节点 */
 function markAllContentDom() {
@@ -52,6 +41,45 @@ function markUndo(){
 function markAllLinkDom() {
 }
 
+function calculateWeights(count, text){
+    var queue = ['bbs', 'articles', 'news'];
+    for (var _index = 0; _index < queue.length; _index++) {
+        var _tem = GLOBAL[queue[_index]];
+        for (var j = 0; j < _tem.primaryKeys.length; j++) {
+            if (text.indexOf(_tem.primaryKeys[j]) > -1) {
+                count[queue[_index]] += 2;
+            }
+        }
+        for (var x = 0; x < _tem.secondKeys.length; x++) {
+            if (text.indexOf(_tem.secondKeys[x]) > -1) {
+                count[queue[_index]] += 1;
+            }
+        }
+    }
+    return count;
+}
+
+function getLocationHref(){
+    console.log('Get Location Href ... ');
+    var location = window.location.href;
+    console.log(location);
+    var title = document.title;
+    var keywords = $('meta[name="keywords"]').attr('content');
+    var description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
+    var result = {
+        bbs: 0,
+        articles: 0,
+        news: 0
+    };
+    console.log(title);
+    console.log(keywords);
+    console.log(description);
+    result = calculateWeights(result, title);
+    result = calculateWeights(result, keywords);
+    result = calculateWeights(result, description);
+    console.log(result);
+}
+
 $(document).ready(function () {
         $('body').css('background-color', '#C7EDCC');
     }
@@ -74,7 +102,8 @@ chrome.runtime.onMessage.addListener(
                 sendResponse(text);
                 break;
             case "markContent":
-                markAllContentDom();
+                // markAllContentDom();
+                getLocationHref();
                 sendResponse('Mark Done!');
                 break;
             case "markUndo":
@@ -90,6 +119,7 @@ chrome.runtime.onMessage.addListener(
 
 function init() {
     // contentInit();
+    // getLocationHref();
 }
 
 init();

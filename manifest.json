@@ -1,7 +1,7 @@
 {
   //  插件名称、版本、配置文件版本、插件描述
   "name": "DNNSpider",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "manifest_version": 2,
 
   //表示manifest自身的格式版本，Chrome18后强制使用版本2的manifest
@@ -59,14 +59,15 @@
       // 多个JS按顺序注入
       "js": [
         "./node_modules/jquery/dist/jquery.min.js",
+        "./js/content/global.js",
         "./js/content.js"
       ],
       // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
       //      "css": ["css/custom.css"],
       // 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
       "run_at": "document_end",
-      // 定义脚本是否会注入嵌入式框架中
-      "all_frames": true
+      // 定义脚本是否会注入嵌入式框架中，定义为true时会引起Message被监听两次
+      "all_frames": false
     }
     // 这里仅仅是为了演示content-script可以配置多个规则
     //    {

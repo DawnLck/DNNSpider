@@ -8,13 +8,13 @@
 // });
 
 
-if (jQuery) {
-    // jQuery loaded
-    alert('jQuery loaded');
-} else {
-    // jQuery not loaded
-    alert('jQuery not loaded');
-}
+// if (jQuery) {
+//     // jQuery loaded
+//     alert('jQuery loaded');
+// } else {
+//     // jQuery not loaded
+//     alert('jQuery not loaded');
+// }
 
 // 切换颜色
 function switchColor(color) {
