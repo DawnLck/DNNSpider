@@ -37,7 +37,11 @@ function markUndo(){
     $('.spider').removeClass('spider');
 }
 
-/* 标记所有锚节点 */
+function pageClassifiy(){
+    console.log('... 网页分类 ...');
+}
+
+/* 标记所有锚结点 */
 function markAllLinkDom() {
 }
 
