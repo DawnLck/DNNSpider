@@ -1,7 +1,7 @@
 /* content.css */
-.spider .marked {
-  border: 1px solid #3c763d; }
-.spider .unmarked {
-  border: 1px dashed #a94442; }
+.spider.marked {
+  border: 1px solid #3c763d !important; }
+.spider.unmarked {
+  border: 1px dashed #a94442 !important; }
 
 /*# sourceMappingURL=content.css.map */

@@ -1,11 +1,11 @@
 /* content.css */
 .spider{
-  .marked{
+  &.marked{
     //background-color: #2b669a;
-    border: 1px solid #3c763d;
+    border: 1px solid #3c763d !important;
   }
-  .unmarked{
+  &.unmarked{
     //background: #c0a16b;
-    border: 1px dashed #a94442;
+    border: 1px dashed #a94442 !important;
   }
 }

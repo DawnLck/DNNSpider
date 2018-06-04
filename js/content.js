@@ -4,10 +4,11 @@
 /* 标记所有文本节点 */
 function markAllContentDom() {
     console.log('Mark all content dom ...');
+    let bodyWidth = $('body').width();
+    console.log('bodyWidth' + bodyWidth);
     let allDiv = $('div');
     allDiv.each(function () {
-        // console.log($(this).width());
-        if ($(this).width() < 400 || $(this).width() > 1000) {
+        if ($(this).width() / bodyWidth * 100.0 < 30 || $(this).width() / bodyWidth * 100.0 > 90) {
             // console.log('非目标元素');
             $(this).addClass('spider unmarked');
             // $(this).css('background-color', 'grey');
@@ -46,6 +47,9 @@ function markAllLinkDom() {
 }
 
 function calculateWeights(count, text){
+    if(!text){
+        return 0;
+    }
     var queue = ['bbs', 'articles', 'news'];
     for (var _index = 0; _index < queue.length; _index++) {
         var _tem = GLOBAL[queue[_index]];
@@ -106,8 +110,8 @@ chrome.runtime.onMessage.addListener(
                 sendResponse(text);
                 break;
             case "markContent":
-                // markAllContentDom();
-                getLocationHref();
+                markAllContentDom();
+                // getLocationHref();
                 sendResponse('Mark Done!');
                 break;
             case "markUndo":
@@ -123,7 +127,7 @@ chrome.runtime.onMessage.addListener(
 
 function init() {
     // contentInit();
-    // getLocationHref();
+    getLocationHref();
 }
 
 init();
