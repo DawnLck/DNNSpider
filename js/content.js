@@ -8,7 +8,7 @@ function markAllContentDom() {
     console.log('bodyWidth' + bodyWidth);
     let allDiv = $('div');
     allDiv.each(function () {
-        if ($(this).width() / bodyWidth * 100.0 < 30 || $(this).width() / bodyWidth * 100.0 > 90) {
+        if ($(this).width() / bodyWidth * 100.0 < 30 || $(this).width() / bodyWidth * 100.0 > 96) {
             // console.log('非目标元素');
             $(this).addClass('spider unmarked');
             // $(this).css('background-color', 'grey');
@@ -16,6 +16,11 @@ function markAllContentDom() {
         }
         else {
             $(this).addClass('spider marked');
+
+            $(this).append(
+                '<div class="collect-btn">采集</div>'
+            );
+
             // console.log('找到目标元素：' + $(this).text());
             // $(this).css('background-color', 'green');
             // $(this).css('border', 'blue solid 2px');

@@ -3,9 +3,33 @@
   &.marked{
     //background-color: #2b669a;
     border: 1px solid #3c763d !important;
+    position: relative;
+    &:hover .collect-btn{
+      display: block !important;
+      top: 0;
+      left: 0;
+    }
   }
   &.unmarked{
     //background: #c0a16b;
     border: 1px dashed #a94442 !important;
+    .collect-btn{
+      //display: none;
+    }
+  }
+  .collect-btn{
+    position: absolute;
+    display: none;
+    z-index: 9999999999998;
+    box-shadow: 0 0 0 2px rgba(255,255,255,.2);
+    background: #aaa;
+    background: rgba(0,0,0,.3);
+    color: white;
+    cursor: pointer;
+    padding: 0 12px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 2px;
+    font-size: 14px;
   }
 }
