@@ -1,4 +1,7 @@
 /* content.css */
+.collect-btn {
+  display: none; }
+
 .spider.marked {
   border: 1px solid #3c763d !important;
   position: relative; }

@@ -1,6 +1,11 @@
 /* Content.js 匹配页面注入代码
 * */
 
+let collectDom = function() {
+    console.log('Collect Dom ....');
+};
+
+
 /* 标记所有文本节点 */
 function markAllContentDom() {
     console.log('Mark all content dom ...');
@@ -17,10 +22,6 @@ function markAllContentDom() {
         else {
             $(this).addClass('spider marked');
 
-            $(this).append(
-                '<div class="collect-btn">采集</div>'
-            );
-
             // console.log('找到目标元素：' + $(this).text());
             // $(this).css('background-color', 'green');
             // $(this).css('border', 'blue solid 2px');
@@ -33,17 +34,32 @@ function markAllContentDom() {
         if ($(this).find('.marked').length > 0) {
             console.log('找到容器元素!');
             $(this).removeClass('spider marked');
+        } else {
+            if ($(this).find('.collect-btn').length > 0) {
+            } else {
+                $(this).append(
+                    '<div class="collect-btn">采集</div>'
+                );
+            }
         }
-    })
+    });
+
+    $('.collect-btn').click(function () {
+        console.log(this);
+        console.log($(this).width());
+        console.log($(this).parent('.marked').text());
+        collectDom();
+    });
 }
 
+
 /* 取消所有节点的标记 */
-function markUndo(){
+function markUndo() {
     console.log('取消所有节点的标记...');
     $('.spider').removeClass('spider');
 }
 
-function pageClassifiy(){
+function pageClassifiy() {
     console.log('... 网页分类 ...');
 }
 
@@ -51,8 +67,8 @@ function pageClassifiy(){
 function markAllLinkDom() {
 }
 
-function calculateWeights(count, text){
-    if(!text){
+function calculateWeights(count, text) {
+    if (!text) {
         return 0;
     }
     var queue = ['bbs', 'articles', 'news'];
@@ -72,7 +88,7 @@ function calculateWeights(count, text){
     return count;
 }
 
-function getLocationHref(){
+function getLocationHref() {
     console.log('Get Location Href ... ');
     var location = window.location.href;
     console.log(location);
@@ -134,5 +150,12 @@ function init() {
     // contentInit();
     getLocationHref();
 }
+
+// $('.collect-btn').click(function () {
+//         console.log('Click');
+//         collectDom();
+//     }
+// );
+
 
 init();
