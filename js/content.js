@@ -20,7 +20,17 @@ function markAllContentDom() {
             // $(this).css('border', 'red solid 2px');
         }
         else {
-            $(this).addClass('spider marked');
+
+            let childrenNum = $(this).children().length;
+            let nextNum = $(this).siblings().length + 1;
+
+
+            if(nextNum > 3){
+                $(this).addClass('spider marked');
+                console.log('Children Num: ' + childrenNum);
+                console.log('Next Num: ' + nextNum);
+                console.log($(this).text());
+            }
 
             // console.log('找到目标元素：' + $(this).text());
             // $(this).css('background-color', 'green');

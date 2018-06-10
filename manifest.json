@@ -1,7 +1,7 @@
 {
   //  插件名称、版本、配置文件版本、插件描述
   "name": "DNNSpider",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "manifest_version": 2,
 
   //表示manifest自身的格式版本，Chrome18后强制使用版本2的manifest
