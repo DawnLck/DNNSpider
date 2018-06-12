@@ -12,6 +12,7 @@ function markAllContentDom() {
 
     //标记叶子节点以及初步筛选
     function markLeafNode(callback) {
+        console.log('Mark Leaf Node ... ');
         let bodyWidth = $('body').width();
         let allDiv = $('div');
 
@@ -43,20 +44,25 @@ function markAllContentDom() {
 
     //标记那些可能是列表的节点
     function markListNode() {
-
-        let childrenNum = $(this).children().length;
-        let nextNum = $(this).siblings().length + 1;
-
-        if (nextNum > 3) {
-            $(this).addClass('spider leaf');
-            console.log('Children Num: ' + childrenNum);
-            console.log('Next Num: ' + nextNum);
-            console.log($(this).text());
-        }
+        console.log('Mark List Node ...');
+        // let childrenNum = $(this).children().length;
+        // let nextNum = $(this).siblings().length + 1;
+        //
+        // if (nextNum > 3) {
+        //     $(this).addClass('spider leaf');
+        //     console.log('Children Num: ' + childrenNum);
+        //     console.log('Next Num: ' + nextNum);
+        //     console.log($(this).text());
+        // }
 
         $('div.leaf').each(function () {
+            console.log($(this).text());
             let _parent = $(this).parent();
-            if (_parent.children('.leaf').length > 3) {
+            console.log(_parent.children('.leaf').length);
+            //listNode节点所包含的叶子节点数必须大于等于三个
+            if (_parent.children('.leaf').length >= 3) {
+                console.log(_parent.text());
+                console.log(_parent.children('.leaf').length);
                 _parent.addClass('marked');
 
                 if (_parent.find('.collect-btn').length > 0) {
