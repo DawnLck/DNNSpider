@@ -1,7 +1,7 @@
 /* Content.js 匹配页面注入代码
 * */
 
-let collectDom = function() {
+let collectDom = function () {
     console.log('Collect Dom ....');
 };
 
@@ -9,50 +9,71 @@ let collectDom = function() {
 /* 标记所有文本节点 */
 function markAllContentDom() {
     console.log('Mark all content dom ...');
-    let bodyWidth = $('body').width();
-    console.log('bodyWidth' + bodyWidth);
-    let allDiv = $('div');
-    allDiv.each(function () {
-        if ($(this).width() / bodyWidth * 100.0 < 30 || $(this).width() / bodyWidth * 100.0 > 96) {
-            // console.log('非目标元素');
-            $(this).addClass('spider unmarked');
-            // $(this).css('background-color', 'grey');
-            // $(this).css('border', 'red solid 2px');
-        }
-        else {
 
-            let childrenNum = $(this).children().length;
-            let nextNum = $(this).siblings().length + 1;
+    //标记叶子节点以及初步筛选
+    function markLeafNode(callback) {
+        let bodyWidth = $('body').width();
+        let allDiv = $('div');
 
+        //标记
+        allDiv.each(function () {
+            let _width = $(this).width() / bodyWidth * 100.0;
+            let _height = $(this).height();
+            let _text = $(this).text();
 
-            if(nextNum > 3){
-                $(this).addClass('spider marked');
-                console.log('Children Num: ' + childrenNum);
-                console.log('Next Num: ' + nextNum);
-                console.log($(this).text());
+            if (_text) {
+                if (_width > 30 && _width < 96 && _text.length > 0 && _height > 3) {
+                    $(this).addClass('spider leaf');
+                }
+                else {
+                    $(this).addClass('spider unmarked');
+                }
             }
+        });
 
-            // console.log('找到目标元素：' + $(this).text());
-            // $(this).css('background-color', 'green');
-            // $(this).css('border', 'blue solid 2px');
+        //筛选
+        $('div.leaf').each(function () {
+            if ($(this).find('.leaf').length > 0) {
+                $(this).removeClass('leaf');
+            }
+        });
+
+        callback();
+    }
+
+    //标记那些可能是列表的节点
+    function markListNode() {
+
+        let childrenNum = $(this).children().length;
+        let nextNum = $(this).siblings().length + 1;
+
+        if (nextNum > 3) {
+            $(this).addClass('spider leaf');
+            console.log('Children Num: ' + childrenNum);
+            console.log('Next Num: ' + nextNum);
+            console.log($(this).text());
         }
-    });
 
-    console.log('寻找容器元素 ...');
+        $('div.leaf').each(function () {
+            let _parent = $(this).parent();
+            if (_parent.children('.leaf').length > 3) {
+                _parent.addClass('marked');
 
-    $('div.marked').each(function () {
-        if ($(this).find('.marked').length > 0) {
-            console.log('找到容器元素!');
-            $(this).removeClass('spider marked');
-        } else {
-            if ($(this).find('.collect-btn').length > 0) {
+                if (_parent.find('.collect-btn').length > 0) {
+                } else {
+                    _parent.append(
+                        '<div class="collect-btn">采集</div>'
+                    );
+                }
             } else {
-                $(this).append(
-                    '<div class="collect-btn">采集</div>'
-                );
             }
-        }
+        });
+    }
+
+    markLeafNode(function () {
+        markListNode();
     });
+
 
     $('.collect-btn').click(function () {
         console.log(this);

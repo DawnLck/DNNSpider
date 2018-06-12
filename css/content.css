@@ -3,14 +3,16 @@
   display: none; }
 
 .spider.marked {
-  border: 1px solid #3c763d !important;
-  position: relative; }
+  position: relative;
+  border: 1px solid #044D22 !important; }
   .spider.marked:hover .collect-btn {
     display: block !important;
     top: 0;
     left: 0; }
 .spider.unmarked {
   border: 1px dashed #a94442 !important; }
+.spider.leaf {
+  border: 1px solid #ACDA9E !important; }
 .spider .collect-btn {
   position: absolute;
   display: none;

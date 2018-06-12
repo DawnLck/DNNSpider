@@ -1,34 +1,42 @@
 /* content.css */
 
-.collect-btn{
- display: none;
+$color_marked: #044D22;
+$color_unmarked:#a94442;
+$color_leaf: #ACDA9E;
+
+$color_study: #2B637B;
+$color_warning: #E08031;
+
+.collect-btn {
+  display: none;
 }
 
-.spider{
-  &.marked{
-    //background-color: #2b669a;
-    border: 1px solid #3c763d !important;
+.spider {
+  &.marked {
     position: relative;
-    &:hover .collect-btn{
+    border: 1px solid $color_marked !important;
+    &:hover .collect-btn {
       display: block !important;
       top: 0;
       left: 0;
     }
   }
-  &.unmarked{
-    //background: #c0a16b;
-    border: 1px dashed #a94442 !important;
-    .collect-btn{
+  &.unmarked {
+    border: 1px dashed $color_unmarked !important;
+    .collect-btn {
       //display: none;
     }
   }
-  .collect-btn{
+  &.leaf{
+    border: 1px solid $color_leaf !important;
+  }
+  .collect-btn {
     position: absolute;
     display: none;
     z-index: 9999999999998;
-    box-shadow: 0 0 0 2px rgba(255,255,255,.2);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .2);
     background: #aaa;
-    background: rgba(0,0,0,.3);
+    background: rgba(0, 0, 0, .3);
     color: white;
     cursor: pointer;
     padding: 0 12px;
