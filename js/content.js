@@ -63,7 +63,7 @@ function markAllContentDom() {
             if (_parent.children('.leaf').length >= 3) {
                 console.log(_parent.text());
                 console.log(_parent.children('.leaf').length);
-                _parent.addClass('marked');
+                _parent.addClass('listNode marked');
 
                 if (_parent.find('.collect-btn').length > 0) {
                 } else {

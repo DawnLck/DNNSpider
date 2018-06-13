@@ -3,8 +3,9 @@
   display: none; }
 
 .spider.marked {
-  position: relative;
-  border: 1px solid #044D22 !important; }
+  position: relative; }
+  .spider.marked.listNode {
+    border: 1px solid #044D22 !important; }
   .spider.marked:hover .collect-btn {
     display: block !important;
     top: 0;
