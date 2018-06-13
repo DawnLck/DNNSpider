@@ -152,6 +152,7 @@ function calculateWeights(count, text) {
     }
     return count;
 }
+
 function pageClassify() {
     console.log('... 网页分类 ...');
 
@@ -175,9 +176,11 @@ function pageClassify() {
     result = calculateWeights(result, description);
     console.log(result);
 
-    if((result.bbs + result.articles + result.news) === 0){
+    if ((result.bbs + result.articles + result.news) === 0) {
         // console.log('基于内容进行第二次网页分类 ... ');
-        console.log('The second classify based on content ... ')
+        console.log('The second classify based on content ... ');
+
+        result = calculateWeights(result, $('body').text());
     }
 
 

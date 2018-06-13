@@ -21,14 +21,18 @@ const GLOBAL = {
         secondKeys: [
             '佳作',
             '正文',
-            '专栏'
+            '专栏',
+            '收藏',
+            '关注'
         ]
     },
     news: {
         primaryKeys: [
             '新闻',
             '记者',
-            '编辑'
+            '编辑',
+            '晚报',
+            '早报'
         ],
         secondKeys: [
             '频道',
