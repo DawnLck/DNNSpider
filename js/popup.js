@@ -38,6 +38,10 @@ function transportMessage(msg) {
 function init() {
     // 从background获取js接口
     let modules = chrome.extension.getBackgroundPage();
+    $('#spider-main').click(function () {
+        console.log('Spider: Mark main');
+        transportMessage('markMainArea');
+    });
     $('#spider-mark').click(function () {
         console.log('Spider mark');
         transportMessage('markContent');

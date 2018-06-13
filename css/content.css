@@ -2,6 +2,18 @@
 .collect-btn {
   display: none; }
 
+.spider.main {
+  border: 1px solid #E08031 !important;
+  position: relative; }
+.spider.mainMask {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #E08031;
+  opacity: 0.3; }
 .spider.marked {
   position: relative; }
   .spider.marked.listNode {

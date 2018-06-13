@@ -95,10 +95,10 @@
     "https://*/*",
     "<all_urls>"
   ],
-  "icons": {
-    "16": "assets/icon/robot_16x16.png",
-    "48": "assets/icon/robot_48x48.png",
-    "128": "assets/icon/robot_128x128.png"
-  },
+  //  "icons": {
+  //    "16": "assets/icon/robot_16x16.png",
+  //    "48": "assets/icon/robot_48x48.png",
+  //    "128": "assets/icon/robot_128x128.png"
+  //  },
   "options_page": "options.html"
 }

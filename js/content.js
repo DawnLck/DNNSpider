@@ -6,6 +6,42 @@ let collectDom = function () {
 };
 
 
+/* 标记主要区域 */
+function markMainArea() {
+    console.log('Mark main area ... ');
+    let _body = $('body');
+    let allDiv = $('div');
+
+    //标记
+    allDiv.each(function () {
+        let _width = $(this).width() / _body.width() * 100.0;
+        let _height = $(this).height() / _body.height() * 100;
+        let _text = $(this).text();
+        let _textDensity = _text.length / _body.text().length * 100;
+
+        if (_text) {
+            if (_width > 30 && _width < 96) {
+                console.log('_width: ' + _width);
+                if (_height > 60) {
+                    console.log('Find Main ... ');
+                    console.log('_height:' + _height);
+                    console.log('_textDensity:' + _textDensity);
+                    // console.log(_text);
+                    // console.log(_body.text());
+                    $(this).addClass('spider main');
+                    // $(this).append('<div class="spider mainMask"></div>');
+                }
+            }
+        }
+    });
+    $('div.spider.main').each(function () {
+       if($(this).find('.spider.main').length > 0){
+           console.log('Unmark the main ... ');
+           $(this).removeClass('spider main');
+       }
+    })
+}
+
 /* 标记所有文本节点 */
 function markAllContentDom() {
     console.log('Mark all content dom ...');
@@ -33,7 +69,7 @@ function markAllContentDom() {
         });
 
         //筛选
-        $('div.leaf').each(function () {
+        $('div.spider.leaf').each(function () {
             if ($(this).find('.leaf').length > 0) {
                 $(this).removeClass('leaf');
             }
@@ -89,15 +125,33 @@ function markAllContentDom() {
     });
 }
 
-
 /* 取消所有节点的标记 */
 function markUndo() {
     console.log('取消所有节点的标记...');
     $('.spider').removeClass('spider');
 }
 
-function pageClassifiy() {
+function pageClassify() {
     console.log('... 网页分类 ...');
+
+    console.log('Get Location Href ... ');
+    var location = window.location.href;
+    console.log(location);
+    var title = document.title;
+    var keywords = $('meta[name="keywords"]').attr('content');
+    var description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
+    var result = {
+        bbs: 0,
+        articles: 0,
+        news: 0
+    };
+    console.log(title);
+    console.log(keywords);
+    console.log(description);
+    result = calculateWeights(result, title);
+    result = calculateWeights(result, keywords);
+    result = calculateWeights(result, description);
+    console.log(result);
 }
 
 /* 标记所有锚结点 */
@@ -123,27 +177,6 @@ function calculateWeights(count, text) {
         }
     }
     return count;
-}
-
-function getLocationHref() {
-    console.log('Get Location Href ... ');
-    var location = window.location.href;
-    console.log(location);
-    var title = document.title;
-    var keywords = $('meta[name="keywords"]').attr('content');
-    var description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
-    var result = {
-        bbs: 0,
-        articles: 0,
-        news: 0
-    };
-    console.log(title);
-    console.log(keywords);
-    console.log(description);
-    result = calculateWeights(result, title);
-    result = calculateWeights(result, keywords);
-    result = calculateWeights(result, description);
-    console.log(result);
 }
 
 $(document).ready(function () {
@@ -176,6 +209,10 @@ chrome.runtime.onMessage.addListener(
                 markUndo();
                 sendResponse('UndoMark Done!');
                 break;
+            case "markMainArea":
+                markMainArea();
+                sendResponse('Mark Main-Area Done!');
+                break;
             default:
                 sendResponse('Nothing!');
                 break;
@@ -185,7 +222,8 @@ chrome.runtime.onMessage.addListener(
 
 function init() {
     // contentInit();
-    getLocationHref();
+    // markMainArea();
+    pageClassify();
 }
 
 // $('.collect-btn').click(function () {

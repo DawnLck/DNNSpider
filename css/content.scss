@@ -5,13 +5,29 @@ $color_unmarked:#a94442;
 $color_leaf: #ACDA9E;
 
 $color_study: #2B637B;
-$color_warning: #E08031;
+$color_main: #E08031;
 
 .collect-btn {
   display: none;
 }
 
 .spider {
+  &.main{
+    border: 1px solid $color_main !important;
+    position: relative;
+  }
+  &.mainMask{
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    height: 100%;
+    width: 100%;
+
+    background-color: $color_main;
+    opacity: 0.3;
+  }
   &.marked {
     position: relative;
     &.listNode{
