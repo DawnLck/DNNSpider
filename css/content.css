@@ -3,6 +3,7 @@
   display: none; }
 
 .spider.main {
+  box-sizing: border-box;
   border: 1px solid #E08031 !important;
   position: relative; }
 .spider.mainMask {
@@ -34,6 +35,7 @@
   top: 100px;
   right: 20px;
   z-index: 9999;
+  box-sizing: content-box;
   width: 200px;
   height: 66px;
   border-radius: 4px;
@@ -41,6 +43,8 @@
   font-family: "Microsoft JhengHei UI", serif;
   box-shadow: 1px 7px 14px -5px rgba(0, 0, 0, 0.2);
   background: white; }
+  .spider.toast .toast-content {
+    box-sizing: content-box; }
   .spider.toast .toast-title {
     margin-bottom: 5px;
     color: #3e3e3e;
