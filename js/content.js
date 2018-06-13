@@ -35,10 +35,10 @@ function markMainArea() {
         }
     });
     $('div.spider.main').each(function () {
-       if($(this).find('.spider.main').length > 0){
-           console.log('Unmark the main ... ');
-           $(this).removeClass('spider main');
-       }
+        if ($(this).find('.spider.main').length > 0) {
+            console.log('Unmark the main ... ');
+            $(this).removeClass('spider main');
+        }
     })
 }
 
@@ -131,36 +131,10 @@ function markUndo() {
     $('.spider').removeClass('spider');
 }
 
-function pageClassify() {
-    console.log('... 网页分类 ...');
-
-    console.log('Get Location Href ... ');
-    var location = window.location.href;
-    console.log(location);
-    var title = document.title;
-    var keywords = $('meta[name="keywords"]').attr('content');
-    var description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
-    var result = {
-        bbs: 0,
-        articles: 0,
-        news: 0
-    };
-    console.log(title);
-    console.log(keywords);
-    console.log(description);
-    result = calculateWeights(result, title);
-    result = calculateWeights(result, keywords);
-    result = calculateWeights(result, description);
-    console.log(result);
-}
-
-/* 标记所有锚结点 */
-function markAllLinkDom() {
-}
-
+/* 网页分类计算权重 */
 function calculateWeights(count, text) {
     if (!text) {
-        return 0;
+        return count;
     }
     var queue = ['bbs', 'articles', 'news'];
     for (var _index = 0; _index < queue.length; _index++) {
@@ -177,6 +151,49 @@ function calculateWeights(count, text) {
         }
     }
     return count;
+}
+function pageClassify() {
+    console.log('... 网页分类 ...');
+
+    // console.log('Get Location Href ... ');
+    // var location = window.location.href;
+    // console.log(location);
+
+    var title = document.title;
+    var keywords = $('meta[name="keywords"]').attr('content');
+    var description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
+    var result = {
+        bbs: 0,
+        articles: 0,
+        news: 0
+    };
+    console.log(title);
+    console.log(keywords);
+    console.log(description);
+    result = calculateWeights(result, title);
+    result = calculateWeights(result, keywords);
+    result = calculateWeights(result, description);
+    console.log(result);
+
+    if((result.bbs + result.articles + result.news) === 0){
+        // console.log('基于内容进行第二次网页分类 ... ');
+        console.log('The second classify based on content ... ')
+    }
+
+
+    $('body').append(
+        '<div class="spider toast toast-green">' +
+        // '<div class="toast-icon"></div>' +
+        '<div class="toast-content">' +
+        '<div class="toast-title">' + '网页类型分析' + '</div>' +
+        '<div class="toast-message">' + JSON.stringify(result) + '</div>' +
+        '</div>' +
+        '<div class="toast-close"></div>' +
+        '</div>');
+}
+
+/* 标记所有锚结点 */
+function markAllLinkDom() {
 }
 
 $(document).ready(function () {

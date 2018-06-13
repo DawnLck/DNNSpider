@@ -48,6 +48,66 @@ $color_main: #E08031;
   &.leaf{
     border: 1px solid $color_leaf !important;
   }
+  &.toast{
+    text-align: left;
+    padding: 20px 30px;
+    display: inline-block;
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 9999;
+
+    width: 200px;
+    height: 66px;
+    border-radius: 4px;
+    max-width: 500px;
+
+    font-family: "Microsoft JhengHei UI", serif;
+
+    box-shadow: 1px 7px 14px -5px rgba(0,0,0,0.2);
+    background: white;
+
+    .toast-title{
+      margin-bottom: 5px;
+
+      color: #3e3e3e;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .toast-message{
+      font-size: 14px;
+      color: #878787;
+    }
+
+    .toast-close{
+      position: absolute;
+      right: 22px;
+      top: 50%;
+      width: 14px;
+      cursor: pointer;
+      height: 14px;
+      fill: #878787;
+      transform: translateY(-50%);
+    }
+
+    &:before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    &.toast-green{
+      &:before{
+        background-color: $color_marked;
+      }
+    }
+  }
   .collect-btn {
     position: absolute;
     display: none;
