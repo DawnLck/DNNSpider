@@ -1,4 +1,5 @@
 const GLOBAL = {
+    //论坛类
     bbs: {
         primaryKeys: [
             'bbs',
@@ -10,6 +11,7 @@ const GLOBAL = {
             '家园'
         ]
     },
+    //博客文章类
     articles: {
         primaryKeys: [
             '博客',
@@ -26,7 +28,42 @@ const GLOBAL = {
             '关注'
         ]
     },
+    //新闻类
     news: {
+        primaryKeys: [
+            '新闻',
+            '记者',
+            '编辑',
+            '晚报',
+            '早报'
+        ],
+        secondKeys: [
+            '频道',
+            '观点',
+            '人民',
+            '突发',
+            '实时'
+        ]
+    },
+    //生活服务类
+    service:{
+        primaryKeys: [
+            '新闻',
+            '记者',
+            '编辑',
+            '晚报',
+            '早报'
+        ],
+        secondKeys: [
+            '频道',
+            '观点',
+            '人民',
+            '突发',
+            '实时'
+        ]
+    },
+    //电商网站类
+    o2o:{
         primaryKeys: [
             '新闻',
             '记者',
