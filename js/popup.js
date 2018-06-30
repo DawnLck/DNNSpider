@@ -49,6 +49,22 @@ function init() {
     $('#spider-markUndo').click(function () {
         transportMessage('markUndo');
     });
+
+    $('#spider-autoRefresh').click(function () {
+        chrome.tabs.getSelected(null, function (tab) {
+            console.log(tab.id);
+            setInterval(function () {
+                console.log('Auto Refresh ... ');
+                // transportMessage('autoRefresh');
+                chrome.tabs.sendMessage(tab.id, {
+                    method: 'tab',
+                    message: 'autoRefresh'
+                }, function(response){
+                    console.log(response);
+                })
+            }, 5000);
+        });
+    });
     // console.log(modules.switchColor('red'));
     // let colorEle = document.getElementById('blue');
     // colorEle.onclick = function () {

@@ -5,41 +5,77 @@ let collectDom = function () {
     console.log('Collect Dom ....');
 };
 
-
 /* 标记主要区域 */
-function markMainArea() {
+function markMainArea(callback) {
     console.log('Mark main area ... ');
-    let _body = $('body');
-    let allDiv = $('div');
+    let _body = document.getElementsByTagName('body')[0],
+        bodyWidth = _body.scrollWidth,
+        bodyHeight = _body.scrollHeight,
+        bodyTextLength = _body.innerText.length,
+        allDiv = $('div');
+
+    console.log('Body { width:' + bodyWidth + ' height: ' + bodyHeight + ' }');
 
     //标记
     allDiv.each(function () {
-        let _width = $(this).width() / _body.width() * 100.0;
-        let _height = $(this).height() / _body.height() * 100;
+        let _width = $(this).width() / bodyWidth * 100.0;
+        let _height = $(this).height() / bodyHeight * 100;
         let _text = $(this).text();
-        let _textDensity = _text.length / _body.text().length * 100;
+        let _textDensity = _text.length / bodyTextLength.length * 100;
+
 
         if (_text) {
             if (_width > 30 && _width < 96) {
-                console.log('_width: ' + _width);
+                $(this).addClass('spider');
                 if (_height > 60) {
-                    console.log('Find Main ... ');
-                    console.log('_height:' + _height);
-                    console.log('_textDensity:' + _textDensity);
-                    // console.log(_text);
-                    // console.log(_body.text());
-                    $(this).addClass('spider main');
-                    // $(this).append('<div class="spider mainMask"></div>');
+                    $(this).addClass('main');
                 }
             }
         }
     });
+
     $('div.spider.main').each(function () {
         if ($(this).find('.spider.main').length > 0) {
             console.log('Unmark the main ... ');
-            $(this).removeClass('spider main');
+            $(this).removeClass('main');
         }
-    })
+    });
+    callback();
+}
+
+/* 标记帖子区域 */
+function markPostArea(callback) {
+    console.log('Mark post area ... ');
+
+    let mainSelector = $('div.spider.main');
+    let mainWidth = mainSelector.width(),
+        mainHeight = mainSelector.height();
+    console.log(mainWidth + ' ' + mainHeight);
+
+    mainSelector.parent().find('div.spider').each(function () {
+        if ($(this).width() / mainWidth * 100 > 70 && $(this).height() / mainHeight * 100 > 50) {
+            $(this).addClass('post');
+        }
+    });
+
+    $('div.post').each(function () {
+        if ($(this).find('.spider.post').length > 0) {
+            console.log('Unmark the post ... ');
+            $(this).removeClass('post');
+        }
+    });
+
+    callback();
+}
+
+/* 标记列表节点 */
+function markListNode() {
+    console.log('Mark list node ... ');
+
+    $('div.post').children().each(function () {
+        $(this).append('<div class="collect-btn">采集</div>');
+        $(this).addClass('spider leaf');
+    });
 }
 
 /* 标记所有文本节点 */
@@ -49,14 +85,18 @@ function markAllContentDom() {
     //标记叶子节点以及初步筛选
     function markLeafNode(callback) {
         console.log('Mark Leaf Node ... ');
-        let bodyWidth = $('body').width();
-        let allDiv = $('div');
+        let mainDom = $('.spider.main'),
+            mainWidth = mainDom.width();
 
         //标记
-        allDiv.each(function () {
-            let _width = $(this).width() / bodyWidth * 100.0;
+        mainDom.find('div').each(function () {
+            let _width = $(this).width() / mainWidth * 100.0;
             let _height = $(this).height();
             let _text = $(this).text();
+
+            console.log('_width: ' + _width);
+            console.log('_height: ' + _height);
+            console.log('_text: ' + _text + ' \n');
 
             if (_text) {
                 if (_width > 30 && _width < 96 && _text.length > 0 && _height > 3) {
@@ -95,8 +135,8 @@ function markAllContentDom() {
             console.log($(this).text());
             let _parent = $(this).parent();
             console.log(_parent.children('.leaf').length);
-            //listNode节点所包含的叶子节点数必须大于等于三个
-            if (_parent.children('.leaf').length >= 3) {
+            //listNode节点所包含的叶子节点数必须大于等于两个
+            if (_parent.children('.leaf').length >= 2) {
                 console.log(_parent.text());
                 console.log(_parent.children('.leaf').length);
                 _parent.addClass('listNode marked');
@@ -204,7 +244,6 @@ $(document).ready(function () {
     }
 );
 
-
 function contentInit() {
     // setTimeout(function () {
     //     markAllContentDom();
@@ -212,16 +251,34 @@ function contentInit() {
     // }, 1000);
 }
 
+
+function autoRefresh() {
+    console.log('Auto refresh ... ');
+    window.location.reload();
+}
+
 let text = "hello";
 chrome.runtime.onMessage.addListener(
     function (message, sender, sendResponse) {
         console.log('RunTime .... ');
-        switch (message.type) {
+        console.log(message);
+        switch (message.type ? message.type : message.message) {
             case "getText":
                 sendResponse(text);
                 break;
             case "markContent":
-                markAllContentDom();
+                // markMainArea(function(){
+                //     markAllContentDom();
+                // });
+
+                markMainArea(function () {
+                    markPostArea(function () {
+                        markListNode(function () {
+                            console.log('Mark content done ...');
+                        })
+                    })
+                });
+
                 // getLocationHref();
                 sendResponse('Mark Done!');
                 break;
@@ -230,8 +287,14 @@ chrome.runtime.onMessage.addListener(
                 sendResponse('UndoMark Done!');
                 break;
             case "markMainArea":
-                markMainArea();
+                markMainArea(function () {
+                    return true;
+                });
                 sendResponse('Mark Main-Area Done!');
+                break;
+            case "autoRefresh":
+                autoRefresh();
+                sendResponse('Auto Refresh ... ');
                 break;
             default:
                 sendResponse('Nothing!');
@@ -243,7 +306,7 @@ chrome.runtime.onMessage.addListener(
 function init() {
     // contentInit();
     // markMainArea();
-    pageClassify();
+    // pageClassify();
 }
 
 // $('.collect-btn').click(function () {
@@ -251,6 +314,5 @@ function init() {
 //         collectDom();
 //     }
 // );
-
 
 init();
