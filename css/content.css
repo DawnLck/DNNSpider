@@ -31,7 +31,7 @@
 .spider.unmarked {
   box-sizing: border-box;
   border: 1px dashed #a94442 !important; }
-.spider.leaf {
+.spider.listNode {
   border: 1px solid #ACDA9E !important;
   box-sizing: border-box; }
 .spider.toast {

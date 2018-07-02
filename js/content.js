@@ -71,11 +71,36 @@ function markPostArea(callback) {
 /* 标记列表节点 */
 function markListNode() {
     console.log('Mark list node ... ');
+    let result = [];
 
     $('div.post').children().each(function () {
-        $(this).append('<div class="collect-btn">采集</div>');
-        $(this).addClass('spider leaf');
+        // $(this).append('<div class="collect-btn">采集</div>');
+        $(this).addClass('spider listNode');
+        let links = [];
+        $(this).find('a').each(function () {
+            // console.log($(this).text());
+            if ($(this).prop('childElementCount') === 0 && $(this).text().length > 0 && $(this).attr('href') && $(this).attr('href').length > 20) {
+                // console.log('Author ... ' + $(this).text() + $(this).attr('href'));
+                links.push({
+                    url: $(this).attr('href'),
+                    text: $(this).text(),
+                    width: $(this).width(),
+                    height: $(this).height(),
+                    offsetLeft: $(this).prop('offsetLeft'),
+                    offsetTop: $(this).prop('offsetTop')
+                })
+            }
+        });
+        // console.log(links);
+
+        result.push({
+            text: $(this).text().replace(/(\s){2}|('\n')|('\r')/g, ''),
+            author: $(this).find('a').attr('href'),
+            links: links
+        });
     });
+
+    console.log(result);
 }
 
 /* 标记所有文本节点 */
