@@ -12,9 +12,11 @@ function markMainArea(callback) {
         bodyWidth = _body.scrollWidth,
         bodyHeight = _body.scrollHeight,
         bodyTextLength = _body.innerText.length,
+        rootFontSize = parseInt(window.getComputedStyle(_body).fontSize),
         allDiv = $('div');
 
     console.log('Body { width:' + bodyWidth + ' height: ' + bodyHeight + ' }');
+    console.log('Body Font-size: ' + rootFontSize);
 
     //标记
     allDiv.each(function () {
@@ -23,12 +25,14 @@ function markMainArea(callback) {
         let _text = $(this).text();
         let _textDensity = _text.length / bodyTextLength.length * 100;
 
-
         if (_text) {
             if (_width > 30 && _width < 96) {
                 $(this).addClass('spider');
                 if (_height > 60) {
                     $(this).addClass('main');
+                }else if($(this).height() < 2 * rootFontSize){
+                    // console.log('Remove: ' + $(this).height());
+                    $(this).removeClass('spider');
                 }
             }
         }
@@ -53,8 +57,18 @@ function markPostArea(callback) {
     console.log(mainWidth + ' ' + mainHeight);
 
     mainSelector.parent().find('div.spider').each(function () {
-        if ($(this).width() / mainWidth * 100 > 70 && $(this).height() / mainHeight * 100 > 50) {
-            $(this).addClass('post');
+        let _self = $(this);
+        let _siblingsLength = $(this).siblings('.spider').length;
+        console.log('siblings Count: ' + _siblingsLength);
+        if(_siblingsLength > 6){
+            $(this).parent().addClass('post');
+        }
+
+        if (_self.width() / mainWidth * 100 > 70 && _self.height() / mainHeight * 100 > 50) {
+            // console.log(_self.prop('childElementCount'));
+            if(_self.prop('childElementCount') > 10){
+                $(this).addClass('post');
+            }
         }
     });
 
