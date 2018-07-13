@@ -218,7 +218,7 @@ function calculateWeights(count, text) {
     return count;
 }
 
-function pageClassify() {
+function pageClassify(display) {
     console.log('... 网页分类 ...');
 
     // console.log('Get Location Href ... ');
@@ -248,16 +248,45 @@ function pageClassify() {
         result = calculateWeights(result, $('body').text());
     }
 
+    var category = 'bbs';
+    var tem = result.bbs;
+    if(result.bbs < result.articles){
+        category = 'articles';
+        tem =result.articles;
+    }
+    if(result.news > tem){
+        category = 'news';
+    }
 
-    $('body').append(
-        '<div class="spider toast toast-green">' +
-        // '<div class="toast-icon"></div>' +
-        '<div class="toast-content">' +
-        '<div class="toast-title">' + '网页类型分析' + '</div>' +
-        '<div class="toast-message">' + JSON.stringify(result) + '</div>' +
-        '</div>' +
-        '<div class="toast-close"></div>' +
-        '</div>');
+    if (display) {
+        $('body').append(
+            '<div class="spider toast toast-green">' +
+            // '<div class="toast-icon"></div>' +
+            '<div class="toast-content">' +
+            '<div class="toast-title">' + '网页类型分析' + '</div>' +
+            '<div class="toast-message">' + JSON.stringify(result) + '</div>' +
+            '</div>' +
+            '<div class="toast-close"></div>' +
+            '</div>');
+    }
+
+    return {
+        title: title,
+        url: window.location.href,
+        category: category,
+        meta_keyword: keywords,
+        meta_description: description,
+        score: result
+    };
+}
+
+/* 保存当前页面 */
+function saveCurrentPage() {
+    console.log('Save the current page');
+    var item = pageClassify(false);
+    $.get('http://localhost:8080/data/savePage', item, function(callback){
+        console.log(callback)
+    })
 }
 
 /* 标记所有锚结点 */
@@ -276,7 +305,6 @@ function contentInit() {
     // }, 1000);
 }
 
-
 function autoRefresh() {
     console.log('Auto refresh ... ');
     window.location.reload();
@@ -286,7 +314,6 @@ let text = "hello";
 chrome.runtime.onMessage.addListener(
     function (message, sender, sendResponse) {
         console.log('RunTime .... ');
-        console.log(message);
         switch (message.type ? message.type : message.message) {
             case "getText":
                 sendResponse(text);
@@ -320,6 +347,9 @@ chrome.runtime.onMessage.addListener(
             case "autoRefresh":
                 autoRefresh();
                 sendResponse('Auto Refresh ... ');
+                break;
+            case "savePage":
+                saveCurrentPage();
                 break;
             default:
                 sendResponse('Nothing!');

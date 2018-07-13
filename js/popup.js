@@ -37,11 +37,12 @@ function transportMessage(msg) {
 
 function init() {
     // 从background获取js接口
-    let modules = chrome.extension.getBackgroundPage();
+    // let modules = chrome.extension.getBackgroundPage();
     $('#spider-main').click(function () {
         console.log('Spider: Mark main');
         transportMessage('markMainArea');
     });
+
     $('#spider-mark').click(function () {
         console.log('Spider mark');
         transportMessage('markContent');
@@ -65,6 +66,12 @@ function init() {
             }, 5000);
         });
     });
+
+    $('#spider-savePage').click(function(){
+        console.log('Spider save the current page');
+        transportMessage('savePage');
+    })
+
     // console.log(modules.switchColor('red'));
     // let colorEle = document.getElementById('blue');
     // colorEle.onclick = function () {
