@@ -273,6 +273,7 @@ function pageClassify(display) {
     return {
         title: title,
         url: window.location.href,
+        domain: window.location.hostname.split('.')[1],
         category: category,
         meta_keyword: keywords,
         meta_description: description,
@@ -286,7 +287,7 @@ function saveCurrentPage() {
     var item = pageClassify(false);
     $.get('http://localhost:8080/data/savePage', item, function(callback){
         console.log(callback)
-    })
+    });
 }
 
 /* 标记所有锚结点 */
