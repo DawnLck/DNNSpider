@@ -30,7 +30,7 @@ function markMainArea(callback) {
                 $(this).addClass('spider');
                 if (_height > 60) {
                     $(this).addClass('main');
-                }else if($(this).height() < 2 * rootFontSize){
+                } else if ($(this).height() < 2 * rootFontSize) {
                     // console.log('Remove: ' + $(this).height());
                     $(this).removeClass('spider');
                 }
@@ -60,13 +60,13 @@ function markPostArea(callback) {
         let _self = $(this);
         let _siblingsLength = $(this).siblings('.spider').length;
         console.log('siblings Count: ' + _siblingsLength);
-        if(_siblingsLength > 6){
+        if (_siblingsLength > 6) {
             $(this).parent().addClass('post');
         }
 
         if (_self.width() / mainWidth * 100 > 70 && _self.height() / mainHeight * 100 > 50) {
             // console.log(_self.prop('childElementCount'));
-            if(_self.prop('childElementCount') > 10){
+            if (_self.prop('childElementCount') > 10) {
                 $(this).addClass('post');
             }
         }
@@ -264,11 +264,11 @@ function pageClassify(display) {
 
     var category = 'bbs';
     var tem = result.bbs;
-    if(result.bbs < result.articles){
+    if (result.bbs < result.articles) {
         category = 'articles';
-        tem =result.articles;
+        tem = result.articles;
     }
-    if(result.news > tem){
+    if (result.news > tem) {
         category = 'news';
     }
 
@@ -295,13 +295,62 @@ function pageClassify(display) {
     };
 }
 
+const toastApp = {
+    toastZone: document.querySelector('.zone'),
+    button: document.querySelector('.makeToast'),
+    closing: 0,
+    count: 0,
+    init: function () {
+        $('body').append('<div class="spider toast"><ul></ul></div>')
+    },
+    makeToast: function (txt) {
+        toastApp.count += 1;
+
+        //Container
+        $('.toast ul').append(
+            '<li class="toast-item toast-green down" id="toast-' + toastApp.count + '">' +
+            '<div class="toast-content">' +
+            '<div class="toast-title">' + 'Info Toast' + '</div>' +
+            '<div class="toast-message">' + txt + '</div>' +
+            '</div>' +
+            '<div class="toast-close"> <span> X </span> </div>' +
+            '</li>');
+
+        let self = $('#toast-' + toastApp.count);
+
+        self.find('.toast-close').click(function () {
+            let item = $(this).parent();
+            item.addClass('toastClose');
+            setTimeout(function () {
+                // item.style.display = "none"
+                item.hide();
+            }, 500)
+        });
+
+        setTimeout(function () {
+            self.find('.toast-close').click();
+        }, 3000)
+
+    },
+    closeToast: function (ele) {
+        var toast = ele.parentElement.parentElement;
+        toast.classList.add('toastClose');
+        setTimeout(function () {
+            toast.style.display = "none"
+        }, 500)
+    }
+};
+
+toastApp.init();
+
 /* 保存当前页面 */
 function saveCurrentPage() {
     console.log('Save the current page');
     var item = pageClassify(false);
-    $.get('http://localhost:8080/data/savePage', item, function(callback){
-        console.log(callback)
-    });
+    // $.get('http://localhost:8081/data/savePage', item, function (callback) {
+    //     console.log(callback);
+    // });
+    toastApp.makeToast('保存成功');
 }
 
 /* 标记所有锚结点 */
