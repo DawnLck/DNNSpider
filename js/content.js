@@ -66,7 +66,7 @@ function markPostArea(callback) {
 
         if (_self.width() / mainWidth * 100 > 70 && _self.height() / mainHeight * 100 > 50) {
             // console.log(_self.prop('childElementCount'));
-            if (_self.prop('childElementCount') > 10) {
+            if (_self.children('.spider').length > 4) {
                 $(this).addClass('post');
             }
         }
@@ -87,9 +87,9 @@ function markListNode() {
     console.log('Mark list node ... ');
     let result = [];
 
-    $('div.post').children().each(function () {
+    $('div.post').children('.spider').each(function () {
         // $(this).append('<div class="collect-btn">采集</div>');
-        $(this).addClass('spider listNode');
+        $(this).addClass('listNode');
         let links = [];
         $(this).find('a').each(function () {
             // console.log($(this).text());
@@ -232,6 +232,7 @@ function calculateWeights(count, text) {
     return count;
 }
 
+/* 网页分类 */
 function pageClassify(display) {
     console.log('... 网页分类 ...');
 
@@ -347,10 +348,10 @@ toastApp.init();
 function saveCurrentPage() {
     console.log('Save the current page');
     var item = pageClassify(false);
-    // $.get('http://localhost:8081/data/savePage', item, function (callback) {
-    //     console.log(callback);
-    // });
-    toastApp.makeToast('保存成功');
+    $.get('http://localhost:8081/data/savePage', item, function (callback) {
+        console.log(callback);
+        toastApp.makeToast('保存成功');
+    });
 }
 
 /* 标记所有锚结点 */
