@@ -43,6 +43,11 @@ function init() {
         transportMessage('markMainArea');
     });
 
+    $('#spider-collect').click(function () {
+        console.log('Spider: Collect btn');
+        transportMessage('showCollectBtn');
+    });
+
     $('#spider-mark').click(function () {
         console.log('Spider mark');
         transportMessage('markContent');

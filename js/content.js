@@ -88,7 +88,6 @@ function markListNode() {
     let result = [];
 
     $('div.post').children('.spider').each(function () {
-        // $(this).append('<div class="collect-btn">采集</div>');
         $(this).addClass('listNode');
         let links = [];
         $(this).find('a').each(function () {
@@ -375,6 +374,29 @@ function autoRefresh() {
     window.location.reload();
 }
 
+function showCollector() {
+    $('.spider').each(function () {
+        $(this).append('<div class="collect-btn">采集为' +
+            '<div class="collect-1"> 主要节点 </div>' +
+            '<div class="collect-2"> 帖子区域节点 </div>' +
+            '<div class="collect-3"> 帖子叶子节点 </div>' +
+            '<div class="collect-4"> 其他节点 </div>' +
+            '</div>');
+
+        $(this).hover(function (e) {
+            e.stopImmediatePropagation();
+            $(this).children('.collect-btn').css('display', 'flex');
+        }, function (e) {
+            e.stopImmediatePropagation();
+            $(this).children('.collect-btn').css("display", "none");
+        })
+    });
+
+    $('.collect-btn').click(function () {
+        console.log('Collect the dom .... ');
+    });
+}
+
 let text = "hello";
 chrome.runtime.onMessage.addListener(
     function (message, sender, sendResponse) {
@@ -399,6 +421,9 @@ chrome.runtime.onMessage.addListener(
                 // getLocationHref();
                 sendResponse('Mark Done!');
                 break;
+            case "showCollectBtn":
+                showCollector();
+                break;
             case "markUndo":
                 markUndo();
                 sendResponse('UndoMark Done!');
@@ -422,6 +447,7 @@ chrome.runtime.onMessage.addListener(
         }
     }
 );
+
 
 function init() {
     // contentInit();

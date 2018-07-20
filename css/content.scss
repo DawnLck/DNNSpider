@@ -8,10 +8,6 @@ $color_study: #2B637B;
 $color_main: #E08031;
 $color_post: #e05371;
 
-.collect-btn {
-  display: none;
-}
-
 .spider {
   &.main {
     box-sizing: border-box;
@@ -152,18 +148,32 @@ $color_post: #e05371;
     }
   }
   .collect-btn {
-    position: absolute;
     display: none;
-    z-index: 9999999999998;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, .2);
-    background: #aaa;
-    background: rgba(0, 0, 0, .3);
+    position: absolute;
+    flex-direction: column;
+    z-index: 9998;
+    padding: 0 12px;
+
+    height: initial;
+
     color: white;
     cursor: pointer;
-    padding: 0 12px;
-    height: 30px;
     line-height: 30px;
-    border-radius: 2px;
     font-size: 14px;
+
+    background: #aaa;
+    background: rgba(0, 0, 0, .3);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .2);
+    border-radius: 2px;
+    .collect-item{
+      display: inline-flex;
+      border-bottom: whitesmoke 2px solid;
+    }
   }
+
+  //&:hover{
+  //  & > .collect-btn{
+  //     display: flex;
+  //  }
+  //}
 }

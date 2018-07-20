@@ -1,7 +1,4 @@
 /* content.css */
-.collect-btn {
-  display: none; }
-
 .spider.main {
   box-sizing: border-box;
   border: 1px solid #E08031 !important;
@@ -96,20 +93,24 @@
       animation: toast 1s; }
 @keyframes toast {
   0% {
-    transform: translateY(-100px); } }
+    transform: translateY(-1000px); } }
 .spider .collect-btn {
-  position: absolute;
   display: none;
-  z-index: 9999999999998;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-  background: #aaa;
-  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  flex-direction: column;
+  z-index: 9998;
+  padding: 0 12px;
+  height: initial;
   color: white;
   cursor: pointer;
-  padding: 0 12px;
-  height: 30px;
   line-height: 30px;
-  border-radius: 2px;
-  font-size: 14px; }
+  font-size: 14px;
+  background: #aaa;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  border-radius: 2px; }
+  .spider .collect-btn .collect-item {
+    display: inline-flex;
+    border-bottom: whitesmoke 2px solid; }
 
 /*# sourceMappingURL=content.css.map */
