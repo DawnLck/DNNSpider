@@ -376,23 +376,41 @@ function autoRefresh() {
 
 function showCollector() {
     $('.spider').each(function () {
-        $(this).append('<div class="collect-btn">采集为' +
-            '<div class="collect-1"> 主要节点 </div>' +
-            '<div class="collect-2"> 帖子区域节点 </div>' +
-            '<div class="collect-3"> 帖子叶子节点 </div>' +
-            '<div class="collect-4"> 其他节点 </div>' +
+        $(this).append('<div class="collect-showBtn">' +
+            '<span>Spider</span>' +
+            '<div class="collect-btn">' +
+            '<div class="collect-1 collect-item"> 主要节点 </div>' +
+            '<div class="collect-2 collect-item"> 帖子区域节点 </div>' +
+            '<div class="collect-3 collect-item"> 帖子叶子节点 </div>' +
+            '<div class="collect-4 collect-item"> 其他节点 </div>' +
+            '</div>'+
             '</div>');
 
         $(this).hover(function (e) {
+            e.stopPropagation();
             e.stopImmediatePropagation();
-            $(this).children('.collect-btn').css('display', 'flex');
+            $(this).addClass('collect-hover');
+
+            // if($(this).find('.collect-hover').length){
+            //     console.log('Find collect-hover');
+            // }else{
+            //     console.log('Add hover .... ');
+            //     $(this).children('.collect-btn').addClass('collect-hover')
+            // }
+            // $(this).children('.collect-btn').css('display', 'flex');
         }, function (e) {
+            e.stopPropagation();
             e.stopImmediatePropagation();
-            $(this).children('.collect-btn').css("display", "none");
+            $(this).removeClass('collect-hover');
+            // if($(this).children('.collect-btn').hasClass('collect-hover')){
+            //     $(this).children('.collect-btn').removeClass('collect-hover');
+            // }
+            // $(this).children('.collect-btn').css("display", "none");
         })
     });
 
     $('.collect-btn').click(function () {
+        console.log('Remove hover');
         console.log('Collect the dom .... ');
     });
 }
