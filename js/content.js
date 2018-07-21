@@ -377,7 +377,7 @@ function autoRefresh() {
 function showCollector() {
     $('.spider').each(function () {
         $(this).append('<div class="collect-showBtn">' +
-            '<span>Spider</span>' +
+            '<div>Spider</div>' +
             '<div class="collect-btn">' +
             '<div class="collect-1 collect-item"> 主要节点 </div>' +
             '<div class="collect-2 collect-item"> 帖子区域节点 </div>' +
@@ -409,8 +409,40 @@ function showCollector() {
         })
     });
 
-    $('.collect-btn').click(function () {
-        console.log('Remove hover');
+    $('.collect-1').click(function () {
+        var parent = $(this).parent();
+        $(this).hide();
+
+        var dom_level = 0;
+        var self = $(this);
+        while(true){
+            if(self.hasClass('spider main')){
+                break;
+            }else{
+                self = self.parent();
+                dom_level++;
+                if(dom_level>10){
+                    break;
+                }
+            }
+        }
+        var item = {
+            /* meta信息 */
+            href: window.location.href,
+            domain: window.location.hostname.split('.')[1],
+
+            /* Property 属性 */
+            top:parent.prop('offsetTop'),
+            left:parent.prop('offsetLeft'),
+            width: parent.prop('scrollWidth'),
+            height: parent.prop('scrollHeight'),
+
+            dom_level: dom_level,
+            childElementCount: (parent.prop('childElementCount') - 1),
+            innerText: parent.prop('innerText')
+        };
+        console.log('Save dom ....');
+        console.log(item);
         console.log('Collect the dom .... ');
     });
 }
