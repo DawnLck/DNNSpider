@@ -382,8 +382,8 @@ function showCollector() {
             '<div class="collect-1 collect-item"> 主要节点 </div>' +
             '<div class="collect-2 collect-item"> 帖子区域节点 </div>' +
             '<div class="collect-3 collect-item"> 帖子叶子节点 </div>' +
-            '<div class="collect-4 collect-item"> 其他节点 </div>' +
-            '</div>'+
+            '<div class="collect-4 collect-item"> 帖子作者节点 </div>' +
+            '</div>' +
             '</div>');
 
         $(this).hover(function (e) {
@@ -409,42 +409,94 @@ function showCollector() {
         })
     });
 
-    $('.collect-1').click(function () {
-        var parent = $(this).parent();
-        $(this).hide();
+    function saveDom(ele, cate){
+        var _btn = ele.parent().parent(),
+            _target = _btn.parent(),
+            dom_level = 0,
+            self = _target,
+            linkContent = [];
 
-        var dom_level = 0;
-        var self = $(this);
-        while(true){
-            if(self.hasClass('spider main')){
+        _btn.hide();
+
+        while (true) {
+            if (self.hasClass('spider main') || self.is('body')) {
                 break;
-            }else{
+            } else {
                 self = self.parent();
                 dom_level++;
-                if(dom_level>10){
+                if (dom_level > 10) {
                     break;
                 }
             }
         }
+
+        _target.find('a').each(function () {
+            if (($(this).prop('offsetWidth') + $(this).prop('offsetHeight')) !== 0){
+                var _href = $(this).attr('href');
+                console.log($(this).prop('offsetWidth')+' '+ $(this).prop('offsetHeight')+' '+ _href);
+                if (_href && _href !== 'javascript:void(0);') {
+                    linkContent.push(_href);
+                }
+                _href = null;
+            }
+        });
+
+        var offset = _target.offset();
         var item = {
             /* meta信息 */
-            href: window.location.href,
-            domain: window.location.hostname.split('.')[1],
+            document_width: $(document).width(),
+            document_height: $(document).height(),
+            meta_href: window.location.href,
+            meta_domain: window.location.hostname.split('.')[1],
 
             /* Property 属性 */
-            top:parent.prop('offsetTop'),
-            left:parent.prop('offsetLeft'),
-            width: parent.prop('scrollWidth'),
-            height: parent.prop('scrollHeight'),
+            offsetTop: _target.prop('offsetTop'),
+            offsetLeft: _target.prop('offsetLeft'),
+
+            realTop: offset.top,
+            realLeft: offset.left,
+
+            width: _target.prop('scrollWidth'),
+            height: _target.prop('scrollHeight'),
 
             dom_level: dom_level,
-            childElementCount: (parent.prop('childElementCount') - 1),
-            innerText: parent.prop('innerText')
+            childElementCount: (_target.prop('childElementCount') - 1),
+            siblingsCount: _target.siblings().length,
+            innerText: _target.prop('innerText').replace(/\nSpider\n/gi, ''),
+            linkElementCount: _target.find('a').length,
+            links: linkContent,
+            imageElementCount: _target.find('img').length,
+
+            /* category */
+            dom_category:  cate
         };
         console.log('Save dom ....');
         console.log(item);
-        console.log('Collect the dom .... ');
+        console.log('Collect End .... ');
+
+
+        _btn = null;
+        _target = null;
+        dom_level = null;
+        self = null;
+        offset = null;
+        item = null;
+        linkContent = null;
+    }
+
+    $('.collect-1').click(function () {
+        saveDom($(this), 'mainArea');
     });
+    $('.collect-2').click(function () {
+        saveDom($(this), 'postArea');
+    });
+    $('.collect-3').click(function () {
+        saveDom($(this), 'postItem');
+    });
+    $('.collect-4').click(function () {
+        saveDom($(this), 'postItemAuthor');
+    });
+
 }
 
 let text = "hello";
