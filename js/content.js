@@ -88,29 +88,31 @@ function markListNode() {
     let result = [];
 
     $('div.post').children('.spider').each(function () {
-        $(this).addClass('listNode');
-        let links = [];
-        $(this).find('a').each(function () {
-            // console.log($(this).text());
-            if ($(this).prop('childElementCount') === 0 && $(this).text().length > 0 && $(this).attr('href') && $(this).attr('href').length > 20) {
-                // console.log('Author ... ' + $(this).text() + $(this).attr('href'));
-                links.push({
-                    url: $(this).attr('href'),
-                    text: $(this).text(),
-                    width: $(this).width(),
-                    height: $(this).height(),
-                    offsetLeft: $(this).prop('offsetLeft'),
-                    offsetTop: $(this).prop('offsetTop')
-                })
-            }
-        });
-        // console.log(links);
+        let _self = $(this);
+        _self.addClass('listNode');
+        _self.children('div').addClass('spider');
 
-        result.push({
-            text: $(this).text().replace(/(\s){2}|('\n')|('\r')/g, ''),
-            author: $(this).find('a').attr('href'),
-            links: links
-        });
+        // let links = [];
+        // $(this).find('a').each(function () {
+        //     // console.log($(this).text());
+        //     if ($(this).prop('childElementCount') === 0 && $(this).text().length > 0 && $(this).attr('href') && $(this).attr('href').length > 20) {
+        //         // console.log('Author ... ' + $(this).text() + $(this).attr('href'));
+        //         links.push({
+        //             url: $(this).attr('href'),
+        //             text: $(this).text(),
+        //             width: $(this).width(),
+        //             height: $(this).height(),
+        //             offsetLeft: $(this).prop('offsetLeft'),
+        //             offsetTop: $(this).prop('offsetTop')
+        //         })
+        //     }
+        // });
+        //
+        // result.push({
+        //     text: $(this).text().replace(/(\s){2}|('\n')|('\r')/g, ''),
+        //     author: $(this).find('a').attr('href'),
+        //     links: links
+        // });
     });
 
     console.log(result);
@@ -301,7 +303,7 @@ const toastApp = {
     closing: 0,
     count: 0,
     init: function () {
-        $('body').append('<div class="spider toast"><ul></ul></div>')
+        $('body').append('<div class="spider-toast toast"><ul></ul></div>')
     },
     makeToast: function (txt) {
         toastApp.count += 1;
@@ -386,6 +388,13 @@ function showCollector() {
             '</div>' +
             '</div>');
 
+        if ($(this).hasClass('post')) {
+            $(this).find('.collect-showBtn').addClass('collect-post');
+        } else if ($(this).hasClass('main')) {
+            $(this).find('.collect-showBtn').addClass('collect-main');
+        } else {
+        }
+
         $(this).hover(function (e) {
             e.stopPropagation();
             e.stopImmediatePropagation();
@@ -409,12 +418,20 @@ function showCollector() {
         })
     });
 
-    function saveDom(ele, cate){
+    function saveDom(ele, cate) {
         let _btn = ele.parent().parent(),
             _target = _btn.parent(),
             dom_level = 0,
             self = _target,
-            linkContent = [];
+            linkContent = [],
+            _innerText = _target.prop('innerText').replace(/(\n)?Spider(\n)?/gi, ''),
+            _innerTextLength = _innerText.length,
+            _textDensity = _innerTextLength / _target.prop('innerHTML').length,
+            _textPercentage = _innerTextLength / $('.spider .main').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length;
+
+        // console.log(_innerText);
+        // console.log(_target.text());
+        // console.log($('.spider .main').text());
 
         _btn.hide();
 
@@ -431,10 +448,10 @@ function showCollector() {
         }
 
         _target.find('a').each(function () {
-            if (($(this).prop('offsetWidth') + $(this).prop('offsetHeight')) !== 0){
+            if (($(this).prop('offsetWidth') + $(this).prop('offsetHeight')) !== 0) {
                 let _href = $(this).attr('href');
-                console.log($(this).prop('offsetWidth')+' '+ $(this).prop('offsetHeight')+' '+ _href);
-                if (_href && _href !== 'javascript:void(0);' && _href !== '#') {
+                // console.log($(this).prop('offsetWidth') + ' ' + $(this).prop('offsetHeight') + ' ' + _href);
+                if (_href && _href.indexOf('javascript:void(0)') && _href !== '#') {
                     linkContent.push(_href);
                 }
                 _href = null;
@@ -450,7 +467,8 @@ function showCollector() {
             meta_domain: window.location.hostname.split('.')[1],
 
             /* Property 属性 */
-            classList: _target.prop('classList'),
+            // classList: _target.prop('classList'),
+            classList: _target.prop('className').split('spider')[0].trim().split(' '),
             offsetTop: _target.prop('offsetTop'),
             offsetLeft: _target.prop('offsetLeft'),
 
@@ -463,22 +481,24 @@ function showCollector() {
             dom_level: dom_level,
             childElementCount: (_target.prop('childElementCount') - 1),
             siblingsCount: _target.siblings().length,
-            innerText: _target.prop('innerText').replace(/\nSpider\n/gi, ''),
+            innerText: _innerText,
+            textDensity: _textDensity,
+            textPercentage: _textPercentage,
             linkElementCount: _target.find('a').length,
             links: linkContent,
             imageElementCount: _target.find('img').length,
 
             /* category */
-            dom_category:  cate
+            dom_category: cate
         };
         console.log('Save dom ....');
         console.log(item);
         console.log('Collect End .... ');
 
-        $.get('http://localhost:8081/data/saveDom', item, function (callback) {
-            console.log(callback);
-            toastApp.makeToast('保存成功');
-        });
+        // $.get('http://localhost:8081/data/saveDom', item, function (callback) {
+        //     console.log(callback);
+        //     toastApp.makeToast('保存成功');
+        // });
 
         _btn = null;
         _target = null;
@@ -487,6 +507,10 @@ function showCollector() {
         offset = null;
         linkContent = null;
         item = null;
+        _innerText = null;
+        _innerTextLength = null;
+        _textDensity = null;
+        _textPercentage = null;
     }
 
     $('.collect-1').click(function () {

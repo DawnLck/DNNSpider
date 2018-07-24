@@ -55,6 +55,82 @@ $color_post: #e05371;
     border: 1px solid $color_leaf !important;
     box-sizing: border-box;
   }
+  .collect-showBtn{
+    display: inline-flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    padding: .1rem .3rem;
+    margin: 0;
+
+    color: black !important;
+    font-size: 1rem !important;
+    font-family: fantasy !important;
+    line-height: 1.5rem !important;
+
+    background: $color_study;
+    border-radius: 4px;
+    opacity: .5;
+    cursor: pointer;
+    &.collect-main{
+      background-color:  $color_main;
+    }
+    &.collect-post{
+      background-color:  $color_post;
+    }
+    &:hover{
+      opacity: 1;
+      .collect-btn{
+        display: flex;
+      }
+    }
+  }
+  .collect-btn {
+    display: none;
+    //position: absolute;
+    flex-direction: column;
+    z-index: 9998;
+
+    width: fit-content;
+    height: initial;
+    padding: 0;
+
+    color: white;
+    cursor: pointer;
+    line-height: 30px;
+    font-size: 14px;
+
+    //background: rgba(0, 0, 0, .3);
+    //box-shadow: 0 0 0 2px rgba(255, 255, 255, .2);
+    //border-radius: 2px;
+    .collect-item{
+      padding: 0 1rem;
+      display: inline-flex;
+      border-bottom: whitesmoke 2px solid;
+      opacity: .5;
+      &:hover{
+        opacity: 1;
+      }
+    }
+    &.collect-show{
+      display: flex;
+    }
+    &:last-child{
+      border: none;
+    }
+  }
+  &.collect-hover{
+    border: 2px $color_study solid !important;
+  }
+
+  //&:hover{
+  //  & > .collect-btn{
+  //     display: flex;
+  //  }
+  //}
+}
+.spider-toast{
   &.toast {
     text-align: left;
     display: flex;
@@ -148,72 +224,4 @@ $color_post: #e05371;
       transform: translateY(-1000px);
     }
   }
-  .collect-showBtn{
-    display: inline-flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    padding: .1rem .3rem;
-    margin: 0;
-
-    color: black !important;
-    font-size: 1rem !important;
-    font-family: fantasy !important;
-    line-height: 1.5rem !important;
-
-    background: #3C93D5;
-    border-radius: 4px;
-    opacity: .5;
-    cursor: pointer;
-    &:hover{
-      opacity: 1;
-      .collect-btn{
-        display: flex;
-      }
-    }
-  }
-  .collect-btn {
-    display: none;
-    //position: absolute;
-    flex-direction: column;
-    z-index: 9998;
-
-    width: fit-content;
-    height: initial;
-    padding: 0;
-
-    color: white;
-    cursor: pointer;
-    line-height: 30px;
-    font-size: 14px;
-
-    //background: rgba(0, 0, 0, .3);
-    //box-shadow: 0 0 0 2px rgba(255, 255, 255, .2);
-    //border-radius: 2px;
-    .collect-item{
-      padding: 0 1rem;
-      display: inline-flex;
-      border-bottom: whitesmoke 2px solid;
-      opacity: .5;
-      &:hover{
-        opacity: 1;
-      }
-    }
-    &.collect-show{
-      display: flex;
-    }
-    &:last-child{
-      border: none;
-    }
-  }
-  &.collect-hover{
-    border: 2px $color_study solid !important;
-  }
-
-  //&:hover{
-  //  & > .collect-btn{
-  //     display: flex;
-  //  }
-  //}
 }
