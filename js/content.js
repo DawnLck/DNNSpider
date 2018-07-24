@@ -210,21 +210,21 @@ function markUndo() {
 }
 
 /* 网页分类计算权重 */
-function calculateWeights(count, text) {
+function calculateWeights(count, text, weight) {
     if (!text) {
         return count;
     }
-    var queue = ['bbs', 'articles', 'news'];
-    for (var _index = 0; _index < queue.length; _index++) {
-        var _tem = GLOBAL[queue[_index]];
-        for (var j = 0; j < _tem.primaryKeys.length; j++) {
+    let queue = ['bbs', 'articles', 'news'];
+    for (let _index = 0; _index < queue.length; _index++) {
+        let _tem = GLOBAL[queue[_index]];
+        for (let j = 0; j < _tem.primaryKeys.length; j++) {
             if (text.indexOf(_tem.primaryKeys[j]) > -1) {
-                count[queue[_index]] += 2;
+                count[queue[_index]] += (2 * weight);
             }
         }
-        for (var x = 0; x < _tem.secondKeys.length; x++) {
+        for (let x = 0; x < _tem.secondKeys.length; x++) {
             if (text.indexOf(_tem.secondKeys[x]) > -1) {
-                count[queue[_index]] += 1;
+                count[queue[_index]] += (1 * weight);
             }
         }
     }
@@ -236,13 +236,13 @@ function pageClassify(display) {
     console.log('... 网页分类 ...');
 
     // console.log('Get Location Href ... ');
-    // var location = window.location.href;
+    // let location = window.location.href;
     // console.log(location);
 
-    var title = document.title;
-    var keywords = $('meta[name="keywords"]').attr('content');
-    var description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
-    var result = {
+    let title = document.title;
+    let keywords = $('meta[name="keywords"]').attr('content');
+    let description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
+    let result = {
         bbs: 0,
         articles: 0,
         news: 0
@@ -250,9 +250,9 @@ function pageClassify(display) {
     console.log(title);
     console.log(keywords);
     console.log(description);
-    result = calculateWeights(result, title);
-    result = calculateWeights(result, keywords);
-    result = calculateWeights(result, description);
+    result = calculateWeights(result, title, 3);
+    result = calculateWeights(result, keywords, 2);
+    result = calculateWeights(result, description, 1);
     console.log(result);
 
     if ((result.bbs + result.articles + result.news) === 0) {
@@ -262,8 +262,8 @@ function pageClassify(display) {
         result = calculateWeights(result, $('body').text());
     }
 
-    var category = 'bbs';
-    var tem = result.bbs;
+    let category = 'bbs';
+    let tem = result.bbs;
     if (result.bbs < result.articles) {
         category = 'articles';
         tem = result.articles;
@@ -333,7 +333,7 @@ const toastApp = {
 
     },
     closeToast: function (ele) {
-        var toast = ele.parentElement.parentElement;
+        let toast = ele.parentElement.parentElement;
         toast.classList.add('toastClose');
         setTimeout(function () {
             toast.style.display = "none"
@@ -346,7 +346,7 @@ toastApp.init();
 /* 保存当前页面 */
 function saveCurrentPage() {
     console.log('Save the current page');
-    var item = pageClassify(false);
+    let item = pageClassify(false);
     $.get('http://localhost:8081/data/savePage', item, function (callback) {
         console.log(callback);
         toastApp.makeToast('保存成功');
@@ -410,7 +410,7 @@ function showCollector() {
     });
 
     function saveDom(ele, cate){
-        var _btn = ele.parent().parent(),
+        let _btn = ele.parent().parent(),
             _target = _btn.parent(),
             dom_level = 0,
             self = _target,
@@ -432,17 +432,17 @@ function showCollector() {
 
         _target.find('a').each(function () {
             if (($(this).prop('offsetWidth') + $(this).prop('offsetHeight')) !== 0){
-                var _href = $(this).attr('href');
+                let _href = $(this).attr('href');
                 console.log($(this).prop('offsetWidth')+' '+ $(this).prop('offsetHeight')+' '+ _href);
-                if (_href && _href !== 'javascript:void(0);') {
+                if (_href && _href !== 'javascript:void(0);' && _href !== '#') {
                     linkContent.push(_href);
                 }
                 _href = null;
             }
         });
 
-        var offset = _target.offset();
-        var item = {
+        let offset = _target.offset();
+        let item = {
             /* meta信息 */
             document_width: $(document).width(),
             document_height: $(document).height(),
@@ -450,6 +450,7 @@ function showCollector() {
             meta_domain: window.location.hostname.split('.')[1],
 
             /* Property 属性 */
+            classList: _target.prop('classList'),
             offsetTop: _target.prop('offsetTop'),
             offsetLeft: _target.prop('offsetLeft'),
 
@@ -474,14 +475,18 @@ function showCollector() {
         console.log(item);
         console.log('Collect End .... ');
 
+        $.get('http://localhost:8081/data/saveDom', item, function (callback) {
+            console.log(callback);
+            toastApp.makeToast('保存成功');
+        });
 
         _btn = null;
         _target = null;
         dom_level = null;
         self = null;
         offset = null;
-        item = null;
         linkContent = null;
+        item = null;
     }
 
     $('.collect-1').click(function () {
