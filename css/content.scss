@@ -73,6 +73,9 @@ $color_post: #e05371;
     border-radius: 4px;
     opacity: .5;
     cursor: pointer;
+
+    z-index: 8080;
+
     &.collect-main{
       background-color:  $color_main;
     }

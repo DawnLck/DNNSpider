@@ -423,20 +423,21 @@ function showCollector() {
             _target = _btn.parent(),
             dom_level = 0,
             self = _target,
-            linkContent = [],
-            _innerText = _target.prop('innerText').replace(/(\n)?Spider(\n)?/gi, ''),
+            linkContent = [];
+
+        _btn.hide();
+
+        let _innerText = _target.prop('innerText').replace(/(\n)?Spider(\n)?/gi, ''),
             _innerTextLength = _innerText.length,
             _textDensity = _innerTextLength / _target.prop('innerHTML').length,
-            _textPercentage = _innerTextLength / $('.spider .main').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length;
-
+            _textMainPercentage = _innerTextLength / $('.spider .main').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length,
+            _textBodyPercentage = _innerTextLength / $('body').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length;
         // console.log(_innerText);
         // console.log(_target.text());
         // console.log($('.spider .main').text());
 
-        _btn.hide();
-
         while (true) {
-            if (self.hasClass('spider main') || self.is('body')) {
+            if (self.is('body')) {
                 break;
             } else {
                 self = self.parent();
@@ -450,13 +451,16 @@ function showCollector() {
         _target.find('a').each(function () {
             if (($(this).prop('offsetWidth') + $(this).prop('offsetHeight')) !== 0) {
                 let _href = $(this).attr('href');
-                // console.log($(this).prop('offsetWidth') + ' ' + $(this).prop('offsetHeight') + ' ' + _href);
-                if (_href && _href.indexOf('javascript:void(0)') && _href !== '#') {
+                console.log($(this).prop('offsetWidth') + ' ' + $(this).prop('offsetHeight') + ' ' + _href);
+                if (_href && _href.indexOf('javascript:void(0)') < 0 && _href !== '#') {
                     linkContent.push(_href);
                 }
                 _href = null;
             }
         });
+
+
+        console.log('ClassName: ' + _target.prop('className'));
 
         let offset = _target.offset();
         let item = {
@@ -465,6 +469,7 @@ function showCollector() {
             document_height: $(document).height(),
             meta_href: window.location.href,
             meta_domain: window.location.hostname.split('.')[1],
+            title: document.title,
 
             /* Property 属性 */
             // classList: _target.prop('classList'),
@@ -481,9 +486,10 @@ function showCollector() {
             dom_level: dom_level,
             childElementCount: (_target.prop('childElementCount') - 1),
             siblingsCount: _target.siblings().length,
-            innerText: _innerText,
+            innerText: _innerText.length < 1000 ? _innerText : 'Text too large ... ',
             textDensity: _textDensity,
-            textPercentage: _textPercentage,
+            textMainPercentage: _textMainPercentage,
+            textBodyPercentage: _textBodyPercentage,
             linkElementCount: _target.find('a').length,
             links: linkContent,
             imageElementCount: _target.find('img').length,
@@ -495,10 +501,22 @@ function showCollector() {
         console.log(item);
         console.log('Collect End .... ');
 
-        // $.get('http://localhost:8081/data/saveDom', item, function (callback) {
+        $.ajax({
+            //async : false,
+            traditional: true,
+            type: "post",
+            url: "http://localhost:8081/data/saveDom",
+            data: item,
+
+            success: function (callback) {
+                console.log(callback);
+                toastApp.makeToast('保存成功');
+            }
+        });
+        // $.post('http://localhost:8081/data/saveDom', item, function (callback) {
         //     console.log(callback);
         //     toastApp.makeToast('保存成功');
-        // });
+        // }, json);
 
         _btn = null;
         _target = null;
@@ -579,7 +597,6 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-
 function init() {
     // contentInit();
     // markMainArea();
@@ -593,3 +610,11 @@ function init() {
 // );
 
 init();
+
+// var t= 'http://www.tianya.cn/99835855';
+// if (t && t.indexOf('javascript:void(0)') && t !== '#') {
+//     console.log(t);
+// }
+// else{
+//     console.log(false);
+// }

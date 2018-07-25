@@ -47,7 +47,8 @@
     background: #2B637B;
     border-radius: 4px;
     opacity: .5;
-    cursor: pointer; }
+    cursor: pointer;
+    z-index: 8080; }
     .spider .collect-showBtn.collect-main {
       background-color: #E08031; }
     .spider .collect-showBtn.collect-post {
