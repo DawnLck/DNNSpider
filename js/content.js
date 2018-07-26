@@ -40,8 +40,13 @@ function markMainArea(callback) {
 
     $('div.spider.main').each(function () {
         if ($(this).find('.spider.main').length > 0) {
-            console.log('Unmark the main ... ');
-            $(this).removeClass('main');
+            let width = $(this).children('.spider.main').width();
+            if ($(this).width() < width * 1.05) {
+                $(this).children('.spider.main').removeClass('main');
+            } else {
+                $(this).removeClass('main');
+            }
+            // console.log('Unmark the main ... ');
         }
     });
     callback();
@@ -430,7 +435,7 @@ function showCollector() {
         let _innerText = _target.prop('innerText').replace(/(\n)?Spider(\n)?/gi, ''),
             _innerTextLength = _innerText.length,
             _textDensity = _innerTextLength / _target.prop('innerHTML').length,
-            _textMainPercentage = _innerTextLength / $('.spider .main').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length,
+            _textMainPercentage = _innerTextLength / $('.spider.main').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length,
             _textBodyPercentage = _innerTextLength / $('body').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length;
         // console.log(_innerText);
         // console.log(_target.text());
