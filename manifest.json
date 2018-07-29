@@ -1,7 +1,7 @@
 {
   //  插件名称、版本、配置文件版本、插件描述
   "name": "DNNSpider",
-  "version": "1.0.14",
+  "version": "1.1.1",
   "manifest_version": 2,
 
   //表示manifest自身的格式版本，Chrome18后强制使用版本2的manifest
@@ -31,8 +31,8 @@
     //后台运行的程序，可以理解为全局后台服务，这里也可以用html页面的方式配置
     "scripts": [
       "./node_modules/jquery/dist/jquery.min.js",
-      "./js/background.js",
-      "./js/modules/status.js"
+      "./js/background.js"
+//      "./js/modules/status.js"
     ],
     // "page": background.html 指定的运行在后台的页面
     // persistent 定义了常驻后台的方式,true表示扩展将会一直在后台运行，false表示将会按需运行，也就是Event Page

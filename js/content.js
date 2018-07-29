@@ -495,7 +495,9 @@ function showCollector() {
             textDensity: _textDensity,
             textMainPercentage: _textMainPercentage,
             textBodyPercentage: _textBodyPercentage,
-            linkElementCount: _target.find('a').length,
+
+            anchorMarkerCount: _target.find('a').length,
+            linkElementCount: linkContent.length,
             links: linkContent,
             imageElementCount: _target.find('img').length,
 

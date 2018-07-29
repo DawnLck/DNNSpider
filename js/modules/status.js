@@ -12,8 +12,8 @@ function httpRequest(url, callback){
     xhr.send();
 }
 
-setInterval(function(){
-    httpRequest('https://www.google.com/', function(status){
-        chrome.browserAction.setIcon({path: 'assets/icon/'+(status?'robot_48x48.png':'code_48x48.png')});
-    });
-},5000);
+// setInterval(function(){
+//     httpRequest('https://www.google.com/', function(status){
+//         chrome.browserAction.setIcon({path: 'assets/icon/'+(status?'robot_48x48.png':'code_48x48.png')});
+//     });
+// },5000);
