@@ -4,7 +4,8 @@ const GLOBAL = {
         primaryKeys: [
             'bbs',
             'BBS',
-            '论坛'
+            '论坛',
+            '贴吧'
         ],
         secondKeys: [
             '社区',
@@ -46,7 +47,7 @@ const GLOBAL = {
         ]
     },
     //生活服务类
-    service:{
+    service: {
         primaryKeys: [
             '新闻',
             '记者',
@@ -63,7 +64,7 @@ const GLOBAL = {
         ]
     },
     //电商网站类
-    o2o:{
+    o2o: {
         primaryKeys: [
             '新闻',
             '记者',

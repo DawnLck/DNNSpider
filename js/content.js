@@ -4,6 +4,7 @@
 let collectDom = function () {
     console.log('Collect Dom ....');
 };
+const rootFontSize = parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).fontSize);
 
 /* 标记主要区域 */
 function markMainArea(callback) {
@@ -11,8 +12,8 @@ function markMainArea(callback) {
     let _body = document.getElementsByTagName('body')[0],
         bodyWidth = _body.scrollWidth,
         bodyHeight = _body.scrollHeight,
-        bodyTextLength = _body.innerText.length,
-        rootFontSize = parseInt(window.getComputedStyle(_body).fontSize),
+        // bodyTextLength = _body.innerText.length,
+        // rootFontSize = parseInt(window.getComputedStyle(_body).fontSize),
         allDiv = $('div');
 
     console.log('Body { width:' + bodyWidth + ' height: ' + bodyHeight + ' }');
@@ -22,33 +23,44 @@ function markMainArea(callback) {
     allDiv.each(function () {
         let _width = $(this).width() / bodyWidth * 100.0;
         let _height = $(this).height() / bodyHeight * 100;
-        let _text = $(this).text();
-        let _textDensity = _text.length / bodyTextLength.length * 100;
+        let _text = $(this).text().length;
+        // let _textDensity = _text.length / bodyTextLength.length * 100;
 
-        if (_text) {
-            if (_width > 30 && _width < 96) {
+        if (_text && _width > 30 && _width < 96) {
+            if (_height > 60) {
+                $(this).addClass('spider spider-main');
+            } else if ($(this).height() > 2 * rootFontSize) {
                 $(this).addClass('spider');
-                if (_height > 60) {
-                    $(this).addClass('main');
-                } else if ($(this).height() < 2 * rootFontSize) {
-                    // console.log('Remove: ' + $(this).height());
-                    $(this).removeClass('spider');
-                }
+                // console.log('## Spider: ' + $(this).height() + ' ' + $(this).text());
+            } else {
+                // console.log('## Non-Spider: ' + $(this).height() + ' ' + $(this).text());
+                // console.log('Remove: ' + $(this).height());
+                // $(this).removeClass('spider');
+            }
+        }
+
+        _width = null;
+        _height = null;
+        _text = null;
+        // _textDensity = null;
+    });
+
+    $('div.spider-main').each(function () {
+        if ($(this).find('.spider-main').length > 0) {
+            let width = $(this).children('.spider-main').width();
+            if ($(this).width() < width * 1.05) {
+                $(this).children('.spider-main').removeClass('spider-main');
+            } else {
+                $(this).removeClass('spider-main');
             }
         }
     });
 
-    $('div.spider.main').each(function () {
-        if ($(this).find('.spider.main').length > 0) {
-            let width = $(this).children('.spider.main').width();
-            if ($(this).width() < width * 1.05) {
-                $(this).children('.spider.main').removeClass('main');
-            } else {
-                $(this).removeClass('main');
-            }
-            // console.log('Unmark the main ... ');
-        }
+    $('.spider-main').siblings().each(function () {
+        $(this).addClass('spider-nonMain');
+        console.log('Area Siblings ... ');
     });
+
     callback();
 }
 
@@ -56,31 +68,31 @@ function markMainArea(callback) {
 function markPostArea(callback) {
     console.log('Mark post area ... ');
 
-    let mainSelector = $('div.spider.main');
+    let mainSelector = $('div.spider-main');
     let mainWidth = mainSelector.width(),
         mainHeight = mainSelector.height();
-    console.log(mainWidth + ' ' + mainHeight);
+    // console.log(mainWidth + ' ' + mainHeight);
 
     mainSelector.parent().find('div.spider').each(function () {
         let _self = $(this);
         let _siblingsLength = $(this).siblings('.spider').length;
-        console.log('siblings Count: ' + _siblingsLength);
+        // console.log('siblings Count: ' + _siblingsLength);
         if (_siblingsLength > 6) {
-            $(this).parent().addClass('post');
+            $(this).parent().addClass('spider-post');
         }
 
         if (_self.width() / mainWidth * 100 > 70 && _self.height() / mainHeight * 100 > 50) {
             // console.log(_self.prop('childElementCount'));
             if (_self.children('.spider').length > 4) {
-                $(this).addClass('post');
+                $(this).addClass('spider-post');
             }
         }
     });
 
-    $('div.post').each(function () {
-        if ($(this).find('.spider.post').length > 0) {
+    $('.spider-post').each(function () {
+        if ($(this).find('.spider-post').length > 0) {
             console.log('Unmark the post ... ');
-            $(this).removeClass('post');
+            $(this).removeClass('spider-post');
         }
     });
 
@@ -92,10 +104,18 @@ function markListNode() {
     console.log('Mark list node ... ');
     let result = [];
 
-    $('div.post').children('.spider').each(function () {
+    $('.spider-post').children('.spider').each(function () {
         let _self = $(this);
         _self.addClass('listNode');
-        _self.children('div').addClass('spider');
+
+        // 考虑百度贴吧的两段式布局
+        _self.children('div').each(function () {
+            let _self = $(this);
+            if (_self.height() > 2 * rootFontSize && !_self.hasClass('spider')) {
+                _self.addClass('spider listNode_components');
+                // console.log('## Spider: ' + $(this).height() + ' ' + $(this).text());
+            }
+        });
 
         // let links = [];
         // $(this).find('a').each(function () {
@@ -130,7 +150,7 @@ function markAllContentDom() {
     //标记叶子节点以及初步筛选
     function markLeafNode(callback) {
         console.log('Mark Leaf Node ... ');
-        let mainDom = $('.spider.main'),
+        let mainDom = $('.spider-main'),
             mainWidth = mainDom.width();
 
         //标记
@@ -139,9 +159,9 @@ function markAllContentDom() {
             let _height = $(this).height();
             let _text = $(this).text();
 
-            console.log('_width: ' + _width);
-            console.log('_height: ' + _height);
-            console.log('_text: ' + _text + ' \n');
+            // console.log('_width: ' + _width);
+            // console.log('_height: ' + _height);
+            // console.log('_text: ' + _text + ' \n');
 
             if (_text) {
                 if (_width > 30 && _width < 96 && _text.length > 0 && _height > 3) {
@@ -177,13 +197,13 @@ function markAllContentDom() {
         // }
 
         $('div.leaf').each(function () {
-            console.log($(this).text());
+            // console.log($(this).text());
             let _parent = $(this).parent();
-            console.log(_parent.children('.leaf').length);
+            // console.log(_parent.children('.leaf').length);
             //listNode节点所包含的叶子节点数必须大于等于两个
             if (_parent.children('.leaf').length >= 2) {
-                console.log(_parent.text());
-                console.log(_parent.children('.leaf').length);
+                // console.log(_parent.text());
+                // console.log(_parent.children('.leaf').length);
                 _parent.addClass('listNode marked');
 
                 if (_parent.find('.collect-btn').length > 0) {
@@ -235,6 +255,8 @@ function calculateWeights(count, text, weight) {
             }
         }
     }
+    // console.log('######### ' + text + ' ########');
+    // console.log(count);
     return count;
 }
 
@@ -266,7 +288,7 @@ function pageClassify(display) {
         // console.log('基于内容进行第二次网页分类 ... ');
         console.log('The second classify based on content ... ');
 
-        result = calculateWeights(result, $('body').text());
+        result = calculateWeights(result, $('body').prop('innerText'), 1);
     }
 
     let category = 'bbs';
@@ -393,9 +415,9 @@ function showCollector() {
             '</div>' +
             '</div>');
 
-        if ($(this).hasClass('post')) {
+        if ($(this).hasClass('spider-post')) {
             $(this).find('.collect-showBtn').addClass('collect-post');
-        } else if ($(this).hasClass('main')) {
+        } else if ($(this).hasClass('spider-main')) {
             $(this).find('.collect-showBtn').addClass('collect-main');
         } else {
         }
@@ -435,7 +457,7 @@ function showCollector() {
         let _innerText = _target.prop('innerText').replace(/(\n)?Spider(\n)?/gi, ''),
             _innerTextLength = _innerText.length,
             _textDensity = _innerTextLength / _target.prop('innerHTML').length,
-            _textMainPercentage = _innerTextLength / $('.spider.main').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length,
+            _textMainPercentage = _innerTextLength / $('.spider-main').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length,
             _textBodyPercentage = _innerTextLength / $('body').prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length;
         // console.log(_innerText);
         // console.log(_target.text());
@@ -468,6 +490,7 @@ function showCollector() {
         console.log('ClassName: ' + _target.prop('className'));
 
         let offset = _target.offset();
+        let bias = cate === 'postItem' ? 4 : 0;
         let item = {
             /* meta信息 */
             document_width: $(document).width(),
@@ -479,8 +502,8 @@ function showCollector() {
             /* Property 属性 */
             // classList: _target.prop('classList'),
             classList: _target.prop('className').split('spider')[0].trim().split(' '),
-            offsetTop: _target.prop('offsetTop'),
-            offsetLeft: _target.prop('offsetLeft'),
+            offsetTop: _target.prop('offsetTop') + bias,
+            offsetLeft: _target.prop('offsetLeft') + bias,
 
             realTop: offset.top,
             realLeft: offset.left,
@@ -607,7 +630,7 @@ chrome.runtime.onMessage.addListener(
 function init() {
     // contentInit();
     // markMainArea();
-    // pageClassify();
+    // pageClassify(true);
 }
 
 // $('.collect-btn').click(function () {

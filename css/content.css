@@ -1,11 +1,11 @@
 /* content.css */
 .spider {
   position: relative; }
-  .spider.main {
+  .spider.spider-main {
     box-sizing: border-box;
     border: 1px solid #E08031 !important;
     position: relative; }
-  .spider.post {
+  .spider.spider-post {
     box-sizing: border-box;
     border: 1px solid #e05371 !important;
     position: relative; }
@@ -31,6 +31,8 @@
     box-sizing: border-box;
     border: 1px dashed #a94442 !important; }
   .spider.listNode {
+    width: auto;
+    margin: -4px;
     border: 1px solid #ACDA9E !important;
     box-sizing: border-box; }
   .spider .collect-showBtn {
@@ -81,6 +83,8 @@
       border: none; }
   .spider.collect-hover {
     border: 2px #2B637B solid !important; }
+  .spider .listNode_components {
+    box-sizing: border-box; }
 
 .spider-toast.toast {
   text-align: left;
@@ -145,5 +149,8 @@
 @keyframes toast {
   0% {
     transform: translateY(-1000px); } }
+.spider-nonMain {
+  box-sizing: border-box;
+  border: 2px solid #8990dd !important; }
 
 /*# sourceMappingURL=content.css.map */
