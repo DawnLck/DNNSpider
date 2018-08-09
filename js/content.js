@@ -29,7 +29,7 @@ function markMainArea(callback) {
         if (_text && _width > 30 && _width < 96) {
             if (_height > 60) {
                 $(this).addClass('spider spider-main');
-            } else if ($(this).height() > 2 * rootFontSize) {
+            } else if ($(this).height() > rootFontSize) {
                 $(this).addClass('spider');
                 // console.log('## Spider: ' + $(this).height() + ' ' + $(this).text());
             } else {
@@ -78,13 +78,11 @@ function markPostArea(callback) {
         let _siblingsLength = $(this).siblings('.spider').length;
         // console.log('siblings Count: ' + _siblingsLength);
         if (_siblingsLength > 6) {
-            $(this).parent().addClass('spider-post');
-        }
-
-        if (_self.width() / mainWidth * 100 > 70 && _self.height() / mainHeight * 100 > 50) {
+            $(this).parent().addClass('spider spider-post');
+        } else if (_self.width() / mainWidth * 100 > 70 && _self.height() / mainHeight * 100 > 50) {
             // console.log(_self.prop('childElementCount'));
             if (_self.children('.spider').length > 4) {
-                $(this).addClass('spider-post');
+                $(this).addClass('spider spider-post');
             }
         }
     });
