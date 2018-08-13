@@ -81,10 +81,16 @@ $color_post: #e05371;
     z-index: 8080;
 
     &.collect-main{
+      z-index: 9090;
       background-color:  $color_main;
     }
     &.collect-post{
+      z-index: 9091;
       background-color:  $color_post;
+    }
+    &.collect-listNode{
+      z-index: 9090;
+      background-color:  $color_leaf;
     }
     &:hover{
       opacity: 1;

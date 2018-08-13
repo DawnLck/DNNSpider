@@ -8,6 +8,7 @@ const rootFontSize = parseInt(window.getComputedStyle(document.getElementsByTagN
 
 /* 标记主要区域 */
 function markMainArea(callback) {
+    Timer.start("mainMark");
     console.log('Mark main area ... ');
     let _body = document.getElementsByTagName('body')[0],
         bodyWidth = _body.scrollWidth,
@@ -45,47 +46,99 @@ function markMainArea(callback) {
         // _textDensity = null;
     });
 
+    //
+    // function filterMain(node) {
+    //     node.children().each(function () {
+    //         let _self = $(this);
+    //         if(_self.hasClass('spider-main')){
+    //             filterMain(_self);
+    //             let _parent = _self.parent();
+    //             if(_self.width() * 1.1 > _parent.width()){
+    //                 _self.removeClass('spider-main');
+    //             }else{
+    //                 _parent.removeClass('spider-main');
+    //             }
+    //         }
+    //     });
+    // }
+    // filterMain($('body'));
+
+// test
+
+    $('div.spider-main').each(function () {
+        let _self = $(this);
+        let _parent = _self.parent();
+        if (_self.width() * 1.1 > _parent.width()) {
+            _self.removeClass('spider-main');
+        }
+    });
+
     $('div.spider-main').each(function () {
         if ($(this).find('.spider-main').length > 0) {
-            let width = $(this).children('.spider-main').width();
-            if ($(this).width() < width * 1.05) {
-                $(this).children('.spider-main').removeClass('spider-main');
-            } else {
-                $(this).removeClass('spider-main');
-            }
+            $(this).removeClass('spider-main');
         }
     });
 
     $('.spider-main').siblings().each(function () {
         $(this).addClass('spider-nonMain');
-        console.log('Area Siblings ... ');
+        // console.log('Area Siblings ... ');
     });
+
+    Timer.stop("mainMark");
+    console.log("The main Mark time is: " + Timer.getTime('mainMark'));
 
     callback();
 }
 
 /* 标记帖子区域 */
 function markPostArea(callback) {
+    Timer.start("markPost");
     console.log('Mark post area ... ');
 
-    let mainSelector = $('div.spider-main');
+    let mainSelector = $('.spider-main');
     let mainWidth = mainSelector.width(),
         mainHeight = mainSelector.height();
     // console.log(mainWidth + ' ' + mainHeight);
 
-    mainSelector.parent().find('div.spider').each(function () {
-        let _self = $(this);
-        let _siblingsLength = $(this).siblings('.spider').length;
-        // console.log('siblings Count: ' + _siblingsLength);
-        if (_siblingsLength > 6) {
-            $(this).parent().addClass('spider spider-post');
-        } else if (_self.width() / mainWidth * 100 > 70 && _self.height() / mainHeight * 100 > 50) {
-            // console.log(_self.prop('childElementCount'));
-            if (_self.children('.spider').length > 4) {
-                $(this).addClass('spider spider-post');
+    mainSelector.addClass('spider-content');
+
+    function markContentNode(self) {
+        self.children().each(function () {
+            let _self = $(this),
+                _height = _self.height();
+            if (_self.width() / mainWidth * 100 > 70 && _height > rootFontSize) {
+                _self.addClass('spider spider-content');
+                // console.log('Mark Content Node ...');
+                if (_height / mainHeight * 100 > 50 && _self.children().length > 6) {
+                    _self.addClass('spider-post');
+                }
             }
-        }
-    });
+            markContentNode(_self);
+        })
+    }
+
+    markContentNode(mainSelector);
+
+    // mainSelector.parent().find('.spider-content').each(function () {
+    //     let _self = $(this);
+    //     if (_self.height() / mainHeight * 100 > 50) {
+    //         let _childrenLength = _self.children().length;
+    //         if (_childrenLength > 3) {
+    //             _self.addClass('spider-post');
+    //         }
+    //     }
+    //
+    //     //
+    //     // // console.log('siblings Count: ' + _siblingsLength);
+    //     // if (_siblingsLength > 6) {
+    //     //     $(this).parent().addClass('spider spider-post');
+    //     // } else if (_self.width() / mainWidth * 100 > 70 && _self.height() / mainHeight * 100 > 50) {
+    //     //     // console.log(_self.prop('childElementCount'));
+    //     //     if (_self.children('.spider').length > 4) {
+    //     //         $(this).addClass('spider spider-post');
+    //     //     }
+    //     // }
+    // });
 
     $('.spider-post').each(function () {
         if ($(this).find('.spider-post').length > 0) {
@@ -94,20 +147,24 @@ function markPostArea(callback) {
         }
     });
 
+    Timer.stop("markPost");
+    console.log("The post mark time is: " + Timer.getTime('markPost'));
+
     callback();
 }
 
 /* 标记列表节点 */
 function markListNode() {
+    Timer.start("markList");
     console.log('Mark list node ... ');
-    let result = [];
+    // let result = [];
 
-    $('.spider-post').children('.spider').each(function () {
+    $('.spider-post').children('.spider-content').each(function () {
         let _self = $(this);
         _self.addClass('listNode');
 
         // 考虑百度贴吧的两段式布局
-        _self.children('div').each(function () {
+        _self.children().each(function () {
             let _self = $(this);
             if (_self.height() > 2 * rootFontSize && !_self.hasClass('spider')) {
                 _self.addClass('spider listNode_components');
@@ -138,7 +195,10 @@ function markListNode() {
         // });
     });
 
-    console.log(result);
+    Timer.stop("markList");
+    console.log("The post mark time is: " + Timer.getTime('markList'));
+
+    // console.log(result);
 }
 
 /* 标记所有文本节点 */
@@ -231,6 +291,7 @@ function markAllContentDom() {
 /* 取消所有节点的标记 */
 function markUndo() {
     console.log('取消所有节点的标记...');
+    $('.spider .collect-showBtn').remove();
     $('.spider').removeClass('spider');
 }
 
@@ -374,7 +435,7 @@ toastApp.init();
 function saveCurrentPage() {
     console.log('Save the current page');
     let item = pageClassify(false);
-    $.get('http://localhost:8081/data/savePage', item, function (callback) {
+    $.get('http://liangck.com:8081/data/savePage', item, function (callback) {
         console.log(callback);
         toastApp.makeToast('保存成功');
     });
@@ -403,7 +464,8 @@ function autoRefresh() {
 
 function showCollector() {
     $('.spider').each(function () {
-        $(this).append('<div class="collect-showBtn">' +
+        let _self = $(this);
+        _self.append('<div class="collect-showBtn">' +
             '<div>Spider</div>' +
             '<div class="collect-btn">' +
             '<div class="collect-1 collect-item"> 主要节点 </div>' +
@@ -413,17 +475,21 @@ function showCollector() {
             '</div>' +
             '</div>');
 
-        if ($(this).hasClass('spider-post')) {
-            $(this).find('.collect-showBtn').addClass('collect-post');
-        } else if ($(this).hasClass('spider-main')) {
-            $(this).find('.collect-showBtn').addClass('collect-main');
+        let _showBtn = _self.find('.collect-showBtn');
+        if (_self.hasClass('spider-post')) {
+            _showBtn.addClass('collect-post');
+        } else if (_self.hasClass('spider-main')) {
+            _showBtn.addClass('collect-main');
+        } else if (_self.hasClass('listNode')) {
+            _showBtn.addClass('collect-listNode');
         } else {
+
         }
 
-        $(this).hover(function (e) {
+        _self.hover(function (e) {
             e.stopPropagation();
             e.stopImmediatePropagation();
-            $(this).addClass('collect-hover');
+            _self.addClass('collect-hover');
 
             // if($(this).find('.collect-hover').length){
             //     console.log('Find collect-hover');
@@ -435,7 +501,7 @@ function showCollector() {
         }, function (e) {
             e.stopPropagation();
             e.stopImmediatePropagation();
-            $(this).removeClass('collect-hover');
+            _self.removeClass('collect-hover');
             // if($(this).children('.collect-btn').hasClass('collect-hover')){
             //     $(this).children('.collect-btn').removeClass('collect-hover');
             // }
@@ -446,6 +512,7 @@ function showCollector() {
     function saveDom(ele, cate) {
         let _btn = ele.parent().parent(),
             _target = _btn.parent(),
+            _parent = _target.parent(),
             dom_level = 0,
             self = _target,
             linkContent = [];
@@ -500,27 +567,39 @@ function showCollector() {
             /* Property 属性 */
             // classList: _target.prop('classList'),
             classList: _target.prop('className').split('spider')[0].trim().split(' '),
+
             offsetTop: _target.prop('offsetTop') + bias,
             offsetLeft: _target.prop('offsetLeft') + bias,
 
             realTop: offset.top,
             realLeft: offset.left,
 
-            width: _target.prop('scrollWidth'),
-            height: _target.prop('scrollHeight'),
+            width: _target.prop('offsetWidth'),
+            height: _target.prop('offsetHeight'),
 
             dom_level: dom_level,
             childElementCount: (_target.prop('childElementCount') - 1),
             siblingsCount: _target.siblings().length,
             innerText: _innerText.length < 1000 ? _innerText : 'Text too large ... ',
+
             textDensity: _textDensity,
             textMainPercentage: _textMainPercentage,
             textBodyPercentage: _textBodyPercentage,
 
             anchorMarkerCount: _target.find('a').length,
+
             linkElementCount: linkContent.length,
             links: linkContent,
+
             imageElementCount: _target.find('img').length,
+
+            /* parent Prop */
+            relativeTextPercentage: _innerTextLength / _parent.prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length,
+
+            parentWidth: _parent.prop('offsetWidth'),
+            parentHeight: _parent.prop('offsetHeight'),
+            parentAnchorMarkerCount: _parent.find('a').length,
+            parentImageCount: _parent.find('img').length,
 
             /* category */
             dom_category: cate
@@ -533,7 +612,7 @@ function showCollector() {
             //async : false,
             traditional: true,
             type: "post",
-            url: "http://localhost:8081/data/saveDom",
+            url: "http://liangck.com:8081/data/saveDom",
             data: item,
 
             success: function (callback) {

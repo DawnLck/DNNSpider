@@ -52,9 +52,14 @@
     cursor: pointer;
     z-index: 8080; }
     .spider .collect-showBtn.collect-main {
+      z-index: 9090;
       background-color: #E08031; }
     .spider .collect-showBtn.collect-post {
+      z-index: 9091;
       background-color: #e05371; }
+    .spider .collect-showBtn.collect-listNode {
+      z-index: 9090;
+      background-color: #ACDA9E; }
     .spider .collect-showBtn:hover {
       opacity: 1; }
       .spider .collect-showBtn:hover .collect-btn {
