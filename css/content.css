@@ -76,6 +76,7 @@
     line-height: 30px;
     font-size: 14px; }
     .spider .collect-btn .collect-item {
+      min-width: 3rem;
       padding: 0 1rem;
       display: inline-flex;
       border-bottom: whitesmoke 2px solid;

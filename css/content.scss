@@ -118,6 +118,7 @@ $color_post: #e05371;
     //box-shadow: 0 0 0 2px rgba(255, 255, 255, .2);
     //border-radius: 2px;
     .collect-item{
+      min-width: 3rem;
       padding: 0 1rem;
       display: inline-flex;
       border-bottom: whitesmoke 2px solid;

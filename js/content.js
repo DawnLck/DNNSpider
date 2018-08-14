@@ -4,7 +4,9 @@
 let collectDom = function () {
     console.log('Collect Dom ....');
 };
-const rootFontSize = parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).fontSize);
+const rootFontSize = parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).fontSize),
+    protocol = document.location.protocol,
+    port = protocol === 'https:' ? 8082 : 8081;
 
 /* 标记主要区域 */
 function markMainArea(callback) {
@@ -435,7 +437,7 @@ toastApp.init();
 function saveCurrentPage() {
     console.log('Save the current page');
     let item = pageClassify(false);
-    $.get('http://liangck.com:8081/data/savePage', item, function (callback) {
+    $.get(protocol + '//liangck.com:' + port + '/data/savePage', item, function (callback) {
         console.log(callback);
         toastApp.makeToast('保存成功');
     });
@@ -612,7 +614,7 @@ function showCollector() {
             //async : false,
             traditional: true,
             type: "post",
-            url: "http://liangck.com:8081/data/saveDom",
+            url: protocol + "//liangck.com:" + port + "/data/saveDom",
             data: item,
 
             success: function (callback) {
