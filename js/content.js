@@ -29,7 +29,7 @@ function markMainArea(callback) {
         let _text = $(this).text().length;
         // let _textDensity = _text.length / bodyTextLength.length * 100;
 
-        if (_text && _width > 30 && _width < 98) {
+        if (_text && _width > 30) {
             if (_height > 60) {
                 console.log(_width + ' ' + _height);
                 $(this).addClass('spider spider-main');
@@ -101,33 +101,40 @@ function markPostArea(callback) {
     let mainSelector = $('.spider-main');
     let mainWidth = mainSelector.width(),
         mainHeight = mainSelector.height();
-    // console.log(mainWidth + ' ' + mainHeight);
+    console.log(mainWidth + ' ' + mainHeight);
 
     mainSelector.addClass('spider-content');
 
     function markContentNode(self) {
         self.children().each(function () {
+            markContentNode($(this));
             let _self = $(this),
                 _width = _self.width(),
                 _height = _self.height();
+
             if ((_width / mainWidth * 100 > 70 && _height > rootFontSize)) {
                 _self.addClass('spider spider-content');
                 // console.log('Mark Content Node ...');
-                if (_height / mainHeight * 100 > 50 && _self.children('.spider-content').length > 6) {
+                if (_height / mainHeight * 100 > 50 && _self.children().length > 3) {
                     _self.addClass('spider-post');
                 }
             }
-            markContentNode(_self);
         })
     }
 
-    markContentNode(mainSelector);
+    // function markPostNode(self){
+    //     self.children().each(function () {
+    //         let _self = $(this),
+    //             // _width = _self.width(),
+    //             _height = _self.height();
+    //         if (_height / mainHeight * 100 > 50 && _self.children('.spider-content').length > 3) {
+    //             _self.addClass('spider-post');
+    //         }
+    //     });
+    // }
 
-    if (mainSelector.find('.spider-post').length === 0) {
-        if (mainSelector.children('.spider-content').length > 6) {
-            mainSelector.addClass('spider-post');
-        }
-    }
+    markContentNode(mainSelector);
+    // markPostNode(mainSelector);
 
     // mainSelector.parent().find('.spider-content').each(function () {
     //     let _self = $(this);
@@ -157,10 +164,14 @@ function markPostArea(callback) {
         }
     });
 
-    if(mainSelector.hasClass('spider-post')){
-        mainSelector.parent().addClass('spider spider-main');
-        mainSelector.removeClass('spider-main');
-    }
+    // if (mainSelector.find('.spider-post').length === 0) {
+    //     console.log('Main && Post');
+    //     if (mainSelector.children('.spider-content').length > 6) {
+    //         mainSelector.addClass('spider-post');
+    //     }
+    //     mainSelector.parent().addClass('spider spider-main');
+    //     mainSelector.removeClass('spider-main');
+    // }
 
     Timer.stop("markPost");
     console.log("The post mark time is: " + Timer.getTime('markPost'));
