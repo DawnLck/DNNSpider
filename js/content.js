@@ -29,8 +29,9 @@ function markMainArea(callback) {
         let _text = $(this).text().length;
         // let _textDensity = _text.length / bodyTextLength.length * 100;
 
-        if (_text && _width > 30 && _width < 96) {
+        if (_text && _width > 30 && _width < 98) {
             if (_height > 60) {
+                console.log(_width + ' ' + _height);
                 $(this).addClass('spider spider-main');
             } else if ($(this).height() > rootFontSize) {
                 $(this).addClass('spider');
@@ -70,7 +71,7 @@ function markMainArea(callback) {
     $('div.spider-main').each(function () {
         let _self = $(this);
         let _parent = _self.parent();
-        if (_self.width() * 1.1 > _parent.width()) {
+        if (_parent.hasClass('spider') && _self.width() * 1.1 > _parent.width()) {
             _self.removeClass('spider-main');
         }
     });
@@ -107,11 +108,12 @@ function markPostArea(callback) {
     function markContentNode(self) {
         self.children().each(function () {
             let _self = $(this),
+                _width = _self.width(),
                 _height = _self.height();
-            if (_self.width() / mainWidth * 100 > 70 && _height > rootFontSize) {
+            if ((_width / mainWidth * 100 > 70 && _height > rootFontSize)) {
                 _self.addClass('spider spider-content');
                 // console.log('Mark Content Node ...');
-                if (_height / mainHeight * 100 > 50 && _self.children().length > 6) {
+                if (_height / mainHeight * 100 > 50 && _self.children('.spider-content').length > 6) {
                     _self.addClass('spider-post');
                 }
             }
@@ -120,6 +122,12 @@ function markPostArea(callback) {
     }
 
     markContentNode(mainSelector);
+
+    if (mainSelector.find('.spider-post').length === 0) {
+        if (mainSelector.children('.spider-content').length > 6) {
+            mainSelector.addClass('spider-post');
+        }
+    }
 
     // mainSelector.parent().find('.spider-content').each(function () {
     //     let _self = $(this);
@@ -149,6 +157,11 @@ function markPostArea(callback) {
         }
     });
 
+    if(mainSelector.hasClass('spider-post')){
+        mainSelector.parent().addClass('spider spider-main');
+        mainSelector.removeClass('spider-main');
+    }
+
     Timer.stop("markPost");
     console.log("The post mark time is: " + Timer.getTime('markPost'));
 
@@ -162,17 +175,38 @@ function markListNode() {
     // let result = [];
 
     $('.spider-post').children('.spider-content').each(function () {
-        let _self = $(this);
+        let _self = $(this),
+            _leafWidth = _self.width(),
+            _leafHeight = _self.height();
         _self.addClass('listNode');
 
+        function markLeafComponents(self) {
+            self.children().each(function () {
+                let _s = $(this),
+                    _width = _s.width() / _leafWidth * 100.0,
+                    _height = _s.height() / _leafHeight * 100.0;
+
+                if ((_s.width() > 12 && _height > 70) || (_s.height() > 12 && _width > 70)) {
+                    _s.addClass('spider listNode_components');
+                    markLeafComponents(_s);
+                }
+
+                _width = null;
+                _height = null;
+                _s = null;
+            })
+        }
+
+        markLeafComponents(_self);
+
         // 考虑百度贴吧的两段式布局
-        _self.children().each(function () {
-            let _self = $(this);
-            if (_self.height() > 2 * rootFontSize && !_self.hasClass('spider')) {
-                _self.addClass('spider listNode_components');
-                // console.log('## Spider: ' + $(this).height() + ' ' + $(this).text());
-            }
-        });
+        // _self.children().each(function () {
+        //     let _self = $(this);
+        //     if (_self.height() > 2 * rootFontSize && !_self.hasClass('spider')) {
+        //         _self.addClass('spider listNode_components');
+        //         // console.log('## Spider: ' + $(this).height() + ' ' + $(this).text());
+        //     }
+        // });
 
         // let links = [];
         // $(this).find('a').each(function () {
