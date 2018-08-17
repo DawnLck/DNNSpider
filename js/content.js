@@ -115,7 +115,7 @@ function markPostArea(callback) {
             if ((_width / mainWidth * 100 > 70 && _height > rootFontSize)) {
                 _self.addClass('spider spider-content');
                 // console.log('Mark Content Node ...');
-                if (_height / mainHeight * 100 > 50 && _self.children().length > 3) {
+                if (_height / mainHeight * 100 > 70 && _self.children('.spider-content').length > 5) {
                     _self.addClass('spider-post');
                 }
             }
@@ -511,16 +511,20 @@ function autoRefresh() {
 
 function showCollector() {
     $('.spider').each(function () {
-        let _self = $(this);
-        _self.append('<div class="collect-showBtn">' +
-            '<div>Spider</div>' +
-            '<div class="collect-btn">' +
-            '<div class="collect-1 collect-item"> 主要节点 </div>' +
-            '<div class="collect-2 collect-item"> 帖子区域节点 </div>' +
-            '<div class="collect-3 collect-item"> 帖子叶子节点 </div>' +
-            '<div class="collect-4 collect-item"> 帖子作者节点 </div>' +
-            '</div>' +
-            '</div>');
+        let _self = $(this),
+            _btnHtml = '<div class="collect-showBtn">' +
+                '<div>Spider</div>' +
+                '<div class="collect-btn">' +
+                '<div class="collect-1 collect-item"> 主要节点 </div>' +
+                '<div class="collect-2 collect-item"> 帖子区域节点 </div>' +
+                '<div class="collect-3 collect-item"> 帖子叶子节点 </div>' +
+                '<div class="collect-4 collect-item"> 帖子作者节点 </div>' +
+                '</div>' +
+                '</div>';
+        if (_self.prop('tagName') === 'TR') {
+            _btnHtml = '<td style="width: 0">' + _btnHtml + '</td>';
+        }
+        _self.append(_btnHtml);
 
         let _showBtn = _self.find('.collect-showBtn');
         if (_self.hasClass('spider-post')) {
@@ -613,6 +617,7 @@ function showCollector() {
 
             /* Property 属性 */
             // classList: _target.prop('classList'),
+            id: _target.prop('id'),
             classList: _target.prop('className').split('spider')[0].trim().split(' '),
 
             offsetTop: _target.prop('offsetTop') + bias,
