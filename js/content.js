@@ -4,10 +4,13 @@
 let collectDom = function () {
     console.log('Collect Dom ....');
 };
+
 const rootFontSize = parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).fontSize),
     MIN_HEIGHT = 2 * rootFontSize,
     protocol = document.location.protocol,
-    port = protocol === 'https:' ? 8082 : 8081;
+    port = protocol === 'https:' ? 8082 : 8081,
+    SAVE_PAGE  = '/data/saveTestPage',
+    SAVE_DOM = '/data/saveTestDom';
 
 /* 标记主要区域 */
 function markMainArea(callback) {
@@ -191,7 +194,7 @@ function markListNode() {
         let _self = $(this),
             _leafWidth = _self.width(),
             _leafHeight = _self.height(),
-            _date = _self.prop('innerText').match(DATE_REG);
+            _date = _self.prop('innerHTML').match(DATE_REG);
 
         console.log(_date);
 
@@ -490,7 +493,7 @@ toastApp.init();
 function saveCurrentPage() {
     console.log('Save the current page');
     let item = pageClassify(false);
-    $.get(protocol + '//liangck.com:' + port + '/data/savePage', item, function (callback) {
+    $.get(protocol + '//liangck.com:' + port + SAVE_PAGE, item, function (callback) {
         console.log(callback);
         toastApp.makeToast('保存成功');
     });
@@ -672,7 +675,7 @@ function showCollector() {
             //async : false,
             traditional: true,
             type: "post",
-            url: protocol + "//liangck.com:" + port + "/data/saveDom",
+            url: protocol + "//liangck.com:" + port + SAVE_DOM,
             data: item,
 
             success: function (callback) {
@@ -695,7 +698,8 @@ function showCollector() {
         _innerText = null;
         _innerTextLength = null;
         _textDensity = null;
-        _textPercentage = null;
+        _textMainPercentage = null;
+        _textBodyPercentage = null;
     }
 
     $('.collect-1').click(function () {
