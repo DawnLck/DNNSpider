@@ -137,7 +137,7 @@ function markPostArea(callback) {
     //     });
     // }
 
-    markContentNode(mainSelector);
+    markContentNode(mainSelector.parent());
     // markPostNode(mainSelector);
 
     // mainSelector.parent().find('.spider-content').each(function () {
@@ -372,8 +372,6 @@ function calculateWeights(count, text, weight) {
             }
         }
     }
-    // console.log('######### ' + text + ' ########');
-    // console.log(count);
     return count;
 }
 
@@ -655,6 +653,11 @@ function showCollector() {
             links: linkContent,
 
             imageElementCount: _target.find('img').length,
+
+            /* CSS prop */
+            font_size: _target.css('font-size'),
+            line_height: _target.css('line_height'),
+            // font_color: _target.css('color'),
 
             /* parent Prop */
             relativeTextPercentage: _innerTextLength / _parent.prop('innerText').replace(/(\n)?Spider(\n)?/gi, '').length,
