@@ -1,5 +1,6 @@
 /* Content.js 匹配页面注入代码
 * */
+const DATE_REG = /\d{4}-\d{2}-\d{2}|((\d{4})年)?(\d{1,2})月(\d{1,2})日|\d{2}:\d{2}/;
 
 let collectDom = function () {
     console.log('Collect Dom ....');
@@ -9,7 +10,7 @@ const rootFontSize = parseInt(window.getComputedStyle(document.getElementsByTagN
     MIN_HEIGHT = 2 * rootFontSize,
     protocol = document.location.protocol,
     port = protocol === 'https:' ? 8082 : 8081,
-    SAVE_PAGE  = '/data/saveTestPage',
+    SAVE_PAGE = '/data/saveTestPage',
     SAVE_DOM = '/data/saveTestDom';
 
 /* 标记主要区域 */
@@ -114,11 +115,11 @@ function markPostArea(callback) {
             markContentNode($(this));
             let _self = $(this),
                 _width = _self.width(),
-                _height = _self.height();
+                _height = _self.height(),
+                _date = _self.prop('innerHTML').match(DATE_REG);
 
-            if ((_width / mainWidth * 100 > 70 && _height > MIN_HEIGHT)) {
+            if (_date && (_width / mainWidth * 100 > 70 && _height > MIN_HEIGHT)) {
                 _self.addClass('spider spider-content');
-                // console.log('Mark Content Node ...');
                 if (_height / mainHeight * 100 > 50 && _self.children('.spider-content').length > 5) {
                     _self.addClass('spider-post');
                 }
@@ -188,13 +189,11 @@ function markListNode() {
     Timer.start("markList");
     console.log('Mark list node ... ');
     // let result = [];
-    const DATE_REG = /\d{4}-\d{2}-\d{2}|((\d{4})年)?(\d{1,2})月(\d{1,2})日|\d{2}:\d{2}/;
 
     $('.spider-post').children('.spider-content').each(function () {
         let _self = $(this),
             _leafWidth = _self.width(),
-            _leafHeight = _self.height(),
-            _date = _self.prop('innerHTML').match(DATE_REG);
+            _leafHeight = _self.height();
 
         console.log(_date);
 
@@ -379,17 +378,14 @@ function calculateWeights(count, text, weight) {
 function pageClassify(display) {
     console.log('... 网页分类 ...');
 
-    // console.log('Get Location Href ... ');
-    // let location = window.location.href;
-    // console.log(location);
-
-    let title = document.title;
-    let keywords = $('meta[name="keywords"]').attr('content');
-    let description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
+    let title = document.title,
+        hostname = window.location.hostname,
+        keywords = $('meta[name="keywords"]').attr('content'),
+        description = $('meta[name="description"]').attr('content') || $('meta[name="Description"]').attr('content');
     let result = {
-        bbs: 0,
-        articles: 0,
-        news: 0
+        bbs: hostname.indexOf('bbs') > -1 ? 1000 : 0,
+        articles: hostname.indexOf('articles') > -1 ? 1000 : 0,
+        news: hostname.indexOf('news') > -1 ? 1000 : 0
     };
     console.log(title);
     console.log(keywords);
@@ -431,7 +427,7 @@ function pageClassify(display) {
     return {
         title: title,
         url: window.location.href,
-        domain: window.location.hostname.split('.')[1],
+        domain: hostname.split('.')[1],
         category: category,
         meta_keyword: keywords,
         meta_description: description,
@@ -688,7 +684,7 @@ function showCollector() {
         });
         // $.post('http://localhost:8081/data/saveDom', item, function (callback) {
         //     console.log(callback);
-        //     toastApp.makeToast('保存成功');
+        //     toastApp.makeToast('保存 成功');
         // }, json);
 
         _btn = null;
