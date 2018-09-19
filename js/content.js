@@ -111,20 +111,30 @@ function markPostArea(callback) {
     mainSelector.addClass('spider-content');
 
     function markContentNode(self) {
+        // console.log('Mark Content Node ...');
+
         self.children().each(function () {
             markContentNode($(this));
             let _self = $(this),
-                _width = _self.width(),
-                _height = _self.height(),
+                _width = _self.prop('offsetWidth'),
+                _height = _self.prop('offsetHeight'),
                 _date = _self.prop('innerHTML').match(DATE_REG);
-
-            if (_date && (_width / mainWidth * 100 > 70 && _height > MIN_HEIGHT)) {
+            if (_width / mainWidth * 100 > 70 && _height > MIN_HEIGHT && (_date || _self.siblings('.spider-content'))) {
+                console.log('SPIDER_CONTENT: ' + _width + ' ' + _height + ' ' + _self.prop('tagName'));
                 _self.addClass('spider spider-content');
-                if (_height / mainHeight * 100 > 50 && _self.children('.spider-content').length > 5) {
-                    _self.addClass('spider-post');
-                }
+            } else {
+                // if(_width / mainWidth * 100 > 70 && _height > MIN_HEIGHT){
+                //     console.log('#################');
+                //     console.log('SPIDER-CONTENT: ' + _self.prop('innerText').substring(0, 10));
+                //     console.log(_date);
+                //     console.log(_self.prop('innerHTML'));
+                //     console.log('#################');
+                // }
             }
-        })
+        });
+        if (self.prop('offsetHeight') / mainHeight * 100.0 > 70 && self.children('.spider-content').length > 5) {
+            self.addClass('spider-post');
+        }
     }
 
     // function markPostNode(self){
@@ -138,7 +148,7 @@ function markPostArea(callback) {
     //     });
     // }
 
-    markContentNode(mainSelector.parent());
+    markContentNode(mainSelector);
     // markPostNode(mainSelector);
 
     // mainSelector.parent().find('.spider-content').each(function () {
@@ -192,33 +202,31 @@ function markListNode() {
 
     $('.spider-post').children('.spider-content').each(function () {
         let _self = $(this),
-            _leafWidth = _self.width(),
-            _leafHeight = _self.height();
+            _leafWidth = _self.prop('offsetWidth'),
+            _leafHeight = _self.prop('offsetHeight');
 
-        console.log(_date);
-
-        if (_date) {
+        if(_self.prop('innerText').replace(/\n+|\s+/gi, '').length > 10){
             _self.addClass('listNode');
+
+            function markLeafComponents(self) {
+                self.children().each(function () {
+                    let _s = $(this),
+                        _width = _s.width() / _leafWidth * 100.0,
+                        _height = _s.height() / _leafHeight * 100.0;
+
+                    if ((_s.width() > 12 && _height > 70) || (_s.height() > 12 && _width > 70)) {
+                        _s.addClass('spider listNode_components');
+                        markLeafComponents(_s);
+                    }
+
+                    _width = null;
+                    _height = null;
+                    _s = null;
+                })
+            }
+
+            markLeafComponents(_self);
         }
-
-        function markLeafComponents(self) {
-            self.children().each(function () {
-                let _s = $(this),
-                    _width = _s.width() / _leafWidth * 100.0,
-                    _height = _s.height() / _leafHeight * 100.0;
-
-                if ((_s.width() > 12 && _height > 70) || (_s.height() > 12 && _width > 70)) {
-                    _s.addClass('spider listNode_components');
-                    markLeafComponents(_s);
-                }
-
-                _width = null;
-                _height = null;
-                _s = null;
-            })
-        }
-
-        markLeafComponents(_self);
 
         // 考虑百度贴吧的两段式布局
         // _self.children().each(function () {
