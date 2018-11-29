@@ -4,6 +4,7 @@ const GLOBAL = {
         primaryKeys: [
             'bbs',
             'BBS',
+          'Forums',
             '论坛',
             '贴吧'
         ],
