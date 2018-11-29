@@ -80,6 +80,14 @@ const GLOBAL = {
             '突发',
             '实时'
         ]
+    },
+    search:{
+        primaryKeys: [
+            '搜索'
+        ],
+        secondKeys: [
+            '记录'
+        ]
     }
 };
 

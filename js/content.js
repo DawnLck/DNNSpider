@@ -698,6 +698,10 @@ chrome.runtime.onMessage.addListener(
 );
 
 function init() {
+    setTimeout(function () {
+        $('body').find('iframe').remove('');
+    }, 2000);
+
     // contentInit();
     // markMainArea();
     pageClassify(true);
