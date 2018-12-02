@@ -11,3 +11,7 @@ ceshi\.js
 test.js
 
 new\.html
+
+yarn-error\.log
+
+dist/
