@@ -2,17 +2,6 @@
 * */
 const DATE_REG = /\d{4}-\d{2}-\d{2}|((\d{4})年)?(\d{1,2})月(\d{1,2})日|\d{2}:\d{2}/;
 
-let collectDom = function () {
-    console.log('Collect Dom ....');
-};
-
-const rootFontSize = parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).fontSize),
-  MIN_HEIGHT = 2 * rootFontSize,
-  protocol = document.location.protocol,
-  port = protocol === 'https:' ? 8082 : 8081,
-  SAVE_PAGE = '/data/saveTestPage',
-  SAVE_DOM = '/data/saveTestDom';
-
 /* 标记主要区域 */
 function markMainAreaPromise() {
     console.log('Mark main area based on Promise');
@@ -311,7 +300,7 @@ function calculateWeights(count, text, weight) {
     }
     let queue = ['bbs', 'articles', 'news'];
     for (let _index = 0; _index < queue.length; _index++) {
-        let _tem = GLOBAL[queue[_index]];
+        let _tem = Classification[queue[_index]];
         for (let j = 0; j < _tem.primaryKeys.length; j++) {
             if (text.indexOf(_tem.primaryKeys[j]) > -1) {
                 count[queue[_index]] += (2 * weight);

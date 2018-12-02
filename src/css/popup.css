@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  padding: 10px 0 20px 0;
+  width: 270px;
+  background: white;
+  overflow: hidden;
+  font-family: "Microsoft JhengHei UI", serif;
+  text-align: center; }
+
+.container {
+  padding: 0 20px;
+  text-align: center; }
+
+/* My Component */
+.lck-changeColor {
+  width: 100%;
+  cursor: pointer;
+  color: #333;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  user-select: none;
+  background: #fff none;
+  border: 1px solid transparent;
+  border-radius: 4px; }
+  .lck-changeColor:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+    text-decoration: none; }
+  .lck-changeColor:active {
+    color: #333;
+    border-color: #adadad;
+    background: #e6e6e6 none;
+    outline: 0;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
+  .lck-changeColor:last-child {
+    margin-bottom: 20px; }
+
+#red {
+  border: 1px solid red;
+  color: red; }
+
+#blue {
+  border: 1px solid blue;
+  color: blue; }
+
+#green {
+  border: 1px solid green;
+  color: green; }
+
+/* Clock */
+#clock {
+  min-height: 20px; }
+
+#spider button {
+  width: 80%; }
+
+.btn {
+  border: none;
+  border-radius: 5px;
+  padding: 8px 20px;
+  font-size: 1rem;
+  text-decoration: none;
+  margin: 8px;
+  color: #fff;
+  position: relative;
+  display: inline-block; }
+
+.btn:active {
+  transform: translate(0px, 5px);
+  -webkit-transform: translate(0px, 5px);
+  box-shadow: 0 1px 0 0; }
+
+.btn-blue {
+  background-color: #55acee;
+  box-shadow: 0 5px 0 0 #3C93D5; }
+
+.btn-blue:hover {
+  background-color: #6FC6FF; }
+
+.btn-red {
+  background-color: #e74c3c;
+  box-shadow: 0 5px 0 0 #CE3323; }
+
+.btn-red:hover {
+  background-color: #FF6656; }
+
+.btn-yellow {
+  background-color: #FFEE80;
+  box-shadow: 0 5px 0 0 #FFCC00; }
+
+.btn-yellow:hover {
+  background-color: #FFE32A; }
+
+/*# sourceMappingURL=popup.css.map */

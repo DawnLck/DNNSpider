@@ -1,10 +1,13 @@
-const GLOBAL = {
+/**
+ * Webpage Classification 网页分类
+ * */
+const Classification = {
     //论坛类
     bbs: {
         primaryKeys: [
             'bbs',
             'BBS',
-          'Forums',
+            'Forums',
             '论坛',
             '贴吧'
         ],
@@ -90,26 +93,3 @@ const GLOBAL = {
         ]
     }
 };
-
-const Timer = {
-    data: {},
-    start: function (key) {
-        Timer.data[key] = new Date();
-    },
-    stop: function (key) {
-        let time = Timer.data[key];
-        if (time)
-            Timer.data[key] = new Date() - time;
-    },
-    getTime: function (key) {
-        return Timer.data[key];
-    }
-};
-
-// if (jQuery) {
-//     // jQuery loaded
-//     console.log('jQuery loaded');
-// } else {
-//     // jQuery not loaded
-//     console.log('jQuery not loaded');
-// }

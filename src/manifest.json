@@ -60,6 +60,9 @@
       "js": [
         "./node_modules/jquery/dist/jquery.min.js",
         "./js/content/global.js",
+        "./js/content/tools.js",
+        "./js/content/webpageClassification.js",
+        "./js/content/regionalFocus.js",
         "./js/content.js"
       ],
       // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
