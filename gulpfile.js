@@ -11,9 +11,9 @@
 const CONFIG = {
     src: 'src',
     dist: 'dist',
-    js: 'src/js',
-    css: 'src/css',
-    html: 'src/html',
+    content: 'src/content',
+    popup: 'src/popup',
+    background: 'src/background',
     assets: 'src/assets'
 };
 const path = require('path');
@@ -31,7 +31,7 @@ gulp.task('default', function () {
     // 将你的默认的任务代码放在这
 });
 
-gulp.task('produce', ['manifest','assets','content'], function () {
+gulp.task('produce', ['manifest','assets','popup','content'], function () {
     console.log('Produce code .... ');
 });
 
@@ -43,9 +43,21 @@ gulp.task('assets', () => {
     return gulp.src(path.join(__dirname, `${CONFIG.src}/assets`))
       .pipe(gulp.dest(path.resolve(`${CONFIG.dist}`)));
 });
+
+//CSS 样式表处理的默认流程
+function cssDefault(name){
+    return gulp.src(path.resolve(`${CONFIG.css}/${name}.css`))
+      .pipe(sourceMaps.init())
+      .pipe(cleanCss())
+      .pipe(rename(`${name}.min.css`))
+      .pipe(sourceMaps.write())
+      .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/${name}`)));
+}
+
 /**
  * popup 右上角弹窗
  * */
+gulp.task('popup',['popup-html','popup-js','popup-css']);
 gulp.task('popup-html', () => {
     return gulp.src(path.resolve(`${CONFIG.html}/popup.html`))
       .pipe(htmlMin())
@@ -64,14 +76,12 @@ gulp.task('popup-js', () => {
       .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/popup`)));
 });
 gulp.task('popup-css', () => {
-    let name = 'popup';
-    return gulp.src(path.resolve(`${CONFIG.css}/${name}.css`))
-      .pipe(sourceMaps.init())
-      .pipe(cleanCss())
-      .pipe(rename(`${name}.min.css`))
-      .pipe(sourceMaps.write())
-      .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/${name}`)));
+    return cssDefault('popup');
 });
+
+/**
+ * background 后台运行
+ * */
 
 /**
  * content 内容注入
@@ -90,12 +100,7 @@ gulp.task('content-js', () => {
       .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/content`)));
 });
 gulp.task('content-css', () => {
-    return gulp.src(path.resolve(`${CONFIG.css}/content.css`))
-      .pipe(sourceMaps.init())
-      .pipe(cleanCss())
-      .pipe(rename('content.min.css'))
-      .pipe(sourceMaps.write())
-      .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/content`)));
+    return cssDefault('content');
 });
 
 gulp.watch(path.join(__dirname, `${CONFIG.js}/content/*.js`), ['content-js']);
