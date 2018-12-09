@@ -29,6 +29,15 @@ const CONFIG = {
     background: 'src/background',
     assets: 'src/assets'
 };
+const BABEL_CONFIG = {
+    presets: ['@babel/env'],
+    plugins: [
+        ["transform-runtime", {
+            "polyfill": false,
+            "regenerator": true
+        }]
+    ]
+};
 
 function cssDefault(name) {
     return gulp.src(path.resolve(`${CONFIG.src}/${name}/${name}.css`))
@@ -90,9 +99,7 @@ gulp.task('popup-html', () => {
 gulp.task('popup-js', () => {
     return gulp.src(path.resolve(`${CONFIG.popup}/popup.js`))
       .pipe(sourceMaps.init())
-      .pipe(babel({
-          presets: ['@babel/env']
-      }))
+      .pipe(babel(BABEL_CONFIG))
       .pipe(jshint())
       .pipe(uglify())
       .pipe(rename('popup.min.js'))
@@ -115,9 +122,7 @@ gulp.task('background-html', () => {
 gulp.task('background-js', () => {
     return gulp.src(path.resolve(`${CONFIG.background}/background.js`))
       .pipe(sourceMaps.init())
-      .pipe(babel({
-          presets: ['@babel/env']
-      }))
+      .pipe(babel(BABEL_CONFIG))
       .pipe(jshint())
       .pipe(uglify())
       .pipe(rename('background.min.js'))
@@ -140,9 +145,7 @@ gulp.task('options-html', () => {
 gulp.task('options-js', () => {
     return gulp.src(path.resolve(`${CONFIG.options}/options.js`))
       .pipe(sourceMaps.init())
-      .pipe(babel({
-          presets: ['@babel/env']
-      }))
+      .pipe(babel(BABEL_CONFIG))
       .pipe(jshint())
       .pipe(uglify())
       .pipe(rename('options.min.js'))
@@ -166,9 +169,7 @@ gulp.task('content-js', () => {
       `${CONFIG.content}/javascripts/content.js`,
     ]).pipe(concat('content.min.js'))
       .pipe(sourceMaps.init())
-      .pipe(babel({
-          presets: ['@babel/env']
-      }))
+      .pipe(babel(BABEL_CONFIG))
       .pipe(jshint())
       // .pipe(uglify())
       .pipe(sourceMaps.write())

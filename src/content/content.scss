@@ -148,6 +148,7 @@ $color_post: #e05371;
   //}
 }
 .spider-toast{
+  min-width: 200px;
   &.toast {
     text-align: left;
     display: flex;
@@ -252,10 +253,14 @@ $color_post: #e05371;
         font-weight: bolder;
         margin-bottom: 6px;
       }
+      ul{
+        padding: 0;
+      }
       li{
         display: inline-block;
         width: 50%;
         //margin-right: 6px;
+        text-align: left;
         color: #999;
         span{
           font-weight: bold;

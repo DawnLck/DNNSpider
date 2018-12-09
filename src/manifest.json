@@ -55,7 +55,7 @@
         简单的说，如果URL匹配mathces值的同时也匹配include_globs的值，会被注入
         如果URL匹配exclude_matches的值或者匹配exclude_globs的值，则不会被注入。
      */
-      "css": ["./content/content.css"],
+      "css": ["./content/content.min.css"],
       // 多个JS按顺序注入
       "js": [
         "./libs/zepto.min.js",

@@ -583,9 +583,7 @@ chrome.runtime.onMessage.addListener(
               sendResponse('UndoMark Done!');
               break;
           case "markMainArea":
-              markMainAreaPromise().then(function () {
-                  sendResponse('Mark Main-Area Done!');
-              });
+              regionFocus().then(()=>{console.log('Mark main area!')});
               break;
           case "autoRefresh":
               autoRefresh();
