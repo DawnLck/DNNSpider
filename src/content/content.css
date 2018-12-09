@@ -101,16 +101,13 @@
   z-index: 9999;
   box-sizing: content-box;
   font-family: "Microsoft JhengHei UI", serif; }
-  .spider-toast.toast ul {
-    display: flex;
-    flex-direction: column-reverse; }
   .spider-toast.toast .toast-item {
     display: flex;
     flex: auto;
     align-items: center;
     justify-content: space-between;
     width: 200px;
-    height: 66px;
+    min-height: 60px;
     max-width: 500px;
     margin: 10px 0;
     padding: 10px 30px;
@@ -119,7 +116,8 @@
     background: white;
     transition: all 0.5s; }
     .spider-toast.toast .toast-item .toast-content {
-      box-sizing: content-box; }
+      box-sizing: content-box;
+      width: 100%; }
     .spider-toast.toast .toast-item .toast-title {
       margin-bottom: 5px;
       color: #3e3e3e;
@@ -158,5 +156,19 @@
 .spider-nonMain {
   box-sizing: border-box;
   border: 2px solid #8990dd !important; }
+
+.spider-classify .toast-item .toast-message {
+  width: 100%; }
+  .spider-classify .toast-item .toast-message .category {
+    color: #666;
+    font-weight: bolder;
+    margin-bottom: 6px; }
+  .spider-classify .toast-item .toast-message li {
+    display: inline-block;
+    width: 50%;
+    color: #999; }
+    .spider-classify .toast-item .toast-message li span {
+      font-weight: bold;
+      margin-right: 6px; }
 
 /*# sourceMappingURL=content.css.map */

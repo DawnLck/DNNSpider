@@ -159,11 +159,6 @@ $color_post: #e05371;
 
     font-family: "Microsoft JhengHei UI", serif;
 
-    ul{
-      display: flex;
-      flex-direction: column-reverse;
-    }
-
     .toast-item {
       display: flex;
       flex: auto;
@@ -171,7 +166,7 @@ $color_post: #e05371;
       justify-content: space-between;
 
       width: 200px;
-      height: 66px;
+      min-height: 60px;
       max-width: 500px;
       margin: 10px 0;
       padding: 10px 30px;
@@ -184,6 +179,7 @@ $color_post: #e05371;
 
       .toast-content {
         box-sizing: content-box;
+        width: 100%;
       }
 
       .toast-title {
@@ -246,4 +242,26 @@ $color_post: #e05371;
   box-sizing: border-box;
   border: 2px solid $color_nonMain !important;
   //position: relative;
+}
+.spider-classify{
+  .toast-item{
+    .toast-message{
+      width: 100%;
+      .category{
+        color: #666;
+        font-weight: bolder;
+        margin-bottom: 6px;
+      }
+      li{
+        display: inline-block;
+        width: 50%;
+        //margin-right: 6px;
+        color: #999;
+        span{
+          font-weight: bold;
+          margin-right: 6px;
+        }
+      }
+    }
+  }
 }
