@@ -16,7 +16,7 @@
     //设定扩展显示的图标
     "default_title": "DNNSpider-Liangck",
     //设定鼠标悬浮时显示的扩展名称
-    "default_popup": "popup.html"
+    "default_popup": "popup/popup.html"
     //设定当点击按钮的时候跳出来的菜单界面
   },
   // 当某些特定页面打开才显示的图标
@@ -30,9 +30,9 @@
   "background": {
     //后台运行的程序，可以理解为全局后台服务，这里也可以用html页面的方式配置
     "scripts": [
-      "./node_modules/jquery/dist/jquery.min.js",
-      "./js/background.js"
-//      "./js/modules/status.js"
+      "./libs/zepto.min.js",
+      "./background/background.min.js"
+      //"./js/modules/status.js"
     ],
     // "page": background.html 指定的运行在后台的页面
     // persistent 定义了常驻后台的方式,true表示扩展将会一直在后台运行，false表示将会按需运行，也就是Event Page
@@ -55,15 +55,11 @@
         简单的说，如果URL匹配mathces值的同时也匹配include_globs的值，会被注入
         如果URL匹配exclude_matches的值或者匹配exclude_globs的值，则不会被注入。
      */
-      "css": ["./css/content.css"],
+      "css": ["./content/content.css"],
       // 多个JS按顺序注入
       "js": [
-        "./node_modules/jquery/dist/jquery.min.js",
-        "./js/content/global.js",
-        "./js/content/tools.js",
-        "./js/content/webpageClassification.js",
-        "./js/content/regionalFocus.js",
-        "./js/content.js"
+        "./libs/zepto.min.js",
+        "./content/content.min.js"
       ],
       // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
       //      "css": ["css/custom.css"],
@@ -72,11 +68,6 @@
       // 定义脚本是否会注入嵌入式框架中，定义为true时会引起Message被监听两次
       "all_frames": false
     }
-    // 这里仅仅是为了演示content-script可以配置多个规则
-    //    {
-    //      "matches": ["*://*/*.png", "*://*/*.jpg", "*://*/*.gif", "*://*/*.bmp"],
-    //      "js": ["js/show-image-content-size.js"]
-    //    }
   ],
   // 跨域及其他权限申请
   "permissions": [
@@ -103,5 +94,5 @@
   //    "48": "assets/icon/robot_48x48.png",
   //    "128": "assets/icon/robot_128x128.png"
   //  },
-  "options_page": "options.html"
+  "options_page": "options/options.html"
 }
