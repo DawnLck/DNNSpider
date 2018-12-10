@@ -30,13 +30,8 @@ const CONFIG = {
     assets: 'src/assets'
 };
 const BABEL_CONFIG = {
-    presets: ['@babel/env'],
-    plugins: [
-        ["transform-runtime", {
-            "polyfill": false,
-            "regenerator": true
-        }]
-    ]
+    // presets: ['@babel/env'],
+    plugins: ['@babel/transform-runtime']
 };
 
 function cssDefault(name) {
@@ -167,12 +162,14 @@ gulp.task('content-js', () => {
       `${CONFIG.content}/javascripts/modules/regionalFocus.js`,
       `${CONFIG.content}/javascripts/modules/webpageClassification.js`,
       `${CONFIG.content}/javascripts/content.js`,
-    ]).pipe(concat('content.min.js'))
-      .pipe(sourceMaps.init())
-      .pipe(babel(BABEL_CONFIG))
-      .pipe(jshint())
+    ]).pipe(babel({
+        plugins: ['@babel/transform-runtime']
+    }))
+      // .pipe(sourceMaps.init())
+      // .pipe(babel(BABEL_CONFIG))
+      // .pipe(jshint())
       // .pipe(uglify())
-      .pipe(sourceMaps.write())
+      // .pipe(sourceMaps.write())
       .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/content`)));
 });
 gulp.task('content-css', () => {
