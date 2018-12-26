@@ -96,7 +96,7 @@ gulp.task('popup-js', () => {
       .pipe(sourceMaps.init())
       .pipe(babel(BABEL_CONFIG))
       .pipe(jshint())
-      .pipe(uglify())
+      // .pipe(uglify())
       .pipe(rename('popup.min.js'))
       .pipe(sourceMaps.write())
       .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/popup`)));
@@ -119,7 +119,7 @@ gulp.task('background-js', () => {
       .pipe(sourceMaps.init())
       .pipe(babel(BABEL_CONFIG))
       .pipe(jshint())
-      .pipe(uglify())
+      // .pipe(uglify())
       .pipe(rename('background.min.js'))
       .pipe(sourceMaps.write())
       .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/background`)));
@@ -142,7 +142,7 @@ gulp.task('options-js', () => {
       .pipe(sourceMaps.init())
       .pipe(babel(BABEL_CONFIG))
       .pipe(jshint())
-      .pipe(uglify())
+      // .pipe(uglify())
       .pipe(rename('options.min.js'))
       .pipe(sourceMaps.write())
       .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/options`)));
@@ -162,9 +162,8 @@ gulp.task('content-js', () => {
       `${CONFIG.content}/javascripts/modules/regionalFocus.js`,
       `${CONFIG.content}/javascripts/modules/webpageClassification.js`,
       `${CONFIG.content}/javascripts/content.js`,
-    ]).pipe(babel({
-        plugins: ['@babel/transform-runtime']
-    }))
+    ]).pipe(babel(BABEL_CONFIG))
+      .pipe(concat('content.min.js'))
       // .pipe(sourceMaps.init())
       // .pipe(babel(BABEL_CONFIG))
       // .pipe(jshint())
