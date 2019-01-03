@@ -9,16 +9,19 @@ $color_nonMain: #8990dd;
 $color_post: #e05371;
 .spider {
   position: relative;
-  &.spider-main {
+
+  &.spider-main, &.spider-post{
     box-sizing: border-box;
-    border: 1px solid $color_main !important;
     position: relative;
+    border: 1px solid !important;
+  }
+  &.spider-main {
+    border-color:$color_main !important;
   }
   &.spider-post {
-    box-sizing: border-box;
-    border: 1px solid $color_post !important;
-    position: relative;
+    border-color:$color_post !important;
   }
+
   &.mainMask {
     display: inline-block;
     position: absolute;
@@ -44,9 +47,6 @@ $color_post: #e05371;
   &.unmarked {
     box-sizing: border-box;
     border: 1px dashed $color_unmarked !important;
-    .collect-btn {
-      //display: none;
-    }
   }
   &.listNode {
     //width: max-content;

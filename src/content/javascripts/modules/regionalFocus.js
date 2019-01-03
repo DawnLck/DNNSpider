@@ -21,6 +21,7 @@ async function areaComparison(dom) {
       return true;
     } else if (_width / bodyWidth > 0.4 && _height > MIN_HEIGHT) {
       dom.addClass("spider");
+      dom.attr('data-area-comparision', areaProportion);
     } else {
     }
   }
@@ -48,6 +49,7 @@ async function centerComparison(dom) {
     centerProportion = offset / bodyWidth;
   console.log(`[${domX}, ${domY}] / [${pageX}, ${pageY}]`);
   console.log(`offset: ${offset}  bodyWidth: ${bodyWidth}`);
+  dom.attr('data-center-comparision', centerProportion);
   if (centerProportion < CONFIG.threshold.center) {
     dom.addClass("spider-centerOk spider-main");
     return true;
@@ -58,6 +60,7 @@ async function centerComparison(dom) {
 
 // 维度重叠
 async function dimensionOverlap(doms) {
+  console.log('[Regional Focus]: dimension overlap....');
   doms.each(() => {
     let _self = $(this),
       _parent = _self.parent(),
@@ -83,6 +86,7 @@ async function dimensionOverlap(doms) {
 
 // 嵌套解耦
 async function deNesting(doms) {
+  console.log('[Regional Focus]: deNesting....');
   doms.each(function() {
     let _self = $(this),
       _parent = _self.parent(),
@@ -109,6 +113,7 @@ async function deNesting(doms) {
 
 // 合并区域
 async function mergeArea() {
+  console.log('[Regional Focus]: merge area....');
   $(".spider-main").each(function() {
     let _self = $(this);
     if (_self.find(".spider-main").length > 0) {
@@ -122,7 +127,7 @@ async function regionFocus() {
   Timer.start("regionFocus");
   console.log("## Region Focus ## ");
 
-  let _allDiv = $("div");
+  let _allDiv = $("*");
 
   _allDiv.each(async function() {
     let _self = $(this);
@@ -137,14 +142,14 @@ async function regionFocus() {
     }
   });
 
-  // 维度重叠
-  // dimensionOverlap($('.spider'));
+  //维度重叠
+  await dimensionOverlap($('.spider'));
 
-  // 嵌套解耦
-  // deNesting($('.spider-main'));
+  //嵌套解耦
+  await deNesting($('.spider-main'));
 
-  // 合并区域
-  // mergeArea();
+  //合并区域
+  await mergeArea();
 
   // 标记非正文区域节点
   $(".spider-main")

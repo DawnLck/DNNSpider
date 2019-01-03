@@ -14,7 +14,7 @@ const CONFIG = {
     showClassifyResult: true,
     threshold:{
         center: 0.4,
-        area: 0.4,
+        area: 0.36,
         text: 0.6,
         areaMargin: 0.2
     }
