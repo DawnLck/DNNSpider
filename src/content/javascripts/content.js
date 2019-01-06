@@ -7,7 +7,7 @@ const DATE_REG = /\d{4}-\d{2}-\d{2}|((\d{4})年)?(\d{1,2})月(\d{1,2})日|\d{2}:
 function markMainAreaPromise() {
   console.log("Mark main area based on Promise");
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     Timer.start("mainMark");
     console.log("Mark main area ... ");
 
@@ -32,7 +32,7 @@ function markMainAreaPromise() {
       _bodyContentLength = _body.contentLength;
 
     //初步标记
-    _allDiv.each(function() {
+    _allDiv.each(function () {
       let _self = $(this);
       let _widthProportion = (_self.prop("offsetWidth") / _bodyWidth) * 100.0,
         _heightProportion = (_self.prop("offsetHeight") / _bodyHeight) * 100.0,
@@ -53,7 +53,7 @@ function markMainAreaPromise() {
     });
 
     // 降低维度 平面化
-    $(".spider").each(function() {
+    $(".spider").each(function () {
       let _self = $(this),
         _parent = _self.parent(),
         _width = _self.prop("offsetWidth"),
@@ -76,7 +76,7 @@ function markMainAreaPromise() {
     });
 
     // 解决正文区域嵌套的问题
-    $(".spider-main").each(function() {
+    $(".spider-main").each(function () {
       let _self = $(this),
         _parent = _self.parent(),
         _width = _self.prop("offsetWidth"),
@@ -99,7 +99,7 @@ function markMainAreaPromise() {
       }
     });
 
-    $(".spider-main").each(function() {
+    $(".spider-main").each(function () {
       let _self = $(this);
       if (_self.find(".spider-main").length > 0) {
         _self.removeClass("spider-main");
@@ -108,7 +108,7 @@ function markMainAreaPromise() {
 
     $(".spider-main")
       .siblings(".spider")
-      .each(function() {
+      .each(function () {
         $(this).addClass("spider-nonMain");
         // console.log('Area Siblings ... ');
       });
@@ -121,7 +121,7 @@ function markMainAreaPromise() {
 /* 标记帖子区域 */
 function markPostAreaPromise() {
   console.log("Mark post area based on Promise ... ");
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     Timer.start("markPost");
 
     let mainSelector = $(".spider-main");
@@ -131,7 +131,7 @@ function markPostAreaPromise() {
     mainSelector.addClass("spider-content");
 
     function markContentNode(self) {
-      self.children().each(function() {
+      self.children().each(function () {
         markContentNode($(this));
         let _self = $(this),
           _width = _self.prop("offsetWidth"),
@@ -158,7 +158,7 @@ function markPostAreaPromise() {
 
     markContentNode(mainSelector);
 
-    $(".spider-post").each(function() {
+    $(".spider-post").each(function () {
       if ($(this).find(".spider-post").length > 0) {
         console.log("Unmark the post ... ");
         $(this).removeClass("spider-post");
@@ -172,13 +172,13 @@ function markPostAreaPromise() {
 
 /* 标记列表节点 */
 function markListNodePromise() {
-  return new Promise(function() {
+  return new Promise(function () {
     Timer.start("markList");
     console.log("Mark list node ... ");
 
     $(".spider-post")
       .children(".spider-content")
-      .each(function() {
+      .each(function () {
         let _self = $(this),
           _leafWidth = _self.prop("offsetWidth"),
           _leafHeight = _self.prop("offsetHeight");
@@ -187,7 +187,7 @@ function markListNodePromise() {
           _self.addClass("listNode");
 
           function markLeafComponents(self) {
-            self.children().each(function() {
+            self.children().each(function () {
               let _s = $(this),
                 _width = (_s.width() / _leafWidth) * 100.0,
                 _height = (_s.height() / _leafHeight) * 100.0;
@@ -226,7 +226,7 @@ function markAllContentDom() {
       mainWidth = mainDom.width();
 
     //标记
-    mainDom.find("div").each(function() {
+    mainDom.find("div").each(function () {
       let _width = ($(this).width() / mainWidth) * 100.0;
       let _height = $(this).height();
       let _text = $(this).text();
@@ -245,7 +245,7 @@ function markAllContentDom() {
     });
 
     //筛选
-    $("div.spider.leaf").each(function() {
+    $("div.spider.leaf").each(function () {
       if ($(this).find(".leaf").length > 0) {
         $(this).removeClass("leaf");
       }
@@ -267,7 +267,7 @@ function markAllContentDom() {
     //     console.log($(this).text());
     // }
 
-    $("div.leaf").each(function() {
+    $("div.leaf").each(function () {
       // console.log($(this).text());
       let _parent = $(this).parent();
       // console.log(_parent.children('.leaf').length);
@@ -286,11 +286,11 @@ function markAllContentDom() {
     });
   }
 
-  markLeafNode(function() {
+  markLeafNode(function () {
     markListNode();
   });
 
-  $(".collect-btn").click(function() {
+  $(".collect-btn").click(function () {
     console.log(this);
     console.log($(this).width());
     console.log(
@@ -314,48 +314,48 @@ const toastApp = {
   button: document.querySelector(".makeToast"),
   closing: 0,
   count: 0,
-  init: function() {
+  init: function () {
     $("body").append('<div class="spider-toast toast"><ul></ul></div>');
   },
-  makeToast: function(txt) {
+  makeToast: function (txt) {
     toastApp.count += 1;
 
     //Container
     $(".toast ul").append(
       '<li class="toast-item toast-green down" id="toast-' +
-        toastApp.count +
-        '">' +
-        '<div class="toast-content">' +
-        '<div class="toast-title">' +
-        "Info Toast" +
-        "</div>" +
-        '<div class="toast-message">' +
-        txt +
-        "</div>" +
-        "</div>" +
-        '<div class="toast-close"> <span> X </span> </div>' +
-        "</li>"
+      toastApp.count +
+      '">' +
+      '<div class="toast-content">' +
+      '<div class="toast-title">' +
+      "Info Toast" +
+      "</div>" +
+      '<div class="toast-message">' +
+      txt +
+      "</div>" +
+      "</div>" +
+      '<div class="toast-close"> <span> X </span> </div>' +
+      "</li>"
     );
 
     let self = $("#toast-" + toastApp.count);
 
-    self.find(".toast-close").click(function() {
+    self.find(".toast-close").click(function () {
       let item = $(this).parent();
       item.addClass("toastClose");
-      setTimeout(function() {
+      setTimeout(function () {
         // item.style.display = "none"
         item.hide();
       }, 500);
     });
 
-    setTimeout(function() {
+    setTimeout(function () {
       self.find(".toast-close").click();
     }, 3000);
   },
-  closeToast: function(ele) {
+  closeToast: function (ele) {
     let toast = ele.parentElement.parentElement;
     toast.classList.add("toastClose");
-    setTimeout(function() {
+    setTimeout(function () {
       toast.style.display = "none";
     }, 500);
   }
@@ -367,7 +367,7 @@ toastApp.init();
 function saveCurrentPage() {
   console.log("Save the current page");
   let item = pageClassify(false);
-  $.get(protocol + "//liangck.com:" + port + SAVE_PAGE, item, function(
+  $.get(protocol + "//liangck.com:" + port + SAVE_PAGE, item, function (
     callback
   ) {
     console.log(callback);
@@ -376,18 +376,11 @@ function saveCurrentPage() {
 }
 
 /* 标记所有锚结点 */
-function markAllLinkDom() {}
+function markAllLinkDom() { }
 
-$(document).ready(function() {
+$(document).ready(function () {
   $("body").css("background-color", "#C7EDCC");
 });
-
-function contentInit() {
-  // setTimeout(function () {
-  //     markAllContentDom();
-  //     markAllLinkDom();
-  // }, 1000);
-}
 
 function autoRefresh() {
   console.log("Auto refresh ... ");
@@ -395,7 +388,7 @@ function autoRefresh() {
 }
 
 function showCollector() {
-  $(".spider-main .spider").each(function() {
+  $(".spider-main .spider").each(function () {
     let _self = $(this),
       _btnHtml =
         '<div class="collect-showBtn">' +
@@ -423,12 +416,12 @@ function showCollector() {
     }
 
     _self.hover(
-      function(e) {
+      function (e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
         _self.addClass("collect-hover");
       },
-      function(e) {
+      function (e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
         _self.removeClass("collect-hover");
@@ -447,8 +440,8 @@ function showCollector() {
     _btn.hide();
 
     let _innerText = _target
-        .prop("innerText")
-        .replace(/(\n)?Spider(\n)?/gi, ""),
+      .prop("innerText")
+      .replace(/(\n)?Spider(\n)?/gi, ""),
       _innerTextLength = _innerText.length,
       _textDensity = _innerTextLength / _target.prop("innerHTML").length,
       _textMainPercentage =
@@ -474,15 +467,15 @@ function showCollector() {
       }
     }
 
-    _target.find("a").each(function() {
+    _target.find("a").each(function () {
       if ($(this).prop("offsetWidth") + $(this).prop("offsetHeight") !== 0) {
         let _href = $(this).attr("href");
         console.log(
           $(this).prop("offsetWidth") +
-            " " +
-            $(this).prop("offsetHeight") +
-            " " +
-            _href
+          " " +
+          $(this).prop("offsetHeight") +
+          " " +
+          _href
         );
         if (_href && _href.indexOf("javascript:void(0)") < 0 && _href !== "#") {
           linkContent.push(_href);
@@ -569,7 +562,7 @@ function showCollector() {
       url: protocol + "//liangck.com:" + port + SAVE_DOM,
       data: item,
 
-      success: function(callback) {
+      success: function (callback) {
         console.log(callback);
         toastApp.makeToast("保存成功");
       }
@@ -589,32 +582,31 @@ function showCollector() {
     _textBodyPercentage = null;
   }
 
-  $(".collect-1").click(function() {
+  $(".collect-1").click(function () {
     saveDom($(this), "mainArea");
   });
-  $(".collect-2").click(function() {
+  $(".collect-2").click(function () {
     saveDom($(this), "postArea");
   });
-  $(".collect-3").click(function() {
+  $(".collect-3").click(function () {
     saveDom($(this), "postItem");
   });
-  $(".collect-4").click(function() {
+  $(".collect-4").click(function () {
     saveDom($(this), "postItemAuthor");
   });
 }
 
-let text = "hello";
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log("RunTime .... ");
   switch (message.type ? message.type : message.message) {
     case "getText":
-      sendResponse(text);
+      sendResponse("hello");
       break;
     case "markContent":
       markMainAreaPromise()
         .then(markPostAreaPromise())
         .then(markListNodePromise())
-        .then(function() {
+        .then(function () {
           sendResponse("Mark Done!");
         });
       break;
@@ -644,7 +636,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 });
 
 function init() {
-  setTimeout(function() {
+  setTimeout(function () {
     $("body")
       .find("iframe")
       .remove("");
@@ -653,9 +645,10 @@ function init() {
   // contentInit();
   // markMainArea();
   pageClassify(true);
+  addControlPanel();
   // markMainAreaPromise();
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
   init();
 });

@@ -43,13 +43,10 @@
     {
       // 匹配网址进行代码注入
       // "<all_urls>" 表示匹配所有地址  "matches": ["<all_urls>"],
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
+      "matches": ["http://*/*", "https://*/*"],
       // 未被注入脚本的页面
       "exclude-matches": [],
-     /*
+      /*
         include_globs和exclude_globs则是全局URL匹配
         最终脚本是否会被注入由matches、exclude_matches、include_globs和exclude_globs的值共同决定。
         简单的说，如果URL匹配mathces值的同时也匹配include_globs的值，会被注入
@@ -59,6 +56,7 @@
       // 多个JS按顺序注入
       "js": [
         "./libs/zepto.min.js",
+        "./libs/g2.min.js",
         "./content/content.min.js"
       ],
       // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式

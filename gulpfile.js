@@ -97,7 +97,10 @@ gulp.task("assets", () => {
 });
 gulp.task("libs", () => {
   return gulp
-    .src([`${CONFIG.node_modules}/zepto/dist/zepto.min.js`])
+    .src([
+      `${CONFIG.node_modules}/zepto/dist/zepto.min.js`,
+      `${CONFIG.node_modules}/@antv/g2/dist/g2.min.js`
+    ])
     .pipe(gulp.dest(path.resolve(`${CONFIG.dist}/libs/`)));
 });
 
@@ -194,6 +197,7 @@ gulp.task("content-js", () => {
         `${CONFIG.content}/javascripts/utils.js`,
         `${CONFIG.content}/javascripts/modules/regionalFocus.js`,
         `${CONFIG.content}/javascripts/modules/webpageClassification.js`,
+        `${CONFIG.content}/javascripts/modules/controlPanel.js`,
         `${CONFIG.content}/javascripts/content.js`
       ])
       .pipe(babel(BABEL_CONFIG))

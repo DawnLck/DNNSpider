@@ -1,0 +1,69 @@
+/* 
+* CollectBtn.scss 采集按钮的样式
+*/
+.collect-showBtn {
+  display: inline-flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.1rem 0.3rem;
+  margin: 0;
+  color: black !important;
+  font-size: 1rem !important;
+  font-family: fantasy !important;
+  line-height: 1.5rem !important;
+  background: $color_study;
+  border-radius: 4px;
+  opacity: 0.5;
+  cursor: pointer;
+  z-index: 8080;
+  &.collect-main {
+    z-index: 9090;
+    background-color: $color_main;
+  }
+  &.collect-post {
+    z-index: 9091;
+    background-color: $color_post;
+  }
+  &.collect-listNode {
+    z-index: 9090;
+    background-color: $color_leaf;
+  }
+  &:hover {
+    opacity: 1;
+    .collect-btn {
+      display: flex;
+    }
+  }
+}
+.collect-btn {
+  display: none;
+  flex-direction: column;
+  z-index: 9998;
+  width: fit-content;
+  height: initial;
+  padding: 0;
+  color: white;
+  cursor: pointer;
+  line-height: 30px;
+  font-size: 14px;
+  .collect-item {
+    min-width: 3rem;
+    padding: 0 1rem;
+    display: inline-flex;
+    border-bottom: whitesmoke 2px solid;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &.collect-show {
+    display: flex;
+  }
+  &:last-child {
+    border: none;
+  }
+}
+&.collect-hover {
+  border: 2px $color_study solid !important;
+}

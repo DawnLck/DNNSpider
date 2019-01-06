@@ -1,0 +1,18 @@
+/**
+* Control Panel.scss 控制面板样式
+*/
+@import "./global.scss";
+.spider-control-panel {
+  display: inline-block;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 200px;
+  right: $fixed_right;
+  padding: 20px;
+  width: 300px;
+  height: 500px;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 7px 14px -5px;
+  border-radius: 4px;
+  transition: all 0.5s ease 0s;
+}
