@@ -129,7 +129,7 @@ function pageClassify() {
     score: result
   };
 
-  displayClassifyResult(output);
+  // displayClassifyResult(output);
 
   console.log(`Title: ${title}`);
   console.log(`Keywords: ${keywords}`);

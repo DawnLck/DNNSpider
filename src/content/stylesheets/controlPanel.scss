@@ -6,15 +6,19 @@
   display: inline-block;
   box-sizing: border-box;
   position: fixed;
-  bottom: 200px;
+  bottom: 5em;
   right: $fixed_right;
   padding: 20px;
   width: 300px;
-  height: 500px;
+  height: 460px;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.2) 1px 7px 14px -5px;
   border-radius: 4px;
   transition: all 0.5s ease 0s;
+  h1,h2,h3,h4,h5,h6{
+    margin: 0;
+    padding: 0;
+  }
 }
 
 /* 网页分类折线图 */
