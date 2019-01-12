@@ -9,7 +9,7 @@ const bodyWidth = bodyDom.scrollWidth,
   pageY = bodyHeight / 2,
   bodyContentLength = bodyDom.innerText.length;
 
-// 1. 面积大小比较 >0.4
+// 1. 面积大小比较 > 0.3
 async function areaComparison(dom) {
   let _width = dom.prop("offsetWidth"),
     _height = dom.prop("offsetHeight"),
@@ -21,14 +21,14 @@ async function areaComparison(dom) {
       return true;
     } else if (_width / bodyWidth > 0.4 && _height > MIN_HEIGHT) {
       dom.addClass("spider");
-      dom.attr('data-area-comparision', areaProportion);
     } else {
     }
+    dom.attr("data-area-comparision", areaProportion);
   }
   return false;
 }
 
-// 2. 文本长度比较 >0.3
+// 2. 文本长度比较 > 0.3
 async function textComparison(dom) {
   let _contentLength = dom.prop("innerText").length,
     textProportion = _contentLength / bodyContentLength;
@@ -37,6 +37,7 @@ async function textComparison(dom) {
     return true;
   } else {
   }
+  dom.attr("data-text-comparision", textProportion);
   return false;
 }
 
@@ -49,18 +50,20 @@ async function centerComparison(dom) {
     centerProportion = offset / bodyWidth;
   console.log(`[${domX}, ${domY}] / [${pageX}, ${pageY}]`);
   console.log(`offset: ${offset}  bodyWidth: ${bodyWidth}`);
-  dom.attr('data-center-comparision', centerProportion);
+
   if (centerProportion < CONFIG.threshold.center) {
     dom.addClass("spider-centerOk spider-main");
     return true;
   } else {
   }
+  dom.attr("data-center-comparision", centerProportion);
+
   return false;
 }
 
 // 维度重叠
 async function dimensionOverlap(doms) {
-  console.log('[Regional Focus]: dimension overlap....');
+  console.log("[Regional Focus]: dimension overlap....");
   doms.each(() => {
     let _self = $(this),
       _parent = _self.parent(),
@@ -86,7 +89,7 @@ async function dimensionOverlap(doms) {
 
 // 嵌套解耦
 async function deNesting(doms) {
-  console.log('[Regional Focus]: deNesting....');
+  console.log("[Regional Focus]: deNesting....");
   doms.each(function() {
     let _self = $(this),
       _parent = _self.parent(),
@@ -113,7 +116,7 @@ async function deNesting(doms) {
 
 // 合并区域
 async function mergeArea() {
-  console.log('[Regional Focus]: merge area....');
+  console.log("[Regional Focus]: merge area....");
   $(".spider-main").each(function() {
     let _self = $(this);
     if (_self.find(".spider-main").length > 0) {
@@ -143,10 +146,10 @@ async function regionFocus() {
   });
 
   //维度重叠
-  await dimensionOverlap($('.spider'));
+  await dimensionOverlap($(".spider"));
 
   //嵌套解耦
-  await deNesting($('.spider-main'));
+  await deNesting($(".spider-main"));
 
   //合并区域
   await mergeArea();
