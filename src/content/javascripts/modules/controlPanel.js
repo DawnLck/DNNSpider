@@ -17,12 +17,15 @@ function addControlPanel(pageClassify) {
 
   const panelHTML = ` 
     <div class="spider-control-panel">
-        <h4>网页类型分析</h4>
+      
+      <div class="section section_1">
+       <h4>网页类型分析</h4>
         <h5>该网页属于【${pageClassify.category}】类型</h5>
         <div id="spider-classify-charts"></div>
-        
+      </div>
+
+      <div class="section section_2">
         <h4>网页数据提取</h4>
-        
         <div class="panel-item">
           <h5>预处理层</h5>
           <div class="spider-buttons">
@@ -37,7 +40,19 @@ function addControlPanel(pageClassify) {
             <button class="spider_btn spider_normal" onclick="clusteringBlocks()">可视块聚类</button>
           </div>
         </div>
-       
+      </div>
+      
+      <div class="section section_3">
+        <h4>状态控制</h4>
+        <div class="panel-item">
+          <h5>正文区域内的可视块</h5>
+          <div class="toggle-wrapper">
+            <input id="provide-muffins" name="provide_muffins" class="toggle" type="checkbox" checked />
+            <label for="provide-muffins" class="toggle--label"></label>
+            <div class="foux-toggle"></div>
+          </div>
+        </div>
+      </div>
     </div>
 `;
 

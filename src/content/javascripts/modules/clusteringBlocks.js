@@ -3,4 +3,6 @@
  */
 function clusteringBlocks() {
   console.log("#####  Clustering Block   #####");
+
+  let doms = $(".spider-main").children(".spider");
 }

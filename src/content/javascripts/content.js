@@ -315,7 +315,7 @@ const toastApp = {
   closing: 0,
   count: 0,
   init: function() {
-    $("body").append('<div class="spider-toast toast"><ul></ul></div>');
+    $("body").append('<div class="spider-toast toast hidden"><ul></ul></div>');
   },
   makeToast: function(txt) {
     toastApp.count += 1;

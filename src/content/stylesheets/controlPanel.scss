@@ -2,7 +2,9 @@
 * Control Panel.scss 控制面板样式
 */
 @import "./global.scss";
-@import "./button.scss";
+@import "./components/button.scss";
+@import "./components/switch.scss";
+
 .spider-control-panel {
   display: inline-block;
   box-sizing: border-box;
@@ -11,7 +13,7 @@
   right: $fixed_right;
   padding: 20px;
   width: 300px;
-  height: 460px;
+  height: auto;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.2) 1px 7px 14px -5px;
   border-radius: 4px;
@@ -30,8 +32,26 @@
 
   .panel-item {
     padding-top: 1em;
+    h4 {
+      border-left: 4px solid #007bff;
+      padding-left: 4px;
+    }
     h5 {
       padding-bottom: 0.2em;
+    }
+  }
+
+  .section_3 {
+    margin-top: 20px;
+    padding-bottom: 10px;
+    .panel-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 3rem;
+    }
+    label {
+      margin: 0;
     }
   }
 }
