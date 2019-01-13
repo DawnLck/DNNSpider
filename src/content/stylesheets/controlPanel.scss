@@ -2,6 +2,7 @@
 * Control Panel.scss 控制面板样式
 */
 @import "./global.scss";
+@import "./button.scss";
 .spider-control-panel {
   display: inline-block;
   box-sizing: border-box;
@@ -26,6 +27,13 @@
     margin: 0;
     padding: 0;
   }
+
+  .panel-item {
+    padding-top: 1em;
+    h5 {
+      padding-bottom: 0.2em;
+    }
+  }
 }
 
 /* 网页分类折线图 */
@@ -34,7 +42,6 @@
   left: -20px;
   display: inline-block;
   width: 300px;
-  margin-bottom: 20px;
   p {
     position: relative;
     bottom: -10px;

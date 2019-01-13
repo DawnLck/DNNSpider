@@ -9,7 +9,7 @@ let bodyWidth = bodyDom.scrollWidth,
   pageY = bodyHeight / 2,
   bodyContentLength = bodyDom.innerText.length;
 
-/* 0.异步获取Page的一些基本信息 */
+/* 0. 异步获取Page的一些基本信息 */
 async function getPageBase() {
   bodyDom = document.getElementsByTagName("body")[0];
   bodyWidth = bodyDom.scrollWidth;
@@ -47,14 +47,13 @@ async function textComparison(dom) {
     return true;
   } else {
   }
-  console.log(`CONFIG_Text: ${CONFIG.threshold.text}`);
   dom.attr("data-text-comparision", textProportion);
   return false;
 }
 
 // 3. 中心偏移计算 < 0.4
 async function centerComparison(dom) {
-  console.log("》 中心偏移计算 《");
+  // console.log("》 中心偏移计算 《");
   let domX = dom.offset().left + dom.prop("offsetWidth") / 2,
     domY = dom.offset().top + dom.prop("offsetHeight") / 2,
     offset = Math.sqrt(Math.pow(pageX - domX, 2) + Math.pow(pageY - domY, 2)),
@@ -63,8 +62,8 @@ async function centerComparison(dom) {
   // dom.attr("data-domCenter", `(${domX}, ${domY})`);
   // dom.attr("data-pageCenter", `(${domX}, ${domY})`);
 
-  console.log(`[${domX}, ${domY}] / [${pageX}, ${pageY}]`);
-  console.log(`offset: ${offset}  bodyWidth: ${bodyWidth}`);
+  // console.log(`[${domX}, ${domY}] / [${pageX}, ${pageY}]`);
+  // console.log(`offset: ${offset}  bodyWidth: ${bodyWidth}`);
 
   if (centerProportion < CONFIG.threshold.center) {
     dom.addClass("spider-centerOk spider-main");
@@ -153,9 +152,9 @@ async function regionFocus() {
   _allDiv.each(async function() {
     let _self = $(this);
     if (await areaComparison(_self)) {
-      console.log("Area Ok!");
+      // console.log("Area Ok!");
       if (await textComparison(_self)) {
-        console.log("Text Ok!");
+        // console.log("Text Ok!");
         await centerComparison(_self);
       } else {
       }
@@ -181,5 +180,5 @@ async function regionFocus() {
     });
 
   Timer.stop("regionFocus");
-  console.log("The region focus time is: " + Timer.getTime("regionFocus"));
+  console.log(`The region focus time is: ${Timer.getTime("regionFocus")} ms`);
 }

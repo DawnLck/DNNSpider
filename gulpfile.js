@@ -196,6 +196,8 @@ gulp.task("content-js", () => {
         `${CONFIG.content}/javascripts/global.js`,
         `${CONFIG.content}/javascripts/utils.js`,
         `${CONFIG.content}/javascripts/modules/regionalFocus.js`,
+        `${CONFIG.content}/javascripts/modules/classifyBlocks.js`,
+        `${CONFIG.content}/javascripts/modules/clusteringBlocks.js`,
         `${CONFIG.content}/javascripts/modules/webpageClassification.js`,
         `${CONFIG.content}/javascripts/modules/controlPanel.js`,
         `${CONFIG.content}/javascripts/content.js`

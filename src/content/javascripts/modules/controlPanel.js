@@ -20,6 +20,24 @@ function addControlPanel(pageClassify) {
         <h4>网页类型分析</h4>
         <h5>该网页属于【${pageClassify.category}】类型</h5>
         <div id="spider-classify-charts"></div>
+        
+        <h4>网页数据提取</h4>
+        
+        <div class="panel-item">
+          <h5>预处理层</h5>
+          <div class="spider-buttons">
+            <button class="spider_btn spider_normal" onclick="regionFocus()">区域聚焦</button>
+          </div>
+        </div>
+        
+        <div class="panel-item">
+          <h5>输出层</h5>
+          <div class="spider-buttons">
+            <button class="spider_btn spider_normal" onclick="classifyBlocks()">可视块分类</button>
+            <button class="spider_btn spider_normal" onclick="clusteringBlocks()">可视块聚类</button>
+          </div>
+        </div>
+       
     </div>
 `;
 
