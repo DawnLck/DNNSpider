@@ -2,12 +2,22 @@
  * regionFocus.js
  * 区域聚焦
  * */
-const bodyDom = document.getElementsByTagName("body")[0];
-const bodyWidth = bodyDom.scrollWidth,
+let bodyDom = document.getElementsByTagName("body")[0];
+let bodyWidth = bodyDom.scrollWidth,
   bodyHeight = bodyDom.scrollHeight,
   pageX = bodyWidth / 2,
   pageY = bodyHeight / 2,
   bodyContentLength = bodyDom.innerText.length;
+
+/* 0.异步获取Page的一些基本信息 */
+async function getPageBase() {
+  bodyDom = document.getElementsByTagName("body")[0];
+  bodyWidth = bodyDom.scrollWidth;
+  bodyHeight = bodyDom.scrollHeight;
+  pageX = bodyWidth / 2;
+  pageY = bodyHeight / 2;
+  bodyContentLength = bodyDom.innerText.length;
+}
 
 // 1. 面积大小比较 > 0.3
 async function areaComparison(dom) {
@@ -19,7 +29,7 @@ async function areaComparison(dom) {
     if (areaProportion > CONFIG.threshold.area) {
       dom.addClass("spider spider-areaOk");
       return true;
-    } else if (_width / bodyWidth > 0.4 && _height > MIN_HEIGHT) {
+    } else if (_width / bodyWidth > 0.25 && _height > MIN_HEIGHT) {
       dom.addClass("spider");
     } else {
     }
@@ -28,7 +38,7 @@ async function areaComparison(dom) {
   return false;
 }
 
-// 2. 文本长度比较 > 0.3
+// 2. 文本长度比较 > 0.45
 async function textComparison(dom) {
   let _contentLength = dom.prop("innerText").length,
     textProportion = _contentLength / bodyContentLength;
@@ -37,17 +47,22 @@ async function textComparison(dom) {
     return true;
   } else {
   }
+  console.log(`CONFIG_Text: ${CONFIG.threshold.text}`);
   dom.attr("data-text-comparision", textProportion);
   return false;
 }
 
-// 3. 中心偏移计算 <0.4
+// 3. 中心偏移计算 < 0.4
 async function centerComparison(dom) {
   console.log("》 中心偏移计算 《");
   let domX = dom.offset().left + dom.prop("offsetWidth") / 2,
     domY = dom.offset().top + dom.prop("offsetHeight") / 2,
     offset = Math.sqrt(Math.pow(pageX - domX, 2) + Math.pow(pageY - domY, 2)),
     centerProportion = offset / bodyWidth;
+
+  // dom.attr("data-domCenter", `(${domX}, ${domY})`);
+  // dom.attr("data-pageCenter", `(${domX}, ${domY})`);
+
   console.log(`[${domX}, ${domY}] / [${pageX}, ${pageY}]`);
   console.log(`offset: ${offset}  bodyWidth: ${bodyWidth}`);
 
@@ -56,6 +71,7 @@ async function centerComparison(dom) {
     return true;
   } else {
   }
+
   dom.attr("data-center-comparision", centerProportion);
 
   return false;
@@ -131,6 +147,8 @@ async function regionFocus() {
   console.log("## Region Focus ## ");
 
   let _allDiv = $("*");
+
+  await getPageBase();
 
   _allDiv.each(async function() {
     let _self = $(this);

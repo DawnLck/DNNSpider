@@ -14,9 +14,9 @@ const rootFontSize = parseInt(bodyStyle.fontSize),
 const CONFIG = {
   showClassifyResult: true,
   threshold: {
+    area: 0.2,
     center: 0.4,
-    area: 0.3,
-    text: 0.6,
+    text: 0.45,
     areaMargin: 0.2
   }
 };
