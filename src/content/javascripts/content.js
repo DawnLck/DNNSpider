@@ -378,10 +378,6 @@ function saveCurrentPage() {
 /* 标记所有锚结点 */
 function markAllLinkDom() {}
 
-$(document).ready(function() {
-  $("body").css("background-color", "#C7EDCC");
-});
-
 function autoRefresh() {
   console.log("Auto refresh ... ");
   window.location.reload();
@@ -650,5 +646,6 @@ function init() {
 }
 
 $(document).ready(function() {
+  // $("body").css("background-color", "#C7EDCC");
   init();
 });

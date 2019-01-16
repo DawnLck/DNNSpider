@@ -1,10 +1,22 @@
 /*
 * Global.scss
 */
-@import "./color.scss";
+@import "./components/color.scss";
 
 $fixed_right: 20px;
 
 .hidden {
   display: none;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.text-align-center {
+  text-align: center;
 }

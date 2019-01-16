@@ -26,7 +26,7 @@ $toggle-on: (
 );
 // Functions
 @function to-rem($size) {
-  @return $size / 16 * 1rem;
+  @return $size / 16 * 16px;
 }
 // Styles
 .toggle-wrapper {

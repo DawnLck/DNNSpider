@@ -1,11 +1,16 @@
 /* content.css */
-@import "./stylesheets/color.scss";
+@import "./stylesheets/global.scss";
 @import "./stylesheets/toast.scss";
 @import "./stylesheets/controlPanel.scss";
 
 .spider {
   position: relative;
   @import "./stylesheets/collectBtn.scss";
+
+  &.showBlock {
+    border: 1px solid $color_leaf;
+    margin-bottom: 2px;
+  }
   &.spider-main,
   &.spider-post {
     box-sizing: border-box;

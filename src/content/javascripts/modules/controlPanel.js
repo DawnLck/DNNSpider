@@ -47,7 +47,7 @@ function addControlPanel(pageClassify) {
         <div class="panel-item">
           <h5>正文区域内的可视块</h5>
           <div class="toggle-wrapper">
-            <input id="provide-muffins" name="provide_muffins" class="toggle" type="checkbox" checked />
+            <input id="provide-muffins" name="provide_muffins" class="toggle" type="checkbox" onclick="switchBlocks(this.checked)" />
             <label for="provide-muffins" class="toggle--label"></label>
             <div class="foux-toggle"></div>
           </div>
@@ -86,4 +86,17 @@ function addControlPanel(pageClassify) {
     });
 
   chart.render();
+}
+
+function switchBlocks(el) {
+  console.log(el);
+  if (el) {
+    $(".spider-main")
+      .find(".spider")
+      .addClass("showBlock");
+  } else {
+    $(".spider-main")
+      .find(".spider")
+      .removeClass("showBlock");
+  }
 }
