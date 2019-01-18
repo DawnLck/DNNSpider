@@ -24,7 +24,21 @@ function distance(A, B) {
             'scrollTop',
             'scrollWidth'
         ],
-        enumerable: []
+        enumerable: [
+            'className',
+            'hidden',
+            'nodeName',
+            'localName',
+            'nodeType',
+            'tagName',
+        ],
+        others: [
+            'innerHTML',
+            'innerText',
+            'outerHTML',
+            'outerText',
+            'textContent',
+        ]
     };
     
     const Css = {
@@ -35,11 +49,12 @@ function distance(A, B) {
         enumerable: [
             'color',
             'font-weight',
-            'font-family'
+            'font-family',
+        ],
+        others: [
+            'content'
         ]
     }
-    
-    let 
 }
 
 function clusteringBlocks() {
