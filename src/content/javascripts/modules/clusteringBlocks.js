@@ -46,7 +46,7 @@ function distance_countable(a, b) {
   let molecular = Math.pow(a - b, 2);
   let denominator = Math.pow(a, 2) + Math.pow(b, 2);
   denominator = denominator ? denominator : 1;
-  console.log(`molecular: ${molecular}, denominator: ${denominator}`);
+  //   console.log(`molecular: ${molecular}, denominator: ${denominator}`);
   return 1 - molecular / denominator;
 }
 function distance_enumerable(a, b) {
@@ -56,16 +56,52 @@ function distance_other(a, b) {
   return distance_countable(a.length, b.length);
 }
 function distance(A, B) {
-  let count = 0;
+  let count = 0,
+    num = 0;
+  let Acss = $(A),
+    Bcss = $(B);
   for (let item of BlockProperty.countable) {
     let tem = distance_countable(A[item], B[item]);
-    console.log(
-      `> Item: ${item}  A[item]: ${A[item]}  B[item]: ${
-        B[item]
-      }  distance: ${tem}`
-    );
+    // console.log(
+    //   `> Item: ${item}  A[item]: ${A[item]}  B[item]: ${
+    //     B[item]
+    //   }  distance: ${tem}`
+    // );
+    num++;
+    count += tem;
   }
-  return 0;
+  for (let item of BlockProperty.enumerable) {
+    let tem = distance_enumerable(A[item], B[item]);
+    // console.log(
+    //   `> Item: ${item}  A[item]: ${A[item]}  B[item]: ${
+    //     B[item]
+    //   }  distance: ${tem}`
+    // );
+    num++;
+    count += tem;
+  }
+  for (let item of BlockCss.countable) {
+    let a = parseFloat(Acss.css(item)),
+      b = parseFloat(Bcss.css(item)),
+      tem = distance_countable(a, b);
+    // console.log(
+    //   `> Item: ${item}  A[item]: ${a}  B[item]: ${b}  distance: ${tem}`
+    // );
+    num++;
+    count += tem;
+  }
+  for (let item of BlockCss.enumerable) {
+    let a = Acss.css(item),
+      b = Bcss.css(item),
+      tem = distance_enumerable(a, b);
+    // console.log(
+    //   `> Item: ${item}  A[item]: ${a}  B[item]: ${b}  distance: ${tem}`
+    // );
+    num++;
+    count += tem;
+  }
+  console.log(`count: ${count}   num: ${num}`);
+  return count / num;
 }
 
 function clusteringBlocks() {
@@ -73,13 +109,21 @@ function clusteringBlocks() {
 
   let childrenDoms = $(".spider-main").children(".spider");
 
-  for (let index in childrenDoms) {
-    childrenDoms[index].index = index;
+  for (let i in childrenDoms) {
+    childrenDoms[i].index = i;
+    childrenDoms[i].distances = [];
+    for (let j in childrenDoms) {
+      childrenDoms[i].distances.push({
+        index: j,
+        distance: distance(childrenDoms[i], childrenDoms[j])
+      });
+    }
   }
 
-  distance(childrenDoms[0], childrenDoms[1]);
+  //   let dis = distance(childrenDoms[0], childrenDoms[1]);
+  //   console.log(`Distance: ${dis}`);
 
-  console.log(childrenDoms);
+  console.log(childrenDoms[0].distances);
   //   if (childrenDoms.length > 3) {
   //       for(let child of childrenDoms){
   //           if()
