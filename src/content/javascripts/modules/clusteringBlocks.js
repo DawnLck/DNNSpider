@@ -62,21 +62,11 @@ function distance(A, B) {
     Bcss = $(B);
   for (let item of BlockProperty.countable) {
     let tem = distance_countable(A[item], B[item]);
-    // console.log(
-    //   `> Item: ${item}  A[item]: ${A[item]}  B[item]: ${
-    //     B[item]
-    //   }  distance: ${tem}`
-    // );
     num++;
     count += tem;
   }
   for (let item of BlockProperty.enumerable) {
     let tem = distance_enumerable(A[item], B[item]);
-    // console.log(
-    //   `> Item: ${item}  A[item]: ${A[item]}  B[item]: ${
-    //     B[item]
-    //   }  distance: ${tem}`
-    // );
     num++;
     count += tem;
   }
@@ -84,9 +74,6 @@ function distance(A, B) {
     let a = parseFloat(Acss.css(item)),
       b = parseFloat(Bcss.css(item)),
       tem = distance_countable(a, b);
-    // console.log(
-    //   `> Item: ${item}  A[item]: ${a}  B[item]: ${b}  distance: ${tem}`
-    // );
     num++;
     count += tem;
   }
@@ -94,13 +81,10 @@ function distance(A, B) {
     let a = Acss.css(item),
       b = Bcss.css(item),
       tem = distance_enumerable(a, b);
-    // console.log(
-    //   `> Item: ${item}  A[item]: ${a}  B[item]: ${b}  distance: ${tem}`
-    // );
     num++;
     count += tem;
   }
-  console.log(`count: ${count}   num: ${num}`);
+  //   console.log(`count: ${count}   num: ${num}`);
   return count / num;
 }
 
@@ -109,14 +93,21 @@ function clusteringBlocks() {
 
   let childrenDoms = $(".spider-main").children(".spider");
 
-  for (let i in childrenDoms) {
+  for (let i = 0; i < childrenDoms.length; i++) {
     childrenDoms[i].index = i;
     childrenDoms[i].distances = [];
-    for (let j in childrenDoms) {
+    for (let j = 0; j < childrenDoms.length; j++) {
+      if (i === j) {
+        continue;
+      }
+      let distanceTem = distance(childrenDoms[i], childrenDoms[j]);
+
       childrenDoms[i].distances.push({
         index: j,
-        distance: distance(childrenDoms[i], childrenDoms[j])
+        distance: distanceTem
       });
+
+      console.log(`i: ${i}  j: ${j}  distance: ${distanceTem}`);
     }
   }
 
