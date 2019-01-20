@@ -1,6 +1,106 @@
 /** spider.scss
 */
 .spider {
+  position: relative;
+  @import "./stylesheets/collectBtn.scss";
+
   &.showBlock {
+    border: 1px solid $color_leaf;
+    margin-bottom: 2px;
   }
+  &.spider-main,
+  &.spider-post {
+    box-sizing: border-box;
+    position: relative;
+    border: 1px solid !important;
+  }
+  &.spider-main {
+    border-color: $color_main !important;
+  }
+  &.spider-post {
+    border-color: $color_post !important;
+  }
+
+  &.mainMask {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $color_main;
+    opacity: 0.3;
+  }
+  &.marked {
+    position: relative;
+    &.listNode {
+      box-sizing: border-box;
+      border: 1px solid $color_marked !important;
+    }
+    &:hover .collect-btn {
+      display: block !important;
+      top: 0;
+      left: 0;
+    }
+  }
+  &.unmarked {
+    box-sizing: border-box;
+    border: 1px dashed $color_unmarked !important;
+  }
+  &.listNode {
+    //width: max-content;
+    width: auto;
+    margin: -4px;
+    border: 1px solid $color_leaf !important;
+    box-sizing: border-box;
+  }
+
+  .listNode_components {
+    box-sizing: border-box;
+  }
+}
+
+/* 非主体部分 */
+.spider-nonMain {
+  box-sizing: border-box;
+  border: 2px solid $color_nonMain !important;
+}
+
+/* 网页分类弹窗 */
+.spider-classify {
+  .toast-item {
+    .toast-message {
+      width: 100%;
+      .category {
+        color: #666;
+        font-weight: bolder;
+        margin-bottom: 6px;
+      }
+      ul {
+        padding: 0;
+      }
+      li {
+        display: inline-block;
+        white-space: nowrap; //margin-right: 6px;
+        text-align: left;
+        color: #999;
+        span {
+          font-weight: bold;
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}
+
+/* 聚类结果显示 */
+.spider-blockcluster {
+  border: 1px solid $color_culster !important;
+  margin-bottom: 4px;
+  background: rgba(138, 218, 192, 0.18) !important;
+}
+.spider-blockcluster-false {
+  border: 1px solid $color_culster !important;
+  margin-bottom: 4px;
+  background: rgba(218, 157, 138, 0.18) !important;
 }

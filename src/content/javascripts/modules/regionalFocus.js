@@ -151,14 +151,16 @@ async function regionFocus() {
 
   _allDiv.each(async function() {
     let _self = $(this);
-    if (await areaComparison(_self)) {
-      // console.log("Area Ok!");
-      if (await textComparison(_self)) {
-        // console.log("Text Ok!");
-        await centerComparison(_self);
+    if (!_self.hasClass("spider")) {
+      if (await areaComparison(_self)) {
+        // console.log("Area Ok!");
+        if (await textComparison(_self)) {
+          // console.log("Text Ok!");
+          await centerComparison(_self);
+        } else {
+        }
       } else {
       }
-    } else {
     }
   });
 

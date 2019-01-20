@@ -16,7 +16,7 @@ function addControlPanel(pageClassify) {
   console.log(classify);
 
   const panelHTML = ` 
-    <div class="spider-control-panel">
+    <div class="spider spider-control-panel">
       
       <div class="section section_1">
        <h4>网页类型分析</h4>

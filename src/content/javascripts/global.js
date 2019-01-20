@@ -11,6 +11,7 @@ const bodyStyle =
 const rootFontSize = parseInt(bodyStyle.fontSize),
   MIN_HEIGHT = 2 * rootFontSize;
 
+/* 阈值设定 */
 const CONFIG = {
   showClassifyResult: true,
   threshold: {
@@ -19,6 +20,46 @@ const CONFIG = {
     text: 0.45,
     areaMargin: 0.2
   }
+};
+
+/* 可视块的属性指标 */
+const BlockProperty = {
+  countable: [
+    "childElementCount",
+    "clientHeight",
+    "clientLeft",
+    "clientTop",
+    "clientWidth",
+    "offsetHeight",
+    "offsetLeft",
+    "offsetWidth",
+    "offsetTop",
+    "scrollHeight",
+    "scrollLeft",
+    "scrollTop",
+    "scrollWidth"
+  ],
+  enumerable: [
+    "className",
+    "hidden",
+    "nodeName",
+    "localName",
+    "nodeType",
+    "tagName"
+  ],
+  others: ["innerHTML", "innerText", "outerHTML", "outerText", "textContent"]
+};
+
+/* 可视块的样式指标 */
+const BlockCss = {
+  enumerable: [
+    "font-size",
+    "line-height",
+    "color",
+    "font-weight",
+    "font-family"
+  ],
+  others: ["content"]
 };
 
 // let ClassifyResult = {};

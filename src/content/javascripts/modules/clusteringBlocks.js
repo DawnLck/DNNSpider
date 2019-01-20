@@ -3,45 +3,11 @@
  */
 
 const DBSCAN_CONFIG = {
-  MinPt: 6,
-  r: 0.6
+  MinPt: 3,
+  r: 0.08
 };
 
-/* 可视块的属性指标 */
-const BlockProperty = {
-  countable: [
-    "childElementCount",
-    "clientHeight",
-    "clientLeft",
-    "clientTop",
-    "clientWidth",
-    "offsetHeight",
-    "offsetLeft",
-    "offsetWidth",
-    "offsetTop",
-    "scrollHeight",
-    "scrollLeft",
-    "scrollTop",
-    "scrollWidth"
-  ],
-  enumerable: [
-    "className",
-    "hidden",
-    "nodeName",
-    "localName",
-    "nodeType",
-    "tagName"
-  ],
-  others: ["innerHTML", "innerText", "outerHTML", "outerText", "textContent"]
-};
-
-/* 可视块的样式指标 */
-const BlockCss = {
-  countable: ["font-size", "line-height"],
-  enumerable: ["color", "font-weight", "font-family"],
-  others: ["content"]
-};
-
+/* 距离计算函数 */
 function distance_countable(a, b) {
   let molecular = Math.pow(a - b, 2);
   let denominator = Math.pow(a, 2) + Math.pow(b, 2);
@@ -70,13 +36,6 @@ function distance(A, B) {
     num++;
     count += tem;
   }
-  for (let item of BlockCss.countable) {
-    let a = parseFloat(Acss.css(item)),
-      b = parseFloat(Bcss.css(item)),
-      tem = distance_countable(a, b);
-    num++;
-    count += tem;
-  }
   for (let item of BlockCss.enumerable) {
     let a = Acss.css(item),
       b = Bcss.css(item),
@@ -84,17 +43,112 @@ function distance(A, B) {
     num++;
     count += tem;
   }
-  //   console.log(`count: ${count}   num: ${num}`);
-  return count / num;
+  return 1 - count / num;
 }
 
+/* 聚类函数 */
+function DBSCAN(doms) {
+  console.log("### DBSCAN ###");
+  const length = doms.length;
+  let c = 0;
+
+  for (let i = 0; i < length; i++) {
+    if (doms[i].clabel !== -1) {
+      continue;
+    } else {
+      let dom = doms[i],
+        distances = dom.distances,
+        N = distances.filter(p => p.distance < DBSCAN_CONFIG.r);
+      if (N.length < DBSCAN_CONFIG.MinPt) {
+        dom.clabel = 0;
+        continue;
+      } else {
+        dom.clabel = ++c;
+
+        for (let j = 0; j < N.length; j++) {
+          let item = doms[N[j].index];
+          if (item.clabel === 0) {
+            item.clabel = c;
+          }
+          if (item.clabel !== -1) {
+            continue;
+          }
+          item.clabel = c;
+          let n = item.distances.filter(p => {
+            return p.distance < DBSCAN_CONFIG.r;
+          });
+          //   console.log(`${item.index} ${item.clabel} ${item.innerText} For n`);
+          //   console.log(n);
+          N = Array.from(new Set(N.concat(n)));
+        }
+      }
+      //   debugger;
+      console.log(`>>>> index ${i} <<<<`);
+      console.log(doms.map(p => p.clabel));
+    }
+  }
+  return doms.map((p, i) => ({ index: i, data: p, clabel: p.clabel }));
+}
+
+function DBSCAN2(doms) {
+  c = 0;
+  doms = doms.map((i, p) => ({ idx: i, data: p, label: -1 }));
+  console.log(doms);
+
+  doms.forEach(p => {
+    // Only process unlabelled points
+    if (p.label !== -1) return;
+
+    // Get all the points neighbors
+    n = p.data.distances.filter(i => i.distance <= DBSCAN_CONFIG.r);
+    console.log(n);
+
+    // Check if point is noise
+    if (n.length < minPts) {
+      p.label = 0;
+      return;
+    }
+
+    // c += 1; // Next cluster label
+    // p.label = c; // Label initial point
+
+    // // Remove point p from n
+    // s = n.filter(q => q.idx !== p.idx);
+
+    // // Process every seed point
+    // while (s.length) {
+    //   q = s.pop();
+
+    //   if (q.label === 0) q.label = c; // Change noise to border
+    //   if (q.label !== -1) continue; // Previously processed
+    //   q.label = c; // Label neighbor
+
+    //   // Find neighbors
+    //   n = rangeQuery(data, dist, q, eps);
+
+    //   // Add new neighbors to seed
+    //   if (n.length >= minPts) s = s.concat(n);
+    // }
+  });
+}
+
+/* 执行入口 */
 function clusteringBlocks() {
   console.log("#####  Clustering Block   #####");
 
-  let childrenDoms = $(".spider-main").children(".spider");
+  let spiderDoms = $(".spider-main").find(".spider");
+  let childrenDoms = [];
 
+  for (let i = 0, length = spiderDoms.length; i < length; i++) {
+    if ($(spiderDoms[i]).siblings(".spider").length > 3) {
+      childrenDoms.push(spiderDoms[i]);
+    }
+  }
+
+  /* 计算所有点之间的距离 */
   for (let i = 0; i < childrenDoms.length; i++) {
     childrenDoms[i].index = i;
+    childrenDoms[i].clabel = -1;
     childrenDoms[i].distances = [];
     for (let j = 0; j < childrenDoms.length; j++) {
       if (i === j) {
@@ -106,19 +160,29 @@ function clusteringBlocks() {
         index: j,
         distance: distanceTem
       });
-
-      console.log(`i: ${i}  j: ${j}  distance: ${distanceTem}`);
     }
   }
+  console.log(
+    childrenDoms.map(p => ({
+      clabel: p.clabel,
+      distances: p.distances,
+      innerText: p.innerText
+    }))
+  );
+  let clusterResult = DBSCAN(childrenDoms);
+  console.log(clusterResult);
+  if (clusterResult[0].clabel === 0) {
+    clusterResult[0].clabel = 1;
+    clusterResult[0].data.clabel = 1;
+  }
+  //   $(childrenDoms[0]).addClass("spider-blockcluster");
+  //   $(clusterResult[1].data).addClass("spider-blockcluster");
 
-  //   let dis = distance(childrenDoms[0], childrenDoms[1]);
-  //   console.log(`Distance: ${dis}`);
-
-  console.log(childrenDoms[0].distances);
-  //   if (childrenDoms.length > 3) {
-  //       for(let child of childrenDoms){
-  //           if()
-  //       }
-  //   } else {
-  //   }
+  for (let i = 0; i < clusterResult.length; i++) {
+    if (clusterResult[i].clabel === 1) {
+      $(clusterResult[i].data).addClass("spider-blockcluster");
+    } else {
+      $(clusterResult[i].data).addClass("spider-blockcluster-false");
+    }
+  }
 }
