@@ -29,15 +29,15 @@ function addControlPanel(pageClassify) {
         <div class="panel-item">
           <h5>预处理层</h5>
           <div class="spider-buttons">
-            <button class="spider_btn spider_normal" onclick="regionFocus()">区域聚焦</button>
+            <button class="spider_btn spider_normal" id="regionFocus">区域聚焦</button>
           </div>
         </div>
         
         <div class="panel-item">
           <h5>输出层</h5>
           <div class="spider-buttons">
-            <button class="spider_btn spider_normal" onclick="classifyBlocks()">可视块分类</button>
-            <button class="spider_btn spider_normal" onclick="clusteringBlocks()">可视块聚类</button>
+            <button class="spider_btn spider_normal" id="classifyBlocks">可视块分类</button>
+            <button class="spider_btn spider_normal" id="clusteringBlocks">可视块聚类</button>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@ function addControlPanel(pageClassify) {
         <div class="panel-item">
           <h5>正文区域内的可视块</h5>
           <div class="toggle-wrapper">
-            <input id="provide-muffins" name="provide_muffins" class="toggle" type="checkbox" onclick="switchBlocks(this.checked)" />
+            <input id="provide-muffins" name="provide_muffins" class="toggle" type="checkbox" />
             <label for="provide-muffins" class="toggle--label"></label>
             <div class="foux-toggle"></div>
           </div>
@@ -57,6 +57,18 @@ function addControlPanel(pageClassify) {
 `;
 
   $("body").append(panelHTML);
+  $("#regionFocus").click(() => {
+    regionFocus();
+  });
+  $("#classifyBlocks").click(() => {
+    classifyBlocks();
+  });
+  $("#clusteringBlocks").click(() => {
+    clusteringBlocks();
+  });
+  $("#provide-muffins").click(() => {
+    switchBlocks($("#provide-muffins").prop("checked"));
+  });
 
   const chart = new G2.Chart({
     container: "spider-classify-charts",
